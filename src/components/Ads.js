@@ -3,25 +3,23 @@ import { Text, StyleSheet, View,Image,Dimensions } from 'react-native'
 import Swiper from 'react-native-swiper'
 const { width } = Dimensions.get('window')
 
-export default class index extends Component {
+export default class Ads extends Component {
   render() {
     return (
-      <View style={styles.wrapper} >
-    <Swiper style={styles.wrapper} height={180}
+      <View style={styles.container} >
+    <Swiper style={styles.wrapper} height={120 } showsButtons showsPagination={false} 
+          nextButton = {<Text style={styles.buttonText}>›</Text>}
+          prevButton ={<Text style={styles.buttonText}>‹</Text>	}
           onMomentumScrollEnd={(e, state, context) => console.log('index:', state.index)}
-          dot={<View style={{backgroundColor: 'rgba(0,0,0,.2)', width: 5, height: 5, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3}} />}
-          activeDot={<View style={{backgroundColor: '#000', width: 8, height: 8, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 3}} />}
-          paginationStyle={{
-            bottom: -7,
-          }} loop>
+           loop>
           <View style={styles.slide} >
-            <Image resizeMode='stretch' style={styles.image} source={{uri:'https://images.unsplash.com/photo-1467226632440-65f0b4957563'}} />
+            <Image resizeMode='stretch' style={styles.image} source={{uri:'https://image.shutterstock.com/image-vector/super-sale-phone-banner-mobile-600w-507110188.jpg'}} />
           </View>
           <View style={styles.slide} >
-          <Image resizeMode='stretch' style={styles.image} source={{uri:'https://images.unsplash.com/photo-1449824913935-59a10b8d2000'}} />
+          <Image resizeMode='stretch' style={styles.image} source={{uri:'https://image.shutterstock.com/image-vector/super-sale-phone-banner-mobile-600w-507110188.jpg'}} />
           </View>
           <View style={styles.slide} >
-          <Image resizeMode='stretch' style={styles.image} source={{uri:'https://images.unsplash.com/photo-1524492412937-b28074a5d7da'}} />
+          <Image resizeMode='stretch' style={styles.image} source={{uri:'https://image.shutterstock.com/image-vector/super-sale-phone-banner-mobile-600w-507110188.jpg'}} />
           </View>
         </Swiper>
     </View>
@@ -31,11 +29,19 @@ export default class index extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    margin:25,
+    overflow:'hidden'
   },
-
+  buttonText:{
+    fontSize:26,
+    fontWeight:'bold',
+    color:'#fff',
+    padding:5,
+    backgroundColor:'rgba(0,0,0,.6)'
+  },
   wrapper: {
-    marginBottom:15
+    marginBottom:15,
   },
 
   slide: {

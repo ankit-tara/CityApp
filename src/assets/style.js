@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native'
-
+import { StyleSheet ,Dimensions } from 'react-native'
+const { width } = Dimensions.get('window')
 
 export default StyleSheet.create({
   flex:{
@@ -13,7 +13,8 @@ export default StyleSheet.create({
   },
   header:{
     paddingHorizontal:20,
-    paddingVertical:10
+    paddingVertical:10,
+    backgroundColor:'#fff',
   },
   logo:{
     textAlign:'center',
@@ -27,7 +28,7 @@ export default StyleSheet.create({
     alignItems:"center"
   },
   heading:{
-    fontSize:20,
+    fontSize:17,
     fontWeight:'bold',
     fontFamily:'montserrat',
     textTransform:'uppercase'
@@ -38,11 +39,23 @@ export default StyleSheet.create({
 
   },
   box:{
-    height:100,
-    width:100,
-    display:'flex',
+    marginHorizontal:10,
+    width:(width/3)-30,
+    height:(width/3)-30,
+    justifyContent:'space-between'
+  },
+  boxImage:{
+    width:'100%',
+    height:'80%',
+    borderRadius:5
+  },
+  boxText:{
+    textAlign:'center',
+    fontSize:12
+  },
+  boxes:{
     flexDirection:'row',
-    justifyContent:'center',
-    alignItems:'center'
+    justifyContent:'space-between',
+    paddingVertical:15
   }
 })

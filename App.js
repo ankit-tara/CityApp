@@ -1,11 +1,12 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
+import { createBottomTabNavigator, createAppContainer,createDrawerNavigator,createStackNavigator } from 'react-navigation';
 import Home from './src/screens/Home';
 import Search from './src/screens/Search';
 import List from './src/screens/List';
 import Nearby from './src/screens/Nearby';
 import Icon from 'react-native-vector-icons/dist/Entypo';
+import Header from "./src/components/Header"
 
 const TabNavigator = createBottomTabNavigator(
   {
@@ -41,4 +42,18 @@ const TabNavigator = createBottomTabNavigator(
   } 
 );
 
-export default createAppContainer(TabNavigator);
+const stackNavigator=createStackNavigator({
+  // Home:TabNavigator
+  MyTab: {
+    screen: TabNavigator,
+    navigationOptions: { 
+      // title: 'Header title'
+      header:<Header/>
+     }
+ }
+})
+const DrawerNavigator=createDrawerNavigator({
+  Home:stackNavigator
+})
+
+export default createAppContainer(DrawerNavigator);

@@ -15,6 +15,11 @@ export default StyleSheet.create({
     paddingHorizontal:20,
     paddingVertical:10,
     backgroundColor:'#fff',
+    shadowOffset:{  width: 10,  height: 10,  },
+    shadowColor: 'black',
+    shadowOpacity: 1.0,
+    shadowRadius: 15,
+    elevation: 7,
   },
   logo:{
     textAlign:'center',

@@ -3,6 +3,7 @@ import { Text, View } from 'react-native';
 import { createBottomTabNavigator, createAppContainer,createDrawerNavigator,createStackNavigator } from 'react-navigation';
 import Home from './src/screens/Home';
 import Search from './src/screens/Search';
+import Places from './src/screens/Places';
 import List from './src/screens/List';
 import Nearby from './src/screens/Nearby';
 import Icon from 'react-native-vector-icons/dist/Entypo';
@@ -11,7 +12,7 @@ import Header from "./src/components/Header"
 const TabNavigator = createBottomTabNavigator(
   {
   Home,
-  Search,
+  Places,
   Nearby,
   List,
   },
@@ -24,7 +25,7 @@ const TabNavigator = createBottomTabNavigator(
         if (routeName === 'Home') {
         return <Icon name="home" size={25} color={focused?'red':'gray'} />
       }
-        if (routeName === 'Search') {
+        if (routeName === 'Places') {
         return <Icon name="magnifying-glass" size={25} color={focused?'red':'gray'} />
       }
         if (routeName === 'Nearby') {

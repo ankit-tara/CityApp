@@ -44,18 +44,13 @@ export default class List extends Component {
         console.log("Error fetching data-----------", err);
     }
 }
-// renderTags(filtertagsData){
-//   return filtertagsData.map((tag)=>{
-//     return(
-     
-//     <View style={styles.wrapper}>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>{tag.name}</Text>
-//     </View>
-  
-
-//     )
-//   })
-// } 
+renderTags(filtertagsData){
+  return filtertagsData.map((tag)=>{
+    return(
+      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>{tag.name}</Text>
+    )
+  })
+} 
 
 getRandomColor() {
   var letters = '0123456789ABCDEF';
@@ -65,39 +60,39 @@ getRandomColor() {
   }
   return color;
 }
-renderTags(tagsData){
-    return(
+// renderTags(tagsData){
+//     return(
     
-      <View style={styles.wrapper}>
-      <Text style={[[styles.category,{borderColor:this.getRandomColor()}],{borderColor:this.getRandomColor()}]} >Hotels</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Schools</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hotels</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Sols</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Templtfytfyes</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hotels</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Schools</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hots</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Schools</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Templeftyftys</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hotels</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Sools</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Schools</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hot</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hotels</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Schoftyftyols</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hotels</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Schftyftyools</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>tels</Text>
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
-    </View>
-    )
-} 
+//       <View style={styles.wrapper}>
+//       <Text style={[[styles.category,{borderColor:this.getRandomColor()}],{borderColor:this.getRandomColor()}]} >Hotels</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Schools</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hotels</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Sols</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Templtfytfyes</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hotels</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Schools</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hots</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Schools</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Templeftyftys</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hotels</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Sools</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Schools</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hot</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hotels</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Schoftyftyols</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hotels</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Schftyftyools</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>tels</Text>
+//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
+//     </View>
+//     )
+// } 
   render() {
 
     const {filtertagsData}= this.state
@@ -108,7 +103,9 @@ renderTags(tagsData){
       <TextInput placeholder='Search...' onChangeText={this.filterCategories} style={{ flex:1,fontSize:25 , paddingLeft:15}}/>
       <Icon name="magnifying-glass" size={25} />
     </View>
+    <View style={styles.wrapper}>
      {filtertagsData.length >0 && this.renderTags(filtertagsData)}
+     </View>
      </ScrollView>
     </View>
     )

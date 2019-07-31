@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View , Image} from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler';
+import { Text, StyleSheet, View , Image,ScrollView} from 'react-native'
 
 export default class Places extends Component {
 

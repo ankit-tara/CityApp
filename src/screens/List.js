@@ -37,7 +37,7 @@ export default class List extends Component {
     //Have a try and catch block for catching errors.
     try {
         //Assign the promise unresolved first then get the data using the json method. 
-        const data = await fetch('http://www.radiusleather.com/radius-directory/wp-json/wp/v2/tags');
+        const data = await fetch('http://www.radiusleather.com/radius-directory/wp-json/wp/v2/tags?per_page=50');
         const response = await data.json();
         this.setState({tagsData: response, filtertagsData:response ,loading: false});
     } catch(err) {

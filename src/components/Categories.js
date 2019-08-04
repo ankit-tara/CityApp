@@ -1,40 +1,29 @@
-import React, { Component } from 'react'
-import { Text, View ,Image ,ScrollView} from 'react-native'
-import styles from '../assets/style.js'
+import React, { useState, useEffect } from "react";
+import { View, ScrollView } from "react-native";
+import styles from "../assets/style.js";
+import { getCategories } from "../Utils/Api.js";
+import SingleCard from "./SingleCard";
+const Categories = () => {
+  const [categories, setcategories] = useState([]);
 
-export default class Categories extends Component {
-  render() {
-    return (
-        <View style={[{paddingHorizontal:10},styles.boxes]}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <View style={styles.box}>
-          <Image style={styles.boxImage} source={{uri:'https://images.unsplash.com/photo-1445019980597-93fa8acb246c'}}/>
-          <Text style={styles.boxText}>Temples</Text>
-          </View>
-          <View style={styles.box}>
-          <Image style={styles.boxImage} source={{uri:'https://images.unsplash.com/photo-1445019980597-93fa8acb246c'}}/>
-          <Text style={styles.boxText}>Temples</Text>
-          </View>
-          <View style={styles.box}>
-          <Image style={styles.boxImage} source={{uri:'https://images.unsplash.com/photo-1445019980597-93fa8acb246c'}}/>
-          <Text style={styles.boxText}>Temples</Text>
-          </View>
-          <View style={styles.box}>
-          <Image style={styles.boxImage} source={{uri:'https://images.unsplash.com/photo-1445019980597-93fa8acb246c'}}/>
-          <Text style={styles.boxText}>Temples</Text>
-          </View>
-          <View style={styles.box}>
-          <Image style={styles.boxImage} source={{uri:'https://images.unsplash.com/photo-1445019980597-93fa8acb246c'}}/>
-          <Text style={styles.boxText}>Temples</Text>
-          </View>
-          <View style={styles.box}>
-          <Image style={styles.boxImage} source={{uri:'https://images.unsplash.com/photo-1445019980597-93fa8acb246c'}}/>
-          <Text style={styles.boxText}>Temples</Text>
-          </View>
-          </ScrollView>
-        </View>
-  
-    )
-  }
-}
+  useEffect(() => {
+    getCategories()
+      .then(data => setcategories(data))
+      .catch(e => console.log(e));
+  }, [false]);
 
+  return (
+    <View style={[{ paddingHorizontal: 10 }, styles.boxes]}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        {categories.length > 0 &&
+          categories.map(cat => (
+            <View key={`cat-${cat.id}`}>
+              <SingleCard image={cat.acf.taxonomy_image} title={cat.name} />
+            </View>
+          ))}
+      </ScrollView>
+    </View>
+  );
+};
+
+export default Categories;

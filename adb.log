@@ -1,0 +1,18 @@
+info Starting logkitty
+[2m[12:31:47][22m D | [1mReactNative[22m ▶︎ ReactInstanceManager.ctor()
+
+[2m[12:31:47][22m D | [1mReactNative[22m ▶︎ ReactInstanceManager.createReactContextInBackground()
+                           [2m└ [22mReactInstanceManager.recreateReactContextInBackgroundInner()
+
+[2m[12:31:50][22m D | [1mReactNative[22m ▶︎ ReactInstanceManager.recreateReactContextInBackgroundFromBundleLoader()
+                           [2m└ [22mReactInstanceManager.recreateReactContextInBackground()
+
+[2m[12:31:50][22m D | [1mReactNative[22m ▶︎ ReactInstanceManager.runCreateReactContextOnNewThread()
+
+[2m[12:31:50][22m D | [1mReactNative[22m ▶︎ ReactInstanceManager.createReactContext(
+
+[2m[12:31:50][22m D | [1mReactNative[22m ▶︎ Initializing React Xplat Bridge.
+                           [2m│ [22mInitializing React Xplat Bridge before initializeBridge
+                           [2m│ [22mInitializing React Xplat Bridge after initializeBridge
+                           [2m└ [22mCatalystInstanceImpl.runJSBundle()
+

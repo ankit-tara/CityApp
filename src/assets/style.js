@@ -1,66 +1,82 @@
-import { StyleSheet ,Dimensions } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
 const { width } = Dimensions.get('window')
 
 export default StyleSheet.create({
-  flex:{
-    flex:1,
+  flex: {
+    flex: 1,
   },
-  column:{
-    flexDirection:'column'
+  column: {
+    flexDirection: 'column'
   },
-  row:{
-    flexDirection:'row'
+  row: {
+    flexDirection: 'row'
   },
-  header:{
-    paddingHorizontal:20,
-    paddingVertical:10,
-    backgroundColor:'#fff',
-    shadowOffset:{  width: 10,  height: 10,  },
+  header: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    backgroundColor: '#fff',
+    shadowOffset: { width: 10, height: 10, },
     shadowColor: 'black',
     shadowOpacity: 1.0,
     shadowRadius: 15,
     elevation: 7,
   },
-  logo:{
-    textAlign:'center',
-    fontSize:24,
-    fontWeight:'bold',
-    fontFamily:'montserrat'
+  logo: {
+    textAlign: 'center',
+    fontSize: 24,
+    fontWeight: 'bold',
+    fontFamily: 'montserrat'
   },
-  block:{
-    justifyContent:'space-between',
-    paddingHorizontal:20,
-    alignItems:"center"
+  block: {
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    alignItems: "center"
   },
-  heading:{
-    fontSize:17,
-    fontWeight:'bold',
-    fontFamily:'montserrat',
-    textTransform:'uppercase'
+  heading: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    fontFamily: 'montserrat',
+    textTransform: 'uppercase'
   },
-  link:{
-    fontSize:12,
-    textDecorationLine:'underline'
+  link: {
+    fontSize: 12,
+    textDecorationLine: 'underline'
 
   },
-  box:{
-    marginHorizontal:10,
-    width:(width/3)-30,
-    height:(width/3)-30,
-    justifyContent:'space-between'
+  box: {
+    marginHorizontal: 10,
+    width: (width / 3) - 30,
+    height: (width / 3) - 30,
+    justifyContent: 'space-between'
   },
-  boxImage:{
-    width:'100%',
-    height:'80%',
-    borderRadius:5
+  boxImage: {
+    width: '100%',
+    height: '80%',
+    borderRadius: 5,
+    resizeMode:'cover'
   },
-  boxText:{
-    textAlign:'center',
-    fontSize:12
+  boxText: {
+    textAlign: 'center',
+    fontSize: 12,
+    textTransform: 'capitalize'
   },
-  boxes:{
-    flexDirection:'row',
-    justifyContent:'space-between',
-    paddingVertical:15
-  }
+  boxes: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 15
+  },
+  headerMenu: {
+    alignItems: 'flex-end'
+  }, 
+  titleView: {
+    borderRadius:5,
+    width: '100%', height: '100%', flex: 1, backgroundColor: 'rgba(121, 118, 118, 0.5)', justifyContent: 'center', alignItems: 'center'
+  },
+  titleText: {
+    fontSize: 25, fontWeight: 'bold', color: '#fff',textTransform:'uppercase'
+  },
+  separator: {
+    height: 0.5,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
 })

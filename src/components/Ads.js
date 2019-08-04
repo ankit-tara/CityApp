@@ -1,47 +1,50 @@
-import React, { Component } from 'react'
-import { Text, StyleSheet, View,Image,Dimensions } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { Text, StyleSheet, View, Image, Dimensions } from 'react-native'
 import Swiper from 'react-native-swiper'
 const { width } = Dimensions.get('window')
 
-export default class Ads extends Component {
-  render() {
-    return (
-      <View style={styles.container} >
-    <Swiper style={styles.wrapper} height={120 } showsButtons showsPagination={false} 
-          nextButton = {<Text style={styles.buttonText}>›</Text>}
-          prevButton ={<Text style={styles.buttonText}>‹</Text>	}
+const Ads = ({ data }) => {
+  const [images, setimages] = useState([])
+
+  useEffect(() => {
+    setimages(data)
+  }, [data])
+
+  return (
+    <View style={styles.container} >
+      {images.length > 0 &&
+        <Swiper style={styles.wrapper} height={120} showsButton={images.length>1} showsPagination={false}
+          nextButton={<Text style={styles.buttonText}>›</Text>}
+          prevButton={<Text style={styles.buttonText}>‹</Text>}
           onMomentumScrollEnd={(e, state, context) => console.log('index:', state.index)}
-           loop>
-          <View style={styles.slide} >
-            <Image resizeMode='stretch' style={styles.image} source={{uri:'https://image.shutterstock.com/image-vector/super-sale-phone-banner-mobile-600w-507110188.jpg'}} />
-          </View>
-          <View style={styles.slide} >
-          <Image resizeMode='stretch' style={styles.image} source={{uri:'https://image.shutterstock.com/image-vector/super-sale-phone-banner-mobile-600w-507110188.jpg'}} />
-          </View>
-          <View style={styles.slide} >
-          <Image resizeMode='stretch' style={styles.image} source={{uri:'https://image.shutterstock.com/image-vector/super-sale-phone-banner-mobile-600w-507110188.jpg'}} />
-          </View>
+          loop>
+          {images.map((img) => (
+            <View style={styles.slide} key={`ad-img-${img.ad_image.ID}`}>
+              <Image resizeMode='stretch' style={styles.image} source={{ uri: img.ad_image.sizes.medium }} />
+            </View>
+          ))}
         </Swiper>
+      }
     </View>
-    )
-  }
+  )
 }
+export default Ads
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin:25,
-    overflow:'hidden'
+    margin: 25,
+    overflow: 'hidden'
   },
-  buttonText:{
-    fontSize:26,
-    fontWeight:'bold',
-    color:'#fff',
-    padding:5,
-    backgroundColor:'rgba(0,0,0,.6)'
+  buttonText: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    color: '#fff',
+    padding: 5,
+    backgroundColor: 'rgba(0,0,0,.6)'
   },
   wrapper: {
-    marginBottom:15,
+    marginBottom: 15,
   },
 
   slide: {

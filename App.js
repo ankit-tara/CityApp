@@ -3,7 +3,7 @@ import { createBottomTabNavigator, createAppContainer, createStackNavigator } fr
 import Home from './src/screens/Home';
 import Search from './src/screens/Search';
 import Places from './src/screens/Places';
-import List from './src/screens/List';
+import Find from './src/screens/List';
 import ListByCity from './src/screens/ListByCity';
 import ShowAllCities from './src/screens/ShowAllCities';
 import Single from './src/screens/Single';
@@ -13,7 +13,7 @@ import { TAB_ICON_ACTIVE, TAB_ICON_INACTIVE } from './src/theme/colors';
 
 const HomeStack=createStackNavigator({
   Home:Home,
-  List:ListByCity,
+  ListByCity:ListByCity,
   ShowAllCities:ShowAllCities,
   Single:Single
 },{
@@ -28,7 +28,7 @@ const TabNavigator = createBottomTabNavigator(
     Home:{screen:HomeStack},
     Search,
     Places,
-    List,
+    Find,
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -45,7 +45,7 @@ const TabNavigator = createBottomTabNavigator(
         if (routeName === 'Places') {
           return <Icon name="location" size={25} color={color} />
         }
-        if (routeName === 'List') {
+        if (routeName === 'Find') {
           return <Icon name="list" size={27} color={color} />
         }
       },

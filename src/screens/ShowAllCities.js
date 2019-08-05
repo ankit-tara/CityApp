@@ -10,7 +10,7 @@ import {
 import styles from "../assets/style.js";
 import { getCategories } from "../Utils/Api.js";
 import SingleCard from "../components/SingleCard";
-const Categories = props => {
+const ShowAllCities = props => {
   const per_page = 10;
   const [categories, setcategories] = useState([]);
   const [currentpage, setcurrentpage] = useState(1);
@@ -25,7 +25,7 @@ const Categories = props => {
   }, [false]);
 
   handleOnpress = cat => {
-    props.navigation.navigate("List", {
+    props.navigation.navigate("ListByCity", {
       item: cat,
       type: "city",
     });
@@ -63,7 +63,7 @@ const Categories = props => {
     <View>
       <Text style={styles.heading}>CITIES</Text>
 
-      <View style={[{ paddingHorizontal: 10 }, styles.boxes]}>
+      <View style={[{ paddingHorizontal: 10 }]}>
         <ScrollView style={{ marginBottom: 50 }}>
           <FlatList
             keyExtractor={item => `cat-${item.id}`}
@@ -76,9 +76,9 @@ const Categories = props => {
                 <SingleCard
                   image={cat.item.acf.taxonomy_image}
                   title={cat.item.name}
-                  showText={false}
+                  showText={true}
                 />
-                <Text style={styles.heading}>{cat.item.name}</Text>
+                {/* <Text style={styles.boxText}>{cat.item.name}</Text> */}
               </TouchableOpacity>
             )}
             // ItemSeparatorComponent={() => <View style={styles.separator} />}
@@ -91,4 +91,4 @@ const Categories = props => {
   );
 };
 
-export default Categories;
+export default ShowAllCities;

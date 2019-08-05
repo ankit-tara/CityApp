@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View , TextInput} from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler';
+import { Text, StyleSheet, View , TextInput,ScrollView} from 'react-native'
 import Icon from 'react-native-vector-icons/dist/Entypo';
+import {getRandomColor} from '../Utils/Helpers'
 
 export default class List extends Component {
 
@@ -47,52 +47,13 @@ export default class List extends Component {
 renderTags(filtertagsData){
   return filtertagsData.map((tag)=>{
     return(
-      <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>{tag.name}</Text>
+      <Text style={[styles.category,{borderColor:getRandomColor()}]}>{tag.name}</Text>
     )
   })
 } 
 
-getRandomColor() {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
-// renderTags(tagsData){
-//     return(
-    
-//       <View style={styles.wrapper}>
-//       <Text style={[[styles.category,{borderColor:this.getRandomColor()}],{borderColor:this.getRandomColor()}]} >Hotels</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Schools</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hotels</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Sols</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Templtfytfyes</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hotels</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Schools</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hots</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Schools</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Templeftyftys</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hotels</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Sools</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Schools</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hot</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hotels</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Schoftyftyols</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Hotels</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Schftyftyools</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>tels</Text>
-//       <Text style={[styles.category,{borderColor:this.getRandomColor()}]}>Temples</Text>
-//     </View>
-//     )
-// } 
+
+
   render() {
 
     const {filtertagsData}= this.state

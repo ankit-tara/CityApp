@@ -12,7 +12,7 @@ import {
 // import styles from "../assets/style.js";
 import { getPostByCategory } from "../Utils/Api.js";
 import { text_truncate, strip_html_tags } from "../Utils/Helpers.js";
-const Categories = props => {
+const ListByCity = props => {
   const per_page = 10;
   const [category, setcategory] = useState();
   const [posts, setposts] = useState([]);
@@ -32,12 +32,6 @@ const Categories = props => {
   
   });
 
-  handleOnpress = id => {
-    props.navigation.navigate("List", {
-      itemId: id,
-      type: "city"
-    });
-  };
 
   loadMoreData = () => {
 
@@ -121,7 +115,7 @@ const Categories = props => {
   );
 };
 
-export default Categories;
+export default ListByCity;
 
 const styles = StyleSheet.create({
   wrapper: {

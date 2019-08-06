@@ -22,6 +22,7 @@ const MainBanner = ({ data }) => {
           {images.map((img) => (
             <View style={styles.slide} key={`img-${img.image.ID}`} >
               <Image resizeMode='stretch' style={styles.image} source={{ uri: img.image.url }} />
+              <Text style={styles.bannerText}>{img.image.title}</Text>
             </View>
           ))}
         </Swiper>
@@ -44,7 +45,21 @@ const styles = StyleSheet.create({
   slide: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    position:'relative'
+  },
+
+  bannerText:{
+    position:'absolute',
+    top:70,
+    color:'#fff',
+    fontSize:22,
+    fontWeight:'bold',
+    width:'100%',
+    textAlign:'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.80)',
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10
   },
 
   text: {

@@ -8,18 +8,25 @@ import {
   ActivityIndicator
 } from "react-native";
 import styles from "../assets/style.js";
-import { getCategories } from "../Utils/Api.js";
+import { getCategories, searchCategories } from "../Utils/Api.js";
 import SingleCard from "../components/SingleCard";
+import SearchBar from "../components/SearchBar";
+
 const ShowAllCities = props => {
-  const per_page = 10;
+  const per_page = 21;
   const [categories, setcategories] = useState([]);
+  const [searchData, setsearcgData] = useState([]);
+  const [defaultData, setdefaultData] = useState([]);
   const [currentpage, setcurrentpage] = useState(1);
+  const [currentSearchpage, setcurrentSearchpage] = useState(0);
   const [loadMore, setloadMore] = useState(false);
+  const [isSearching, setisSearching] = useState(false);
 
   useEffect(() => {
-    getCategories()
+    getCategories(per_page)
       .then(data => {
         setcategories(data);
+        setdefaultData(data);
       })
       .catch(e => console.log(e));
   }, [false]);
@@ -27,7 +34,7 @@ const ShowAllCities = props => {
   handleOnpress = cat => {
     props.navigation.navigate("ListByCity", {
       item: cat,
-      type: "city",
+      type: "city"
     });
   };
 
@@ -38,6 +45,7 @@ const ShowAllCities = props => {
         let new_data = categories.concat(data);
         setcurrentpage(currentpage + 1);
         setcategories(new_data);
+        setdefaultData(data);
         setloadMore(false);
       })
       .catch(e => console.log(e));
@@ -46,48 +54,63 @@ const ShowAllCities = props => {
   renderFooter = () => {
     return (
       //Footer View with Load More button
-      <View style={styles.footer}>
+      <View style={[styles.row,styles.footer]}>
         <TouchableOpacity
           activeOpacity={0.9}
-          onPress={() => loadMoreData()}
+          onPress={loadMoreData}
           //On Click of button calling loadMoreData function to load more data
-          style={styles.loadMoreBtn}
+          style={[styles.row,styles.loadMoreBtn]}
         >
-          <Text style={styles.btnText}>Load More</Text>
+          <Text style={styles.btnText}>Show More</Text>
           {loadMore && <ActivityIndicator style={{ marginLeft: 8 }} />}
         </TouchableOpacity>
       </View>
     );
   };
-  return (
-    <View>
-      <Text style={styles.heading}>CITIES</Text>
 
+  handleSearch=(text)=>{
+    setisSearching(true)
+    if(!text){
+      setcategories(defaultData)
+      setisSearching(false);
+      return
+    }
+   
+    searchCategories(text,per_page, currentSearchpage + 1)
+    .then(data => {
+      // let new_data = searchData.concat(data);
+      // setcurrentSearchpage(currentSearchpage + 1);
+      setsearcgData(data);
+      setcategories(data);
+      setisSearching(false);
+    })
+    .catch(e => console.log(e));
+  }
+  return (
+    <ScrollView>
+      <Text style={styles.headingCatAll}>CITIES</Text>
+      <SearchBar placeholder="Search City" onChangeText={handleSearch}/>
       <View style={[{ paddingHorizontal: 10 }]}>
-        <ScrollView style={{ marginBottom: 50 }}>
-          <FlatList
-            keyExtractor={item => `cat-${item.id}`}
-            data={categories}
-            renderItem={cat => (
-              <TouchableOpacity
-                key={`cat-${cat.item.id}`}
-                onPress={() => handleOnpress(cat.item)}
-              >
-                <SingleCard
-                  image={cat.item.acf.taxonomy_image}
-                  title={cat.item.name}
-                  showText={true}
-                />
-                {/* <Text style={styles.boxText}>{cat.item.name}</Text> */}
-              </TouchableOpacity>
-            )}
-            // ItemSeparatorComponent={() => <View style={styles.separator} />}
-            ListFooterComponent={renderFooter}
-            //Adding Load More button as footer component
-          />
-        </ScrollView>
+        {isSearching && <ActivityIndicator style={{ marginLeft: 8,alignSelf:'center' }} />}
+        <View style={[styles.row, styles.wrap]}>
+          {categories.map(cat => (
+            <TouchableOpacity
+              key={`cat-${cat.id}`}
+              onPress={() => handleOnpress(cat)}
+              style={styles.singleCity}
+            >
+              <SingleCard
+                image={cat.acf.taxonomy_image}
+                title={cat.name}
+                showText={true}
+              />
+            </TouchableOpacity>
+          ))}
+        </View>
+        
+        {categories && categories.length >=21&& renderFooter()}
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

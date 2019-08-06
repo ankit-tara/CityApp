@@ -5,7 +5,7 @@ import Search from './src/screens/Search';
 import Places from './src/screens/Places';
 import Find from './src/screens/List';
 import ListByCity from './src/screens/ListByCity';
-import ShowAllCities from './src/screens/ShowAllCities';
+import ShowAllCitiesPage from './src/screens/ShowAllCities';
 import Single from './src/screens/Single';
 import Header from "./src/components/Header"
 import Icon from 'react-native-vector-icons/dist/Entypo';
@@ -14,7 +14,18 @@ import { TAB_ICON_ACTIVE, TAB_ICON_INACTIVE } from './src/theme/colors';
 const HomeStack=createStackNavigator({
   Home:Home,
   ListByCity:ListByCity,
-  ShowAllCities:ShowAllCities,
+  ShowAllCities:ShowAllCitiesPage,
+  Single:Single
+},{
+  headerMode: 'none',
+  navigationOptions: {
+      headerVisible: false,
+  }
+})
+
+const CitiesStack=createStackNavigator({
+  CitiesMain:ShowAllCitiesPage,
+  ListByCity:ListByCity,
   Single:Single
 },{
   headerMode: 'none',
@@ -25,10 +36,10 @@ const HomeStack=createStackNavigator({
 
 const TabNavigator = createBottomTabNavigator(
   {
-    Home:{screen:HomeStack},
-    Search,
+    Home:HomeStack,
+    Search:Find,
     Places,
-    Find,
+    Cities:CitiesStack,
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -45,18 +56,18 @@ const TabNavigator = createBottomTabNavigator(
         if (routeName === 'Places') {
           return <Icon name="location" size={25} color={color} />
         }
-        if (routeName === 'Find') {
+        if (routeName === 'Cities') {
           return <Icon name="list" size={27} color={color} />
         }
       },
     }),
+    // resetOnBlur:true,
     tabBarOptions: {
       activeTintColor: TAB_ICON_ACTIVE,
       inactiveTintColor: TAB_ICON_INACTIVE,
       labelStyle: {
         fontSize: 13,
       },
-     
     },
   }
 );

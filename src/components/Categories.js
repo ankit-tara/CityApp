@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView ,TouchableOpacity} from "react-native";
 import styles from "../assets/style.js";
 import { getCategories } from "../Utils/Api.js";
 import SingleCard from "./SingleCard";
-const Categories = () => {
+const Categories = (props) => {
   const [categories, setcategories] = useState([]);
 
   useEffect(() => {
@@ -12,14 +12,21 @@ const Categories = () => {
       .catch(e => console.log(e));
   }, [false]);
 
+  handleOnpress = cat => {
+    props.navigation.navigate("ListByCity", {
+      item: cat,
+      type: "city",
+    });
+  };
+
   return (
     <View style={[{ paddingHorizontal: 10 }, styles.boxes]}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {categories.length > 0 &&
           categories.map(cat => (
-            <View key={`cat-${cat.id}`}>
+            <TouchableOpacity key={`cat-${cat.id}`} onPress={()=>handleOnpress(cat)}>
               <SingleCard image={cat.acf.taxonomy_image} title={cat.name} />
-            </View>
+            </TouchableOpacity>
           ))}
       </ScrollView>
     </View>

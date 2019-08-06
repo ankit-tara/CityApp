@@ -36,7 +36,16 @@ export default StyleSheet.create({
     fontSize: 17,
     fontWeight: 'bold',
     fontFamily: 'montserrat',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+   
+  },
+  headingCatAll: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    fontFamily: 'montserrat',
+    textTransform: 'uppercase',
+    marginVertical:10,
+    marginHorizontal:20
   },
   link: {
     fontSize: 12,
@@ -79,4 +88,25 @@ export default StyleSheet.create({
     height: 0.5,
     backgroundColor: 'rgba(0,0,0,0.4)',
   },
+  wrap:{
+    flexWrap:'wrap'
+  },
+  singleCity:{
+    marginVertical:10
+  },
+  footer:{
+    justifyContent:'center',
+    alignItems:'center',
+    marginVertical:20
+  },
+  loadMoreBtn:{
+    borderWidth:1,
+    borderColor:'red',
+    paddingHorizontal:10,
+    paddingVertical:10,
+    borderRadius:5,
+  },
+  btnText:{
+    // color:"#fff"
+  }
 })

@@ -31,7 +31,8 @@ const Home = (props) => {
   };
 
   showAllCities=()=>{
-    props.navigation.navigate('ShowAllCities')
+    props.navigation.navigate('Cities')
+    // props.navigation.navigate('ShowAllCities')
   }
 
   return (
@@ -39,7 +40,7 @@ const Home = (props) => {
       <ScrollView>
         <Banner data={bannerData} />
         <BlockHeader heading="CITIES" onLinkPress={showAllCities} />
-        <Categories />
+        <Categories {...props} />
         <Ads data={adData} />
 
         {catData.length > 0 &&

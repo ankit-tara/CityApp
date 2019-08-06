@@ -28,6 +28,19 @@ export function getCategories(perpage=10,currentpage=1) {
 }
 
 /**
+ * get categories List
+ */
+export function searchCategories(searchText,perpage=10,currentpage=1) {
+    let url = `${API_INITIAL}/categories?search=${searchText}&per_page=${perpage}&page=${currentpage}`
+    console.log(url)
+    return fetch(url)
+        .then(response => response.json())
+        .catch(error => {
+            throw error;
+        });
+}
+
+/**
  * get post by category
  */
 export function getPostByCategory(category,currentpage=1,perpage=10) {

@@ -12,6 +12,7 @@ import Icon from "react-native-vector-icons/dist/MaterialCommunityIcons";
 import Collapsible from "react-native-collapsible";
 import Lightbox from "react-native-lightbox";
 import { strip_html_tags } from "../Utils/Helpers";
+import { M_BOLD } from "../theme/fonts";
 
 export default class Single extends Component {
   constructor(props) {
@@ -163,7 +164,16 @@ export default class Single extends Component {
     );
   }
 }
-
+Single.navigationOptions = {
+  title: 'Place',
+  headerTitleStyle: {
+    textAlign: "center",
+    alignSelf: "center",
+    flex: 1,
+    fontFamily:M_BOLD,
+  },
+  headerRight:<View/>
+};
 const styles = StyleSheet.create({
   gallery: {
     flexDirection: "row",

@@ -87,6 +87,7 @@ const ShowAllCities = props => {
     })
     .catch(e => console.log(e));
   }
+  
   return (
     <ScrollView>
       <SearchBar placeholder="Search City" onChangeText={handleSearch}/>

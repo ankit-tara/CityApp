@@ -14,7 +14,8 @@ import Icon from "react-native-vector-icons/dist/Entypo";
 // import styles from "../assets/style.js";
 import { getPostBytag } from "../Utils/Api.js";
 import { text_truncate, strip_html_tags } from "../Utils/Helpers.js";
-const ListByCity = props => {
+import { M_BOLD } from "../theme/fonts.js";
+const ListByTag = props => {
   const per_page = 10;
   const [tag, settag] = useState();
   const [posts, setposts] = useState([]);
@@ -77,7 +78,7 @@ const ListByCity = props => {
           {tag && (
             <View>
               <View style={styles.header}>
-                <Text style={styles.results}>tag > {tag.name}</Text>
+                <Text style={styles.results}>Tag > {tag.name}</Text>
                 <Text style={styles.results}>Results({posts.length})</Text>
               </View>
               <FlatList
@@ -139,8 +140,17 @@ const ListByCity = props => {
     </View>
   );
 };
-
-export default ListByCity;
+ListByTag.navigationOptions = {
+  title: 'Places',
+  headerTitleStyle: {
+    textAlign: "center",
+    alignSelf: "center",
+    flex: 1,
+    fontFamily:M_BOLD,
+  },
+  headerRight:<View/>
+};
+export default ListByTag;
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -186,8 +196,10 @@ const styles = StyleSheet.create({
   },
   results: {
     fontSize: 15,
-    fontWeight: "bold",
-    color: "rgba(0,0,0,0.5)"
+    // fontWeight: "bold",
+    color: "rgba(0,0,0,0.5)",
+    textTransform:"capitalize",
+    fontFamily:M_BOLD
   },
   header: {
     marginBottom: 20,

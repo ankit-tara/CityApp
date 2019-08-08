@@ -100,7 +100,7 @@ const Home = props => {
     <View style={styles.flex}>
       <ScrollView>
         <Banner data={bannerData} />
-        <BlockHeader heading="Tags" onLinkPress={ShowAllTags} />
+        <BlockHeader heading="Categories" onLinkPress={ShowAllTags} />
         <Tags {...props} />
         {adData && <Ads images={adData} />}
         {catData.length > 0 &&

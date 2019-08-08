@@ -9,10 +9,10 @@ import {
 } from "react-native";
 import styles from "../assets/style.js";
 import { getTags, searchTags } from "../Utils/Api.js";
+import { M_BOLD } from "../theme/fonts";
 import SingleCard from "../components/SingleCard";
 import SearchBar from "../components/SearchBar";
 import Header from "../components/Header";
-
 const ShowAllTags = props => {
   const per_page = 21;
   const [tags, settags] = useState([]);
@@ -114,6 +114,13 @@ const ShowAllTags = props => {
   );
 };
 ShowAllTags.navigationOptions = {
-  title: 'Tags'
+  title: 'Tags',
+  headerTitleStyle: {
+    textAlign: "center",
+    alignSelf: "center",
+    flex: 1,
+    fontFamily:M_BOLD,
+  },
+  headerRight:<View/>
 };
 export default ShowAllTags;

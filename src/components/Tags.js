@@ -13,10 +13,10 @@ const Tags = (props) => {
   }, [false]);
 
   handleOnpress = cat => {
-    // props.navigation.navigate("ListByTag", {
-    //   item: cat,
-    //   type: "city",
-    // });
+    props.navigation.navigate("ListByTag", {
+      item: cat,
+      type: "city",
+    });
   };
 
   return (

@@ -14,6 +14,7 @@ import Icon from "react-native-vector-icons/dist/Entypo";
 // import styles from "../assets/style.js";
 import { getPostByCategory } from "../Utils/Api.js";
 import { text_truncate, strip_html_tags } from "../Utils/Helpers.js";
+import { M_BOLD } from "../theme/fonts.js";
 const ListByCity = props => {
   const per_page = 10;
   const [category, setcategory] = useState();
@@ -139,7 +140,16 @@ const ListByCity = props => {
     </View>
   );
 };
-
+ListByCity.navigationOptions = {
+  title: 'Places',
+  headerTitleStyle: {
+    textAlign: "center",
+    alignSelf: "center",
+    flex: 1,
+    fontFamily:M_BOLD,
+  },
+  headerRight:<View/>
+};
 export default ListByCity;
 
 const styles = StyleSheet.create({

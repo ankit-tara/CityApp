@@ -7,7 +7,7 @@ import {
 import Home from "./src/screens/Home";
 import Search from "./src/screens/Search";
 import Places from "./src/screens/Places";
-import Find from "./src/screens/List";
+import Explore from "./src/screens/Explore";
 import ListByCity from "./src/screens/ListByCity";
 import ListByTag from "./src/screens/ListByTag";
 import ShowAllCitiesPage from "./src/screens/ShowAllCities";
@@ -16,6 +16,7 @@ import Single from "./src/screens/Single";
 import Header from "./src/components/Header";
 import Icon from "react-native-vector-icons/dist/Entypo";
 import { TAB_ICON_ACTIVE, TAB_ICON_INACTIVE } from "./src/theme/colors";
+import { M_Regular } from "./src/theme/fonts";
 
 const HomeStack = createStackNavigator({
   Home: Home,
@@ -31,8 +32,7 @@ const CitiesStack = createStackNavigator({
   Single: Single
 });
 const SearchStack = createStackNavigator({
-  Search: Find,
- 
+  Search: Explore
 });
 
 const TabNavigator = createBottomTabNavigator(
@@ -67,7 +67,9 @@ const TabNavigator = createBottomTabNavigator(
       activeTintColor: TAB_ICON_ACTIVE,
       inactiveTintColor: TAB_ICON_INACTIVE,
       labelStyle: {
-        fontSize: 13
+        fontSize: 10,
+        fontFamily:M_Regular,
+        textTransform:'uppercase'
       }
     }
   }

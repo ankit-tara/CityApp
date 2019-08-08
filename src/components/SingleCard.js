@@ -3,9 +3,9 @@ import { Text, View, Image, ImageBackground } from "react-native";
 import styles from "../assets/style.js";
 import { text_truncate } from "../Utils/Helpers.js";
 
-const SingleCard = ({ image, title ,showText=true}) => {
+const SingleCard = ({ image, title, showText = true }) => {
   const bgImage =
-    "https://images.unsplash.com/photo-1445019980597-93fa8acb246c";
+    "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=200";
   const noImageView = () => {
     return (
       <ImageBackground
@@ -27,7 +27,7 @@ const SingleCard = ({ image, title ,showText=true}) => {
     <View style={styles.box}>
       {!image && noImageView()}
       {image && ImageView()}
-      <Text style={styles.boxText}>{showText&& text_truncate(title,16)}</Text>
+      <Text style={styles.boxText}>{showText && text_truncate(title, 16)}</Text>
     </View>
   );
 };

@@ -52,3 +52,54 @@ export function getPostByCategory(category,currentpage=1,perpage=10) {
             throw error;
         });
 }
+/**
+ * get post by tag
+ */
+export function getPostBytag(tag,currentpage=1,perpage=10) {
+    let url = `${API_INITIAL}/posts?tags=${tag}&per_page=${perpage}&page=${currentpage}`
+    console.log(url)
+    return fetch(url)
+        .then(response => response.json())
+        .catch(error => {
+            throw error;
+        });
+}
+
+/**
+ * get Tags List
+ */
+export function getTags(perpage=10,currentpage=1) {
+    let url = `${API_INITIAL}/tags?per_page=${perpage}&page=${currentpage}`
+    console.log(url)
+    return fetch(url)
+        .then(response => response.json())
+        .catch(error => {
+            throw error;
+        });
+}
+
+/**
+ * get Tags List
+ */
+export function searchTags(searchText,perpage=10,currentpage=1) {
+    let url = `${API_INITIAL}/tags?search=${searchText}&per_page=${perpage}&page=${currentpage}`
+    console.log(url)
+    return fetch(url)
+        .then(response => response.json())
+        .catch(error => {
+            throw error;
+        });
+}
+
+/**
+ * get Tags List
+ */
+export function searchGlobal(searchText,perpage=10,currentpage=1) {
+    let url = `${API_INITIAL}/search-global?s=${searchText}`
+    console.log(url)
+    return fetch(url)
+        .then(response => response.json())
+        .catch(error => {
+            throw error;
+        });
+}

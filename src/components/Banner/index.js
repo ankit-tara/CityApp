@@ -21,7 +21,7 @@ const MainBanner = ({ data }) => {
           }} loop>
           {images.map((img) => (
             <View style={styles.slide} key={`img-${img.image.ID}`} >
-              <Image resizeMode='stretch' style={styles.image} source={{ uri: img.image.url }} />
+              <Image resizeMode='cover' style={styles.image} source={{ uri: img.image.url }} />
               <Text style={styles.bannerText}>{img.image.title}</Text>
             </View>
           ))}
@@ -45,21 +45,25 @@ const styles = StyleSheet.create({
   slide: {
     flex: 1,
     justifyContent: 'center',
+    alignItems:'center',
     backgroundColor: 'transparent',
     position:'relative'
   },
 
   bannerText:{
+    paddingVertical:5,
+    backgroundColor:'rgba(0, 0, 0, 0.5)',
+    textTransform:'capitalize',
     position:'absolute',
     top:70,
     color:'#fff',
     fontSize:22,
     fontWeight:'bold',
-    width:'100%',
+    width:'80%',
     textAlign:'center',
-    textShadowColor: 'rgba(0, 0, 0, 0.80)',
-    textShadowOffset: {width: -1, height: 1},
-    textShadowRadius: 10
+    // textShadowColor: 'rgba(0, 0, 0, 0.80)',
+    // textShadowOffset: {width: -1, height: 1},
+    // textShadowRadius: 10
   },
 
   text: {

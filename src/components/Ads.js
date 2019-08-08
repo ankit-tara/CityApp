@@ -3,24 +3,26 @@ import { Text, StyleSheet, View, Image, Dimensions } from 'react-native'
 import Swiper from 'react-native-swiper'
 const { width } = Dimensions.get('window')
 
-const Ads = ({ data }) => {
-  const [images, setimages] = useState([])
+const Ads = ({ images }) => {
+  // const [images, setimages] = useState([])
 
-  useEffect(() => {
-    setimages(data)
-  }, [data])
+  // useEffect(() => {
+  //   setimages(data)
+  // }, [data])
 
+  // const showsButton = images.length >1
   return (
     <View style={styles.container} >
+      <Text style={styles.adHeading}>Sponsered ads</Text>
       {images.length > 0 &&
-        <Swiper style={styles.wrapper} height={120} showsButton={images.length>1} showsPagination={false}
+        <Swiper style={styles.wrapper} height={120} showsButton={true} showsPagination={false}
           nextButton={<Text style={styles.buttonText}>›</Text>}
           prevButton={<Text style={styles.buttonText}>‹</Text>}
           onMomentumScrollEnd={(e, state, context) => console.log('index:', state.index)}
           loop>
           {images.map((img) => (
             <View style={styles.slide} key={`ad-img-${img.ad_image.ID}`}>
-              <Image resizeMode='stretch' style={styles.image} source={{ uri: img.ad_image.sizes.medium }} />
+              <Image resizeMode='contain' style={styles.image} source={{ uri: img.ad_image.sizes.medium }} />
             </View>
           ))}
         </Swiper>
@@ -53,35 +55,21 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
 
-  slide1: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#9DD6EB'
-  },
-
-  slide2: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#97CAE5'
-  },
-
-  slide3: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#92BBD9'
-  },
 
   text: {
     color: '#fff',
+    height:"100%",
     fontSize: 30,
     fontWeight: 'bold'
   },
 
   image: {
-    width,
+    width:'100%',
     flex: 1
+  },
+  adHeading:{
+    textTransform:'uppercase',
+    color:'gray',
+    fontSize:12
   }
 })

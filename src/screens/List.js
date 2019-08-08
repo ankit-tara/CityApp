@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Text, StyleSheet, View, TextInput, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/dist/Entypo";
 import { getRandomColor } from "../Utils/Helpers";
-
+import Header from "../components/Header"
 export default class List extends Component {
   constructor(props) {
     super(props);
@@ -12,6 +12,10 @@ export default class List extends Component {
       filtertagsData: []
     };
   }
+
+  static navigationOptions = {
+    header: <Header/>
+  };
 
   filterCategories = text => {
     let filtertags = this.state.tagsData;

@@ -8,14 +8,14 @@ import {
   ActivityIndicator
 } from "react-native";
 import styles from "../assets/style.js";
-import { getCategories, searchCategories } from "../Utils/Api.js";
+import { getTags, searchTags } from "../Utils/Api.js";
 import SingleCard from "../components/SingleCard";
 import SearchBar from "../components/SearchBar";
 import Header from "../components/Header";
 
-const ShowAllCities = props => {
+const ShowAllTags = props => {
   const per_page = 21;
-  const [categories, setcategories] = useState([]);
+  const [tags, settags] = useState([]);
   const [searchData, setsearcgData] = useState([]);
   const [defaultData, setdefaultData] = useState([]);
   const [currentpage, setcurrentpage] = useState(1);
@@ -24,28 +24,28 @@ const ShowAllCities = props => {
   const [isSearching, setisSearching] = useState(false);
 
   useEffect(() => {
-    getCategories(per_page)
+    getTags(per_page)
       .then(data => {
-        setcategories(data);
+        settags(data);
         setdefaultData(data);
       })
       .catch(e => console.log(e));
   }, [false]);
 
-  handleOnpress = cat => {
-    props.navigation.navigate("ListByCity", {
-      item: cat,
+  handleOnpress = tag => {
+    props.navigation.navigate("ListByTag", {
+      item: tag,
       type: "city"
     });
   };
 
   loadMoreData = () => {
     setloadMore(true);
-    getCategories(per_page, currentpage + 1)
+    getTags(per_page, currentpage + 1)
       .then(data => {
-        let new_data = categories.concat(data);
+        let new_data = tags.concat(data);
         setcurrentpage(currentpage + 1);
-        setcategories(new_data);
+        settags(new_data);
         setdefaultData(data);
         setloadMore(false);
       })
@@ -72,17 +72,17 @@ const ShowAllCities = props => {
   handleSearch=(text)=>{
     setisSearching(true)
     if(!text){
-      setcategories(defaultData)
+      settags(defaultData)
       setisSearching(false);
       return
     }
    
-    searchCategories(text,per_page, currentSearchpage + 1)
+    searchTags(text,per_page, currentSearchpage + 1)
     .then(data => {
-      // let new_data = searchData.concat(data);
+      // let new_data = searchData.contag(data);
       // setcurrentSearchpage(currentSearchpage + 1);
       setsearcgData(data);
-      setcategories(data);
+      settags(data);
       setisSearching(false);
     })
     .catch(e => console.log(e));
@@ -93,27 +93,27 @@ const ShowAllCities = props => {
       <View style={[{ paddingHorizontal: 10 }]}>
         {isSearching && <ActivityIndicator style={{ marginLeft: 8,alignSelf:'center' }} />}
         <View style={[styles.row, styles.wrap]}>
-          {categories.map(cat => (
+          {tags.map(tag => (
             <TouchableOpacity
-              key={`cat-${cat.id}`}
-              onPress={() => handleOnpress(cat)}
+              key={`tag-${tag.id}`}
+              onPress={() => handleOnpress(tag)}
               style={styles.singleCity}
             >
               <SingleCard
-                image={cat.acf.taxonomy_image}
-                title={cat.name}
+                image={tag.acf.taxonomy_image}
+                title={tag.name}
                 showText={true}
               />
             </TouchableOpacity>
           ))}
         </View>
         
-        {categories && categories.length >=21&& renderFooter()}
+        {tags && tags.length >=21&& renderFooter()}
       </View>
     </ScrollView>
   );
 };
-ShowAllCities.navigationOptions = {
-  header: <Header/>
+ShowAllTags.navigationOptions = {
+  title: 'Tags'
 };
-export default ShowAllCities;
+export default ShowAllTags;

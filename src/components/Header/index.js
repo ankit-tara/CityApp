@@ -23,14 +23,14 @@ const AppHeader = () => {
 
     <View style={[styles.row, styles.header]}>
       <View style={[styles.flex]}>
-        <Menu
+        {/* <Menu
           style={{ marginTop: 40,width:'50%' }}
           ref={this.setMenuRef}
           button={<TouchableOpacity onPress={this.showMenu}><Icon name="text" size={27} color='black' /></TouchableOpacity>}
         >
           <MenuItem onPress={this.hideMenu}><Icon name="account-multiple-plus-outline" size={27} color='black' /> Invite Friends</MenuItem>
           <MenuItem onPress={this.hideMenu}><Icon name="star-outline" size={27} color='black' /> Rate Us</MenuItem>
-        </Menu>
+        </Menu> */}
       </View>
       <Text style={[styles.flex, styles.logo]}> CityApp </Text>
       <Text style={[styles.flex]} />

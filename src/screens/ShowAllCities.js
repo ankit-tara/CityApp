@@ -12,6 +12,7 @@ import { getCategories, searchCategories } from "../Utils/Api.js";
 import SingleCard from "../components/SingleCard";
 import SearchBar from "../components/SearchBar";
 import Header from "../components/Header";
+import { APP_ORANGE } from "../theme/colors.js";
 
 const ShowAllCities = props => {
   const per_page = 21;
@@ -63,7 +64,7 @@ const ShowAllCities = props => {
           style={[styles.row,styles.loadMoreBtn]}
         >
           <Text style={styles.btnText}>Show More</Text>
-          {loadMore && <ActivityIndicator style={{ marginLeft: 8 }} />}
+          {loadMore && <ActivityIndicator style={{ marginLeft: 8 }} color={APP_ORANGE} />}
         </TouchableOpacity>
       </View>
     );
@@ -92,7 +93,7 @@ const ShowAllCities = props => {
     <ScrollView>
       <SearchBar placeholder="Search City" onChangeText={handleSearch}/>
       <View style={[{ paddingHorizontal: 10 }]}>
-        {isSearching && <ActivityIndicator style={{ marginLeft: 8,alignSelf:'center' }} />}
+        {isSearching && <ActivityIndicator style={{ marginLeft: 8,alignSelf:'center' }} color={APP_ORANGE} />}
         <View style={[styles.row, styles.wrap]}>
           {categories.map(cat => (
             <TouchableOpacity

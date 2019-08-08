@@ -44,6 +44,7 @@ const Home = props => {
       .catch(e => console.log(e));
   }, [false]);
 
+  
   const checkGranted = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -96,6 +97,13 @@ const Home = props => {
     props.navigation.navigate("ShowAllTags");
   };
 
+  getlistByTag = (tag) => {
+    props.navigation.navigate("ListByTag", {
+      item: tag,
+      type: "tag"
+    });
+  };
+
   return (
     <View style={styles.flex}>
       <ScrollView>
@@ -107,7 +115,7 @@ const Home = props => {
           catData.map(cat => {
             return (
               <View key={cat.tag.term_id}>
-                <BlockHeader heading={cat.tag.name} />
+                <BlockHeader heading={cat.tag.name} onLinkPress={()=>getlistByTag(cat.tag)}/>
                 {cat.posts.map(post => (
                   <View
                     key={`cat-${post.id}`}

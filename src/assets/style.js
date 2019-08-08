@@ -1,5 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native";
 import { M_BOLD, M_Regular } from "../theme/fonts";
+import { APP_ORANGE } from "../theme/colors";
 const { width } = Dimensions.get("window");
 
 export default StyleSheet.create({
@@ -111,7 +112,7 @@ export default StyleSheet.create({
   },
   loadMoreBtn: {
     borderWidth: 1,
-    borderColor: "red",
+    borderColor: APP_ORANGE,
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 5

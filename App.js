@@ -32,7 +32,11 @@ const CitiesStack = createStackNavigator({
   Single: Single
 });
 const SearchStack = createStackNavigator({
-  Search: Explore
+  Search: Explore,
+  ListByCity: ListByCity,
+  ListByTag: ListByTag,
+  ShowAllTags: ShowAllTags,
+  Single: Single
 });
 
 const TabNavigator = createBottomTabNavigator(

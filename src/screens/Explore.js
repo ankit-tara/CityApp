@@ -1,74 +1,122 @@
-import React, { Component } from "react";
-import { Text, StyleSheet, View, TextInput, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  Text,
+  StyleSheet,
+  View,
+  TextInput,
+  ScrollView,
+  TouchableOpacity,
+  ActivityIndicator
+} from "react-native";
 import Icon from "react-native-vector-icons/dist/Entypo";
 import { getRandomColor } from "../Utils/Helpers";
 import Header from "../components/Header";
 import { M_BOLD, M_Regular } from "../theme/fonts";
-
+import { searchGlobal } from "../Utils/Api";
+import SearchBar from "../components/SearchBar";
+import { APP_ORANGE } from "../theme/colors";
 const Explore = props => {
-  const renderTags = () => {
-    return (
-      <Text style={[styles.category, { borderColor: getRandomColor() }]}>
-        test
-      </Text>
-    );
-    // return filtertagsData.map(tag => {
-    //   return (
-    //     <Text style={[styles.category, { borderColor: getRandomColor() }]}>
-    //       {tag.name}
-    //     </Text>
-    //   );
-    // });
+  const [data, setdata] = useState({});
+  const [defaultData, setdefaultData] = useState([]);
+  const [currentpage, setcurrentpage] = useState(1);
+  const [currentSearchpage, setcurrentSearchpage] = useState(0);
+  const [loadMore, setloadMore] = useState(false);
+  const [isSearching, setisSearching] = useState(false);
+  useEffect(() => {
+    searchGlobal()
+      .then(data => {
+        setdata(data);
+        setdefaultData(data);
+      })
+      .catch(e => console.log(e));
+  }, []);
+
+  const renderTags = text => {
+    return <Text style={[styles.category]}>{text}</Text>;
   };
+  const handleSearch = text => {
+    setisSearching(true);
+    if (!text) {
+      setdata(defaultData);
+      setisSearching(false);
+      return;
+    }
+
+    searchGlobal(text)
+      .then(data => {
+        setdata(data);
+        setisSearching(false);
+      })
+      .catch(e => console.log(e));
+  };
+
   return (
     <View style={{ flex: 1, marginHorizontal: 20 }}>
+      <SearchBar placeholder="Search..." onChangeText={handleSearch} />
+      {isSearching && (
+        <ActivityIndicator
+          style={{ marginLeft: 8, alignSelf: "center" }}
+          color={APP_ORANGE}
+        />
+      )}
       <ScrollView>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between"
-          }}
-        >
-          <TextInput
-            placeholder="Search..."
-            onChangeText={this.filterCategories}
-            style={{ flex: 1, fontSize: 25, paddingLeft: 15 }}
-          />
-          <Icon name="magnifying-glass" size={25} />
-        </View>
-
         <Text style={styles.suggestedHeading}>Suggested :</Text>
-        <View  style={styles.typeContainer}>
-          <Text style={styles.heading}>Places:</Text>
-          <View style={styles.wrapper}>
-            {renderTags()}
-            {renderTags()}
-            {renderTags()}
-            {renderTags()}
-            {renderTags()}
+        {data && data.posts && data.posts.length > 0 && (
+          <View style={styles.typeContainer}>
+            <Text style={styles.heading}>Places:</Text>
+            <View style={styles.wrapper}>
+              {data.posts.map(item => (
+                <TouchableOpacity
+                  onPress={() =>
+                    props.navigation.navigate("Single", {
+                      post: item
+                    })
+                  }
+                >
+                  {renderTags(item.title.rendered)}
+                </TouchableOpacity>
+              ))}
+            </View>
           </View>
-        </View>
-        <View  style={styles.typeContainer}>
-          <Text style={styles.heading}>Categories:</Text>
-          <View style={styles.wrapper}>
-            {renderTags()}
-            {renderTags()}
-            {renderTags()}
-            {renderTags()}
-            {renderTags()}
+        )}
+        {data && data.tags && data.tags.length > 0 && (
+          <View style={styles.typeContainer}>
+            <Text style={styles.heading}>Categories:</Text>
+            <View style={styles.wrapper}>
+              {data.tags.map(item => (
+                <TouchableOpacity
+                  onPress={() =>
+                    props.navigation.navigate("ListByTag", {
+                      item: item,
+                      type: "tag"
+                    })
+                  }
+                >
+                  {renderTags(item.name)}
+                </TouchableOpacity>
+              ))}
+            </View>
           </View>
-        </View>
-        <View style={styles.typeContainer}>
-          <Text style={styles.heading}>Cities:</Text>
-          <View style={styles.wrapper}>
-            {renderTags()}
-            {renderTags()}
-            {renderTags()}
-            {renderTags()}
-            {renderTags()}
+        )}
+        {data && data.categories && data.categories.length > 0 && (
+          <View style={styles.typeContainer}>
+            <Text style={styles.heading}>Cities:</Text>
+            <View style={styles.wrapper}>
+              {data.categories.map(item => (
+                <TouchableOpacity
+                  onPress={() =>
+                    props.navigation.navigate("ListByCity", {
+                      item: item,
+                      type: "tag"
+                    })
+                  }
+                >
+                  {renderTags(item.name)}
+                </TouchableOpacity>
+              ))}
+            </View>
           </View>
-        </View>
+        )}
       </ScrollView>
     </View>
   );
@@ -78,12 +126,11 @@ Explore.navigationOptions = {
 };
 export default Explore;
 
-
 const styles = StyleSheet.create({
   wrapper: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "center",
+    // justifyContent: "center",
     paddingVertical: 10
   },
   category: {
@@ -94,7 +141,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginVertical: 5,
     marginHorizontal: 10,
-    textTransform:'capitalize'
+    textTransform: "capitalize",
+    color: "gray"
   },
   suggestedHeading: {
     fontSize: 20,
@@ -103,12 +151,13 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     marginVertical: 20
   },
-  heading:{
-    fontFamily:M_Regular,
-    fontSize:15,
-    textTransform:'uppercase'
+  heading: {
+    fontFamily: M_BOLD,
+    fontSize: 15,
+    textTransform: "uppercase",
+    color: APP_ORANGE
   },
-  typeContainer:{
-    marginBottom:20
+  typeContainer: {
+    marginBottom: 20
   }
 });

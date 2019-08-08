@@ -94,7 +94,7 @@ export function searchTags(searchText,perpage=10,currentpage=1) {
 /**
  * get Tags List
  */
-export function searchGlobal(searchText,perpage=10,currentpage=1) {
+export function searchGlobal(searchText='',perpage=10,currentpage=1) {
     let url = `${API_INITIAL}/search-global?s=${searchText}`
     console.log(url)
     return fetch(url)

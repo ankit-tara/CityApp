@@ -15,6 +15,7 @@ import Icon from "react-native-vector-icons/dist/Entypo";
 import { getPostByCategory } from "../Utils/Api.js";
 import { text_truncate, strip_html_tags } from "../Utils/Helpers.js";
 import { M_BOLD } from "../theme/fonts.js";
+import { APP_ORANGE } from "../theme/colors.js";
 const ListByCity = props => {
   const per_page = 10;
   const [category, setcategory] = useState();
@@ -58,7 +59,7 @@ const ListByCity = props => {
           style={styles.loadMoreBtn}
         >
           <Text style={styles.btnText}>Load More</Text>
-          {loadMore && <ActivityIndicator style={{ marginLeft: 8 }} />}
+          {loadMore && <ActivityIndicator style={{ marginLeft: 8 }} color={APP_ORANGE}/>}
         </TouchableOpacity>
       </View>
     );

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Text, StyleSheet, View, Image, Dimensions } from 'react-native'
 import Swiper from 'react-native-swiper'
 import { M_BOLD } from '../../theme/fonts';
+import Placeholder from "../../placeholder/BannerPlaceholder"
 const { width } = Dimensions.get('window')
 
 const MainBanner = ({ data }) => {
@@ -10,6 +11,10 @@ const MainBanner = ({ data }) => {
   useEffect(() => {
     setimages(data)
   }, [data])
+
+  if(!data || data.length <=0){
+    return <Placeholder/>
+  }
 
   return (
     <View style={styles.wrapper} >
@@ -59,14 +64,10 @@ const styles = StyleSheet.create({
     top:70,
     color:'#fff',
     fontSize:20,
-    // fontWeight:'bold',
     width:'80%',
     textAlign:'center',
     fontFamily:M_BOLD,
     paddingHorizontal: 10,
-    // textShadowColor: 'rgba(0, 0, 0, 0.80)',
-    // textShadowOffset: {width: -1, height: 1},
-    // textShadowRadius: 10
   },
 
   text: {

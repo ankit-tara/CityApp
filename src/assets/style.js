@@ -119,5 +119,14 @@ export default StyleSheet.create({
   },
   btnText: {
     // color:"#fff"
-  }
+  },
+  loaderMsg:{
+    textAlign:'center',
+    fontSize:20,
+    color:"gray",
+    fontFamily:M_BOLD,
+    marginVertical:20,
+    marginHorizontal:20,
+    textTransform:'capitalize'
+  },
 });

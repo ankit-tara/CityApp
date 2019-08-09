@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, TouchableOpacity, Text } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import Banner from "../components/Banner";
 import BlockHeader from "../components/BlockHeader";
@@ -8,66 +8,46 @@ import SingleCard from "../components/SingleCard";
 import Header from "../components/Header";
 import Ads from "../components/Ads";
 import styles from "../assets/style.js";
-import { getHomePageData } from "../Utils/Api";
+import { getHomePageData, getLocationData } from "../Utils/Api";
 import DeviceInfo from "react-native-device-info";
 import { PermissionsAndroid } from "react-native";
-import Geolocation from 'react-native-geolocation-service';
-
-// let id =  navigator.geolocation.watchPosition((position) => {
-//   let region = {
-//       latitude:       position.coords.latitude,
-//       longitude:      position.coords.longitude,
-//       latitudeDelta:  0.00922*1.5,
-//       longitudeDelta: 0.00421*1.5
-//   }
-// })
-// console.log(id)
+import Geolocation from "react-native-geolocation-service";
+import Spinner from "react-native-spinkit";
+import { APP_ORANGE } from "../theme/colors";
 const Home = props => {
+  const [loader, setloader] = useState(true);
+  const [loadingMsg, setloadingMsg] = useState(null);
   const [bannerData, setBannerData] = useState([]);
   const [adData, setAdData] = useState([]);
   const [catData, setCatData] = useState([]);
 
   useEffect(() => {
     checkGranted();
-
-    DeviceInfo.getIPAddress().then(ip => {
-      fetch("https://ipapi.co/" + ip + "/json/ ")
-        .then(response => console.log(response))
-        .catch(error => {
-          throw error;
-        });
-    });
-
+    // getGlobalData();
     SplashScreen.hide();
-    getHomePageData()
-      .then(setHomePageData)
-      .catch(e => console.log(e));
   }, [false]);
 
-  
   const checkGranted = async () => {
     try {
+      setloadingMsg("Checking your location");
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
-          title: "Example App",
-          message: "Example App access to your location "
+          title: "City",
+          message:
+            "Allow Access to location so that we can show you the personlised data."
         }
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         Geolocation.getCurrentPosition(
           position => {
-          
-            console.log(position)
-            // this.setState({
-            //   position: {
-            //     longitude: position.longitude,
-            //     latitude: position.latitude
-            //   }
-            // });
+            let value = `${position.coords.latitude},${
+              position.coords.longitude
+            }`;
+            getCityData("Abohar");
           },
           error => {
-            alert(JSON.stringify(error));
+            getGlobalData();
           },
           {
             enableHighAccuracy: true,
@@ -75,12 +55,38 @@ const Home = props => {
             maximumAge: 1000
           }
         );
-        console.log("You can use the location");
       } else {
-        console.log("location permission denied");
+        getGlobalData();
       }
     } catch (err) {
       console.warn(err);
+    }
+  };
+
+  const getGlobalData = () => {
+    getHomePageData()
+      .then(setHomePageData)
+      .catch(e => console.log(e));
+    setloader(false);
+    setloadingMsg("");
+  };
+
+  const getCityData = city => {
+    getHomePageData(city)
+      .then(setHomePageData)
+      .catch(e => console.log(e));
+    setloader(false);
+    setloadingMsg("");
+  };
+
+  const handleLocationData = data => {
+    if (data.status == "OK") {
+      var cityName = data.results[0].address_components.filter(
+        x => x.types.filter(t => t == "administrative_area_level_2").length > 0
+      )[0].short_name;
+      getCityData(cityName);
+    } else {
+      getGlobalData();
     }
   };
 
@@ -88,7 +94,7 @@ const Home = props => {
     if (!data || !data.acf) return;
     let acf = data.acf;
     acf.main_slider_images && setBannerData(acf.main_slider_images);
-    acf.images && setAdData(acf.images);
+    data.ads_data && setAdData(data.ads_data);
     data.categories_data && setCatData(data.categories_data);
     console.log(data);
   };
@@ -97,12 +103,25 @@ const Home = props => {
     props.navigation.navigate("ShowAllTags");
   };
 
-  getlistByTag = (tag) => {
+  getlistByTag = tag => {
     props.navigation.navigate("ListByTag", {
       item: tag,
       type: "tag"
     });
   };
+
+  if (loader)
+    return (
+      <View
+        style={[
+          styles.flex,
+          { justifyContent: "center", alignItems: "center" }
+        ]}
+      >
+        <Spinner style={styles.spinner} type="9CubeGrid" color={APP_ORANGE} />
+        {loadingMsg && <Text style={styles.loaderMsg}>{loadingMsg} </Text>}
+      </View>
+    );
 
   return (
     <View style={styles.flex}>
@@ -113,20 +132,36 @@ const Home = props => {
         {adData && <Ads images={adData} />}
         {catData.length > 0 &&
           catData.map(cat => {
+            cat.tag.id = cat.tag.term_id;
             return (
               <View key={cat.tag.term_id}>
-                <BlockHeader heading={cat.tag.name} onLinkPress={()=>getlistByTag(cat.tag)}/>
-                {cat.posts.map(post => (
-                  <View
-                    key={`cat-${post.id}`}
-                    style={[{ paddingHorizontal: 10 }, styles.boxes]}
-                  >
-                    <SingleCard
-                      image={post.fimg_url}
-                      title={post.title.rendered}
-                    />
-                  </View>
-                ))}
+                <BlockHeader
+                  heading={cat.tag.name}
+                  onLinkPress={() => {
+                    props.navigation.navigate("ListByTag", {
+                      item: cat.tag,
+                      type: "tag"
+                    });
+                  }}
+                />
+                <View style={[{ paddingHorizontal: 10 }, styles.boxes]}>
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                    {cat.posts.length > 0 &&
+                      cat.posts.map(post => (
+                        <TouchableOpacity
+                          key={`post-${post.id}`}
+                          onPress={() =>
+                            props.navigation.navigate("Single", { post: post })
+                          }
+                        >
+                          <SingleCard
+                            image={post.fimg_url}
+                            title={post.title.rendered}
+                          />
+                        </TouchableOpacity>
+                      ))}
+                  </ScrollView>
+                </View>
               </View>
             );
           })}

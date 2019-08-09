@@ -2,10 +2,23 @@ import { API_INITIAL } from "./constants"
 const HOMEPAGE_ID = 340
 
 /**
+ * get location data
+ */
+export function getLocationData(value) {
+    let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${value}&key=AIzaSyCa4gODgo6AsfiXx0HzeUI2C01kqla9Kyc`
+    console.log(url)
+    return fetch(url)
+        .then(response => response.json())
+        .catch(error => {
+            throw error;
+        });
+}
+
+/**
  * get homepage and its acf field data
  */
-export function getHomePageData() {
-    let url = `${API_INITIAL}/pages/${HOMEPAGE_ID}`
+export function getHomePageData(city='') {
+    let url = `${API_INITIAL}/pages/${HOMEPAGE_ID}?city=${city}`
     console.log(url)
     return fetch(url)
         .then(response => response.json())

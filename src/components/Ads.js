@@ -21,7 +21,7 @@ const Ads = ({ images }) => {
           }
           loop
         >
-          {images.map(img => (
+          {images.map(img =>img.ad_image && (
             <View style={styles.slide} key={`ad-img-${img.ad_image.ID}`}>
               <Image
                 resizeMode="contain"

@@ -1,0 +1,452 @@
+
+{
+    "plus_code" : {
+       "compound_code" : "VVFF+74 Ludhiana, Punjab, India",
+       "global_code" : "8J2QVVFF+74"
+    },
+    "results" : [
+       {
+          "address_components" : [
+             {
+                "long_name" : "7693/19L",
+                "short_name" : "7693/19L",
+                "types" : [ "premise" ]
+             },
+             {
+                "long_name" : "New Janta Nagar",
+                "short_name" : "New Janta Nagar",
+                "types" : [ "political", "sublocality", "sublocality_level_1" ]
+             },
+             {
+                "long_name" : "Ludhiana",
+                "short_name" : "Ludhiana",
+                "types" : [ "locality", "political" ]
+             },
+             {
+                "long_name" : "Ludhiana",
+                "short_name" : "Ludhiana",
+                "types" : [ "administrative_area_level_2", "political" ]
+             },
+             {
+                "long_name" : "Punjab",
+                "short_name" : "PB",
+                "types" : [ "administrative_area_level_1", "political" ]
+             },
+             {
+                "long_name" : "India",
+                "short_name" : "IN",
+                "types" : [ "country", "political" ]
+             },
+             {
+                "long_name" : "141003",
+                "short_name" : "141003",
+                "types" : [ "postal_code" ]
+             }
+          ],
+          "formatted_address" : "7693/19L, New Janta Nagar, Ludhiana, Punjab 141003, India",
+          "geometry" : {
+             "location" : {
+                "lat" : 30.873121,
+                "lng" : 75.87283499999999
+             },
+             "location_type" : "ROOFTOP",
+             "viewport" : {
+                "northeast" : {
+                   "lat" : 30.8744699802915,
+                   "lng" : 75.87418398029151
+                },
+                "southwest" : {
+                   "lat" : 30.8717720197085,
+                   "lng" : 75.8714860197085
+                }
+             }
+          },
+          "place_id" : "ChIJoQLXCOuCGjkR4F2EnGNai3I",
+          "plus_code" : {
+             "compound_code" : "VVFF+64 Ludhiana, Punjab, India",
+             "global_code" : "8J2QVVFF+64"
+          },
+          "types" : [ "street_address" ]
+       },
+       {
+          "address_components" : [
+             {
+                "long_name" : "Unnamed Road",
+                "short_name" : "Unnamed Road",
+                "types" : [ "route" ]
+             },
+             {
+                "long_name" : "New Janta Nagar",
+                "short_name" : "New Janta Nagar",
+                "types" : [ "political", "sublocality", "sublocality_level_1" ]
+             },
+             {
+                "long_name" : "Ludhiana",
+                "short_name" : "Ludhiana",
+                "types" : [ "locality", "political" ]
+             },
+             {
+                "long_name" : "Ludhiana",
+                "short_name" : "Ludhiana",
+                "types" : [ "administrative_area_level_2", "political" ]
+             },
+             {
+                "long_name" : "Punjab",
+                "short_name" : "PB",
+                "types" : [ "administrative_area_level_1", "political" ]
+             },
+             {
+                "long_name" : "India",
+                "short_name" : "IN",
+                "types" : [ "country", "political" ]
+             },
+             {
+                "long_name" : "141003",
+                "short_name" : "141003",
+                "types" : [ "postal_code" ]
+             }
+          ],
+          "formatted_address" : "Unnamed Road, New Janta Nagar, Ludhiana, Punjab 141003, India",
+          "geometry" : {
+             "bounds" : {
+                "northeast" : {
+                   "lat" : 30.8735443,
+                   "lng" : 75.8727354
+                },
+                "southwest" : {
+                   "lat" : 30.8729911,
+                   "lng" : 75.87273019999999
+                }
+             },
+             "location" : {
+                "lat" : 30.8732677,
+                "lng" : 75.87273279999999
+             },
+             "location_type" : "GEOMETRIC_CENTER",
+             "viewport" : {
+                "northeast" : {
+                   "lat" : 30.8746166802915,
+                   "lng" : 75.87408178029149
+                },
+                "southwest" : {
+                   "lat" : 30.8719187197085,
+                   "lng" : 75.87138381970848
+                }
+             }
+          },
+          "place_id" : "ChIJNTKeCeuCGjkRSrpMB6Qfw8s",
+          "types" : [ "route" ]
+       },
+       {
+          "address_components" : [
+             {
+                "long_name" : "New Janta Nagar",
+                "short_name" : "New Janta Nagar",
+                "types" : [ "political", "sublocality", "sublocality_level_1" ]
+             },
+             {
+                "long_name" : "Ludhiana",
+                "short_name" : "Ludhiana",
+                "types" : [ "locality", "political" ]
+             },
+             {
+                "long_name" : "Ludhiana",
+                "short_name" : "Ludhiana",
+                "types" : [ "administrative_area_level_2", "political" ]
+             },
+             {
+                "long_name" : "Punjab",
+                "short_name" : "PB",
+                "types" : [ "administrative_area_level_1", "political" ]
+             },
+             {
+                "long_name" : "India",
+                "short_name" : "IN",
+                "types" : [ "country", "political" ]
+             },
+             {
+                "long_name" : "141003",
+                "short_name" : "141003",
+                "types" : [ "postal_code" ]
+             }
+          ],
+          "formatted_address" : "New Janta Nagar, Ludhiana, Punjab 141003, India",
+          "geometry" : {
+             "bounds" : {
+                "northeast" : {
+                   "lat" : 30.8747324,
+                   "lng" : 75.87636999999999
+                },
+                "southwest" : {
+                   "lat" : 30.8690209,
+                   "lng" : 75.8668242
+                }
+             },
+             "location" : {
+                "lat" : 30.8716498,
+                "lng" : 75.86937189999999
+             },
+             "location_type" : "APPROXIMATE",
+             "viewport" : {
+                "northeast" : {
+                   "lat" : 30.8747324,
+                   "lng" : 75.87636999999999
+                },
+                "southwest" : {
+                   "lat" : 30.8690209,
+                   "lng" : 75.8668242
+                }
+             }
+          },
+          "place_id" : "ChIJh8wG15SCGjkRigOKuRIJTzk",
+          "types" : [ "political", "sublocality", "sublocality_level_1" ]
+       },
+       {
+          "address_components" : [
+             {
+                "long_name" : "141003",
+                "short_name" : "141003",
+                "types" : [ "postal_code" ]
+             },
+             {
+                "long_name" : "Ludhiana",
+                "short_name" : "Ludhiana",
+                "types" : [ "locality", "political" ]
+             },
+             {
+                "long_name" : "Ludhiana",
+                "short_name" : "Ludhiana",
+                "types" : [ "administrative_area_level_2", "political" ]
+             },
+             {
+                "long_name" : "Punjab",
+                "short_name" : "PB",
+                "types" : [ "administrative_area_level_1", "political" ]
+             },
+             {
+                "long_name" : "India",
+                "short_name" : "IN",
+                "types" : [ "country", "political" ]
+             }
+          ],
+          "formatted_address" : "Ludhiana, Punjab 141003, India",
+          "geometry" : {
+             "bounds" : {
+                "northeast" : {
+                   "lat" : 30.9046691,
+                   "lng" : 75.9028383
+                },
+                "southwest" : {
+                   "lat" : 30.8463107,
+                   "lng" : 75.827916
+                }
+             },
+             "location" : {
+                "lat" : 30.8721582,
+                "lng" : 75.8359645
+             },
+             "location_type" : "APPROXIMATE",
+             "viewport" : {
+                "northeast" : {
+                   "lat" : 30.9046691,
+                   "lng" : 75.9028383
+                },
+                "southwest" : {
+                   "lat" : 30.8463107,
+                   "lng" : 75.827916
+                }
+             }
+          },
+          "place_id" : "ChIJVeDlPlmCGjkR86VapssRQiE",
+          "types" : [ "postal_code" ]
+       },
+       {
+          "address_components" : [
+             {
+                "long_name" : "Ludhiana",
+                "short_name" : "Ludhiana",
+                "types" : [ "locality", "political" ]
+             },
+             {
+                "long_name" : "Ludhiana",
+                "short_name" : "Ludhiana",
+                "types" : [ "administrative_area_level_2", "political" ]
+             },
+             {
+                "long_name" : "Punjab",
+                "short_name" : "PB",
+                "types" : [ "administrative_area_level_1", "political" ]
+             },
+             {
+                "long_name" : "India",
+                "short_name" : "IN",
+                "types" : [ "country", "political" ]
+             }
+          ],
+          "formatted_address" : "Ludhiana, Punjab, India",
+          "geometry" : {
+             "bounds" : {
+                "northeast" : {
+                   "lat" : 30.9621175,
+                   "lng" : 75.9538007
+                },
+                "southwest" : {
+                   "lat" : 30.8385729,
+                   "lng" : 75.7595458
+                }
+             },
+             "location" : {
+                "lat" : 30.900965,
+                "lng" : 75.8572758
+             },
+             "location_type" : "APPROXIMATE",
+             "viewport" : {
+                "northeast" : {
+                   "lat" : 30.9621175,
+                   "lng" : 75.9538007
+                },
+                "southwest" : {
+                   "lat" : 30.8385729,
+                   "lng" : 75.7595458
+                }
+             }
+          },
+          "place_id" : "ChIJfVo0YnSDGjkREAbGjjQCEWg",
+          "types" : [ "locality", "political" ]
+       },
+       {
+          "address_components" : [
+             {
+                "long_name" : "Ludhiana",
+                "short_name" : "Ludhiana",
+                "types" : [ "administrative_area_level_2", "political" ]
+             },
+             {
+                "long_name" : "Punjab",
+                "short_name" : "PB",
+                "types" : [ "administrative_area_level_1", "political" ]
+             },
+             {
+                "long_name" : "India",
+                "short_name" : "IN",
+                "types" : [ "country", "political" ]
+             }
+          ],
+          "formatted_address" : "Ludhiana, Punjab, India",
+          "geometry" : {
+             "bounds" : {
+                "northeast" : {
+                   "lat" : 31.01785,
+                   "lng" : 76.33107000000001
+                },
+                "southwest" : {
+                   "lat" : 30.55962,
+                   "lng" : 75.35759999999999
+                }
+             },
+             "location" : {
+                "lat" : 30.7713229,
+                "lng" : 75.99276519999999
+             },
+             "location_type" : "APPROXIMATE",
+             "viewport" : {
+                "northeast" : {
+                   "lat" : 31.01785,
+                   "lng" : 76.33107000000001
+                },
+                "southwest" : {
+                   "lat" : 30.55962,
+                   "lng" : 75.35759999999999
+                }
+             }
+          },
+          "place_id" : "ChIJM5i5EKSDGjkRvZRxHPibtAY",
+          "types" : [ "administrative_area_level_2", "political" ]
+       },
+       {
+          "address_components" : [
+             {
+                "long_name" : "Punjab",
+                "short_name" : "PB",
+                "types" : [ "administrative_area_level_1", "political" ]
+             },
+             {
+                "long_name" : "India",
+                "short_name" : "IN",
+                "types" : [ "country", "political" ]
+             }
+          ],
+          "formatted_address" : "Punjab, India",
+          "geometry" : {
+             "bounds" : {
+                "northeast" : {
+                   "lat" : 32.4994008,
+                   "lng" : 76.92175809999999
+                },
+                "southwest" : {
+                   "lat" : 29.537147,
+                   "lng" : 73.88057999999999
+                }
+             },
+             "location" : {
+                "lat" : 31.1471305,
+                "lng" : 75.34121789999999
+             },
+             "location_type" : "APPROXIMATE",
+             "viewport" : {
+                "northeast" : {
+                   "lat" : 32.4994008,
+                   "lng" : 76.92175809999999
+                },
+                "southwest" : {
+                   "lat" : 29.537147,
+                   "lng" : 73.88057999999999
+                }
+             }
+          },
+          "place_id" : "ChIJVXOeVqpkGTkRYYijAzEmvY8",
+          "types" : [ "administrative_area_level_1", "political" ]
+       },
+       {
+          "address_components" : [
+             {
+                "long_name" : "India",
+                "short_name" : "IN",
+                "types" : [ "country", "political" ]
+             }
+          ],
+          "formatted_address" : "India",
+          "geometry" : {
+             "bounds" : {
+                "northeast" : {
+                   "lat" : 35.513327,
+                   "lng" : 97.39535869999999
+                },
+                "southwest" : {
+                   "lat" : 6.4626999,
+                   "lng" : 68.1097
+                }
+             },
+             "location" : {
+                "lat" : 20.593684,
+                "lng" : 78.96288
+             },
+             "location_type" : "APPROXIMATE",
+             "viewport" : {
+                "northeast" : {
+                   "lat" : 35.513327,
+                   "lng" : 97.39535869999999
+                },
+                "southwest" : {
+                   "lat" : 6.4626999,
+                   "lng" : 68.1097
+                }
+             }
+          },
+          "place_id" : "ChIJkbeSa_BfYzARphNChaFPjNc",
+          "types" : [ "country", "political" ]
+       }
+    ],
+    "status" : "OK"
+ }
+ 

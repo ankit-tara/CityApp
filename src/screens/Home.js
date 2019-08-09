@@ -9,34 +9,64 @@ import Header from "../components/Header";
 import Ads from "../components/Ads";
 import styles from "../assets/style.js";
 import { getHomePageData, getLocationData } from "../Utils/Api";
-import DeviceInfo from "react-native-device-info";
+import {
+  locationLoadingStart,
+  locationLoadingStop
+} from "../redux/actions/locationLoading";
+import {
+  selectLocation,
+  unselectLocation
+} from "../redux/actions/authLocation";
+import Location from "../redux/modals/Location";
 import { PermissionsAndroid } from "react-native";
 import Geolocation from "react-native-geolocation-service";
 import Spinner from "react-native-spinkit";
 import { APP_ORANGE } from "../theme/colors";
+import { connect, useSelector } from "react-redux";
+import json from "../assets/sample-location.json";
+import { LOCATION_DATA } from "../Utils/constants";
+import AsyncStorage from "@react-native-community/async-storage";
+import moment from "moment";
 const Home = props => {
   const [loader, setloader] = useState(true);
   const [loadingMsg, setloadingMsg] = useState(null);
   const [bannerData, setBannerData] = useState([]);
   const [adData, setAdData] = useState([]);
   const [catData, setCatData] = useState([]);
+  const locationLoading = useSelector(state => state.locationLoading);
+  const authLocation = useSelector(state => state.authLocation);
 
   useEffect(() => {
-    checkGranted();
-    // getGlobalData();
+    props.locationLoadingStart();
+    loadPageData();
+    // checkGranted();
     SplashScreen.hide();
   }, [false]);
 
+  const loadPageData = async () => {
+    const value = await AsyncStorage.getItem(LOCATION_DATA);
+    if (value) {
+      let currentTime = new moment();
+      let data = JSON.parse(value);
+      let dataStoredTime = new moment(data.time);
+      let timeDiff = currentTime.diff(dataStoredTime, "minutes");
+      console.log(timeDiff);
+      if (timeDiff < 120) {
+        setloadingMsg(`Getting location data of ${data.data.city}`);
+        console.log("get data from stiorage");
+        getCityData(data.data.city);
+        return;
+      }
+    }
+    console.log("get data from api");
+
+    checkGranted();
+  };
   const checkGranted = async () => {
     try {
       setloadingMsg("Checking your location");
       const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: "City",
-          message:
-            "Allow Access to location so that we can show you the personlised data."
-        }
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         Geolocation.getCurrentPosition(
@@ -44,7 +74,9 @@ const Home = props => {
             let value = `${position.coords.latitude},${
               position.coords.longitude
             }`;
-            getCityData("Abohar");
+            getLocationData(value)
+              .then(handleLocationData)
+              .catch(e => getGlobalData());
           },
           error => {
             getGlobalData();
@@ -60,6 +92,7 @@ const Home = props => {
       }
     } catch (err) {
       console.warn(err);
+      getGlobalData();
     }
   };
 
@@ -69,6 +102,7 @@ const Home = props => {
       .catch(e => console.log(e));
     setloader(false);
     setloadingMsg("");
+    props.locationLoadingStop();
   };
 
   const getCityData = city => {
@@ -77,14 +111,22 @@ const Home = props => {
       .catch(e => console.log(e));
     setloader(false);
     setloadingMsg("");
+    props.locationLoadingStop();
   };
 
-  const handleLocationData = data => {
+  const handleLocationData = async data => {
     if (data.status == "OK") {
-      var cityName = data.results[0].address_components.filter(
-        x => x.types.filter(t => t == "administrative_area_level_2").length > 0
-      )[0].short_name;
-      getCityData(cityName);
+      let data = new Location(json);
+      setloadingMsg(`Getting location data of ${data.city}`);
+
+      let storage_data = {
+        data: data,
+        time: new Date()
+      };
+
+      await AsyncStorage.setItem(LOCATION_DATA, JSON.stringify(storage_data));
+      props.selectLocation(data);
+      getCityData(data.city);
     } else {
       getGlobalData();
     }
@@ -127,12 +169,15 @@ const Home = props => {
     <View style={styles.flex}>
       <ScrollView>
         <Banner data={bannerData} />
+        {/* <Text>{locationLoading.toString()}</Text> */}
+
         <BlockHeader heading="Categories" onLinkPress={ShowAllTags} />
         <Tags {...props} />
         {adData && <Ads images={adData} />}
         {catData.length > 0 &&
           catData.map(cat => {
             cat.tag.id = cat.tag.term_id;
+            if (cat.posts.length <= 0) return;
             return (
               <View key={cat.tag.term_id}>
                 <BlockHeader
@@ -173,4 +218,21 @@ const Home = props => {
 Home.navigationOptions = {
   header: <Header />
 };
-export default Home;
+// export default Home;
+
+const mapStateToProps = state => ({
+  locationLoading: state.locationLoading,
+  authLocation: state.authLocation
+});
+
+const mapDispatchToProps = dispatch => ({
+  locationLoadingStart: () => dispatch(locationLoadingStart()),
+  locationLoadingStop: () => dispatch(locationLoadingStop()),
+  selectLocation: locationData => dispatch(selectLocation(locationData)),
+  unselectLocation: () => dispatch(unselectLocation())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);

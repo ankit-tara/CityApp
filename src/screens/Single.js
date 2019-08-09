@@ -13,6 +13,9 @@ import Collapsible from "react-native-collapsible";
 import Lightbox from "react-native-lightbox";
 import { strip_html_tags } from "../Utils/Helpers";
 import { M_BOLD } from "../theme/fonts";
+import Banner from "../components/Banner";
+import Swiper from 'react-native-swiper'
+import { APP_ORANGE } from "../theme/colors";
 
 export default class Single extends Component {
   constructor(props) {
@@ -20,15 +23,15 @@ export default class Single extends Component {
 
     this.state = {
       isCollapsed: true,
-      post:props.navigation.state.params.post
+      post: props.navigation.state.params.post
     };
   }
 
   render() {
-    const { isCollapsed ,post} = this.state;
-   console.log(post)
-   console.log('post')
-  if(!post) return null
+    const { isCollapsed, post } = this.state;
+    console.log(post);
+    console.log("post");
+    if (!post) return null;
 
     return (
       <View style={{ flex: 1 }}>
@@ -36,8 +39,7 @@ export default class Single extends Component {
           <ImageBackground
             style={styles.featured}
             source={{
-              uri:post.fimg_url
-                
+              uri: post.fimg_url
             }}
           >
             <View style={styles.overlay}>
@@ -57,7 +59,7 @@ export default class Single extends Component {
                 <Text style={styles.iconText}>More Information</Text>
               </View>
               <Text style={styles.results}>
-               {strip_html_tags(post.content.rendered)}
+                {strip_html_tags(post.content.rendered)}
               </Text>
             </View>
             <View style={styles.detailBox}>
@@ -65,9 +67,7 @@ export default class Single extends Component {
                 <Icon name="map" size={20} color="#000" style={styles.Icon} />
                 <Text style={styles.iconText}>Address</Text>
               </View>
-              <Text style={styles.results}>
-               {post.acf.address}
-              </Text>
+              <Text style={styles.results}>{post.acf.address}</Text>
             </View>
             <View style={styles.detailBox}>
               <View style={styles.flex}>
@@ -96,27 +96,21 @@ export default class Single extends Component {
               </View>
               <Collapsible collapsed={isCollapsed}>
                 <View>
+                  <Text style={styles.results}>Monday: {post.acf.monday}</Text>
                   <Text style={styles.results}>
-                    Monday: {post.acf.monday}
+                    Tuesday: {post.acf.tuesday}
                   </Text>
                   <Text style={styles.results}>
-                    Tuesday:  {post.acf.tuesday}
+                    Wednesday: {post.acf.wednesday}
                   </Text>
                   <Text style={styles.results}>
-                    Wednesday:  {post.acf.wednesday}
+                    Thursday: {post.acf.thursday}
                   </Text>
+                  <Text style={styles.results}>Friday: {post.acf.friday}</Text>
                   <Text style={styles.results}>
-                    Thursday:  {post.acf.thursday}
+                    Saturday: {post.acf.saturday}
                   </Text>
-                  <Text style={styles.results}>
-                    Friday:  {post.acf.friday}
-                  </Text>
-                  <Text style={styles.results}>
-                    Saturday:  {post.acf.saturday}
-                  </Text>
-                  <Text style={styles.results}>
-                    Sunday:  {post.acf.sunday}
-                  </Text>
+                  <Text style={styles.results}>Sunday: {post.acf.sunday}</Text>
                 </View>
               </Collapsible>
             </View>
@@ -126,7 +120,29 @@ export default class Single extends Component {
                 <Text style={styles.iconText}>Images</Text>
               </View>
               <View style={styles.gallery}>
-                <Lightbox underlayColor="white" styles={styles.Lightbox}>
+                {post.acf.images && (
+                  <Swiper
+                    // style={styles.wrapper}
+                    height={180}
+                    dot={<View style={[styles.dot, styles.dotStyle]} />}
+                    activeDot={<View style={[styles.dot, styles.activeDot]} />}
+                    // paginationStyle={{
+                    //   bottom: -7
+                    // }}
+                    loop
+                  >
+                    {post.acf.images.map(img => (
+                      <View style={{flex:1}} key={`img-${img.image.ID}`}>
+                        <Image
+                          resizeMode="cover"
+                          style={styles.image}
+                          source={{ uri: img.image }}
+                        />
+                      </View>
+                    ))}
+                  </Swiper>
+                )}
+                {/* <Lightbox underlayColor="white" styles={styles.Lightbox}>
                   <Image
                     style={styles.contain}
                     resizeMode="contain"
@@ -155,7 +171,7 @@ export default class Single extends Component {
                         "https://www.yayomg.com/wp-content/uploads/2014/04/yayomg-pig-wearing-party-hat.jpg"
                     }}
                   />
-                </Lightbox>
+                </Lightbox> */}
               </View>
             </View>
           </View>
@@ -165,14 +181,14 @@ export default class Single extends Component {
   }
 }
 Single.navigationOptions = {
-  title: 'Place',
+  title: "Place",
   headerTitleStyle: {
     textAlign: "center",
     alignSelf: "center",
     flex: 1,
-    fontFamily:M_BOLD,
+    fontFamily: M_BOLD
   },
-  headerRight:<View/>
+  headerRight: <View />
 };
 const styles = StyleSheet.create({
   gallery: {
@@ -201,7 +217,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 24,
     fontWeight: "bold",
-    textTransform:'capitalize'
+    textTransform: "capitalize"
   },
   detailBox: {
     paddingVertical: 15,
@@ -220,5 +236,25 @@ const styles = StyleSheet.create({
   iconText: {
     fontWeight: "bold",
     fontSize: 16
+  },
+  image: {
+    width:'100%',
+    height:200,
+    flex: 1
+  },
+  dot: {
+    borderRadius: 12,
+    margin: 3
+  },
+  dotStyle: {
+    backgroundColor: '#fff',
+    width: 8,
+    height: 8,
+
+  },
+  activeDot: {
+    backgroundColor: APP_ORANGE,
+    width: 12,
+    height: 12,
   }
 });

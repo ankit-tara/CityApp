@@ -38,12 +38,16 @@ const SearchStack = createStackNavigator({
   ShowAllTags: ShowAllTags,
   Single: Single
 });
+const PlacesStack = createStackNavigator({
+  Places: Places,
+  Single: Single
+});
 
 const TabNavigator = createBottomTabNavigator(
   {
     Home: HomeStack,
     Search: SearchStack,
-    Places,
+    Places:PlacesStack,
     Cities: CitiesStack
   },
   {

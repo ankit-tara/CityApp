@@ -51,10 +51,10 @@ const Home = props => {
       let dataStoredTime = new moment(data.time);
       let timeDiff = currentTime.diff(dataStoredTime, "minutes");
       console.log(timeDiff);
-      if (timeDiff < 120) {
+      if (timeDiff < 30) {
         setloadingMsg(`Getting location data of ${data.data.city}`);
         console.log("get data from stiorage");
-        getCityData(data.data.city);
+        getCityData(data.data);
         return;
       }
     }
@@ -105,8 +105,11 @@ const Home = props => {
     props.locationLoadingStop();
   };
 
-  const getCityData = city => {
-    getHomePageData(city)
+  const getCityData = data => {
+    console.log('authLocation')
+    console.log(authLocation)
+    props.selectLocation(data);
+    getHomePageData(data.city)
       .then(setHomePageData)
       .catch(e => console.log(e));
     setloader(false);
@@ -125,8 +128,8 @@ const Home = props => {
       };
 
       await AsyncStorage.setItem(LOCATION_DATA, JSON.stringify(storage_data));
-      props.selectLocation(data);
-      getCityData(data.city);
+      
+      getCityData(data);
     } else {
       getGlobalData();
     }

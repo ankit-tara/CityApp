@@ -107,8 +107,21 @@ export function searchTags(searchText,perpage=10,currentpage=1) {
 /**
  * get Tags List
  */
-export function searchGlobal(searchText='',perpage=10,currentpage=1) {
-    let url = `${API_INITIAL}/search-global?s=${searchText}`
+export function searchGlobal(searchText='',city='',perpage=10,currentpage=1) {
+    let url = `${API_INITIAL}/search-global?s=${searchText}&city=${city}`
+    console.log(url)
+    return fetch(url)
+        .then(response => response.json())
+        .catch(error => {
+            throw error;
+        });
+}
+
+/**
+ * get post by category
+ */
+export function getPostByCategoryName(name,currentpage=1,perpage=10) {
+    let url = `${API_INITIAL}/posts?filter[category_name]=${name}&per_page=${perpage}&page=${currentpage}`
     console.log(url)
     return fetch(url)
         .then(response => response.json())

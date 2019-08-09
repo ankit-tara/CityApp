@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { Placeholder, PlaceholderLine, Fade } from "rn-placeholder";
 
-const BannerPlaceholder = () => (
+const CategoryPlaceholder = () => (
   <View style={{ height: 100 }}>
     <Placeholder Animation={Fade}>
       <View style={{ flexDirection: "row", flex: 1 }}>
@@ -26,4 +26,4 @@ const BannerPlaceholder = () => (
   </View>
 );
 
-export default BannerPlaceholder;
+export default CategoryPlaceholder;

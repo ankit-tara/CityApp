@@ -15,6 +15,9 @@ import { M_BOLD, M_Regular } from "../theme/fonts";
 import { searchGlobal } from "../Utils/Api";
 import SearchBar from "../components/SearchBar";
 import { APP_ORANGE } from "../theme/colors";
+import Placeholder from "../placeholder/ExplorePlaceholder"
+import {  useSelector } from "react-redux";
+
 const Explore = props => {
   const [data, setdata] = useState({});
   const [defaultData, setdefaultData] = useState([]);
@@ -22,11 +25,16 @@ const Explore = props => {
   const [currentSearchpage, setcurrentSearchpage] = useState(0);
   const [loadMore, setloadMore] = useState(false);
   const [isSearching, setisSearching] = useState(false);
+  const [loading, setloading] = useState(true);
+  const authLocation = useSelector(state => state.authLocation);
+  
   useEffect(() => {
-    searchGlobal()
+    let city = authLocation.city
+    searchGlobal('',city)
       .then(data => {
         setdata(data);
         setdefaultData(data);
+        setloading(false)
       })
       .catch(e => console.log(e));
   }, []);
@@ -49,6 +57,7 @@ const Explore = props => {
       })
       .catch(e => console.log(e));
   };
+  
 
   return (
     <View style={{ flex: 1, marginHorizontal: 20 }}>
@@ -59,8 +68,10 @@ const Explore = props => {
           color={APP_ORANGE}
         />
       )}
+      
       <ScrollView>
         <Text style={styles.suggestedHeading}>Suggested :</Text>
+        {loading && <Placeholder/>}
         {data && data.posts && data.posts.length > 0 && (
           <View style={styles.typeContainer}>
             <Text style={styles.heading}>Places:</Text>

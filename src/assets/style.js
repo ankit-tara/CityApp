@@ -41,6 +41,12 @@ export default StyleSheet.create({
     fontFamily: M_BOLD,
     textTransform: "uppercase"
   },
+  cityheading:{
+    fontSize: 16,
+    fontFamily: M_BOLD,
+    paddingLeft:10,
+    textTransform: "uppercase"
+  },
   headingCatAll: {
     fontSize: 25,
     // fontWeight: "bold",

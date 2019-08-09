@@ -47,7 +47,7 @@ const TabNavigator = createBottomTabNavigator(
   {
     Home: HomeStack,
     Search: SearchStack,
-    Places:PlacesStack,
+    Nearby:PlacesStack,
     Cities: CitiesStack
   },
   {
@@ -62,7 +62,7 @@ const TabNavigator = createBottomTabNavigator(
         if (routeName === "Search") {
           return <Icon name="magnifying-glass" size={25} color={color} />;
         }
-        if (routeName === "Places") {
+        if (routeName === "Nearby") {
           return <Icon name="location" size={25} color={color} />;
         }
         if (routeName === "Cities") {

@@ -82,12 +82,13 @@ if(loading){
               </View>
               <View style={styles.right}>
                 <Text style={styles.title}>{post.item.title.rendered}</Text>
+                {post.item.content.rendered !='' && (
                 <Text style={styles.description}>
                   {text_truncate(
                     strip_html_tags(post.item.content.rendered),
                     75
                   )}
-                </Text>
+                </Text>)}
               </View>
             </View>
           </TouchableOpacity>
@@ -369,7 +370,8 @@ const styles = StyleSheet.create({
     shadowColor: "black",
     shadowOpacity: 1.0,
     shadowRadius: 15,
-    elevation: 2
+    elevation: 2,
+    alignItems:'center'
   },
   left: {
     paddingVertical: 15,
@@ -381,6 +383,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     paddingVertical: 15,
     paddingHorizontal: 5,
+    justifyContent:'center',
     flex: 2
   },
   title: {

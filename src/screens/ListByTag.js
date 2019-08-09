@@ -120,12 +120,14 @@ const ListByTag = props => {
                       <Text style={styles.title}>
                         {post.item.title.rendered}
                       </Text>
+                      {post.item.content.rendered != '' && (
                       <Text style={styles.description}>
                         {text_truncate(
                           strip_html_tags(post.item.content.rendered),
                           75
                         )}
-                      </Text>
+                      </Text>)}
+
                     </View>
                   </View>
                   </TouchableOpacity>

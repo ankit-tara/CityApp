@@ -9,7 +9,7 @@ const Ads = ({ images }) => {
     <View style={styles.container}>
       <Text style={styles.adHeading}>Sponsered ads</Text>
       {images.length > 0 && (
-        <Swiper
+        <Swiper autoplay={true}  autoplayTimeout={5} 
           style={styles.wrapper}
           height={120}
           showsButton={true}

@@ -13,6 +13,9 @@ import SingleCard from "../components/SingleCard";
 import SearchBar from "../components/SearchBar";
 import Header from "../components/Header";
 import { APP_ORANGE } from "../theme/colors.js";
+import Icon from "react-native-vector-icons/dist/FontAwesome5";
+import Placeholder from "../placeholder/CityPlaceholder"
+
 
 const ShowAllCities = props => {
   const per_page = 21;
@@ -23,12 +26,15 @@ const ShowAllCities = props => {
   const [currentSearchpage, setcurrentSearchpage] = useState(0);
   const [loadMore, setloadMore] = useState(false);
   const [isSearching, setisSearching] = useState(false);
+  const [loading, setloading] = useState(true);
+
 
   useEffect(() => {
     getCategories(per_page)
       .then(data => {
         setcategories(data);
         setdefaultData(data);
+        setloading(false)
       })
       .catch(e => console.log(e));
   }, [false]);
@@ -94,18 +100,20 @@ const ShowAllCities = props => {
       <SearchBar placeholder="Search City" onChangeText={handleSearch}/>
       <View style={[{ paddingHorizontal: 10 }]}>
         {isSearching && <ActivityIndicator style={{ marginLeft: 8,alignSelf:'center' }} color={APP_ORANGE} />}
-        <View style={[styles.row, styles.wrap]}>
+        {loading && <Placeholder/>}
+        <View>
           {categories.map(cat => (
             <TouchableOpacity
               key={`cat-${cat.id}`}
               onPress={() => handleOnpress(cat)}
               style={styles.singleCity}
             >
-              <SingleCard
+              {/* <SingleCard
                 image={cat.acf.taxonomy_image}
                 title={cat.name}
                 showText={true}
-              />
+              /> */}
+              <Text style={styles.cityheading}><Icon style={{marginRight :30}} name="city" size={14} color='#ec9902'/>   {cat.name}</Text>
             </TouchableOpacity>
           ))}
         </View>

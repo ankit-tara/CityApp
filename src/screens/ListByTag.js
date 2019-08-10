@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   FlatList,
+  Animated,
   ActivityIndicator,
   StyleSheet,
   Image
@@ -22,6 +23,7 @@ const ListByTag = props => {
   const [posts, setposts] = useState([]);
   const [currentpage, setcurrentpage] = useState(1);
   const [loadMore, setloadMore] = useState(false);
+  const scrollY  = new Animated.Value(0)
 
   useEffect(() => {
     if (props.navigation.state.params.item) {
@@ -47,12 +49,19 @@ const ListByTag = props => {
       .catch(e => console.log(e));
   };
 
+  isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+    const paddingToBottom = 20
+    return layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom
+  }
+
+
   renderFooter = () => {
     if (!posts.length || posts.length<10) return null;
     return (
-      //Footer View with Load More button
+     // Footer View with Load More button
       <View style={styles.footer}>
-        <TouchableOpacity
+       {/* <TouchableOpacity
           activeOpacity={0.9}
           onPress={() => loadMoreData()}
           //On Click of button calling loadMoreData function to load more data
@@ -60,7 +69,8 @@ const ListByTag = props => {
         >
           <Text style={styles.btnText}>Load More</Text>
           {loadMore && <ActivityIndicator style={{ marginLeft: 8 }} color={APP_ORANGE} />}
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+      {loadMore && <ActivityIndicator style={{ marginLeft: 8 }} color={APP_ORANGE} />}
       </View>
     );
   };
@@ -74,7 +84,18 @@ const ListByTag = props => {
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView style={{ marginBottom: 50 }}>
+      <ScrollView style={{ marginBottom: 50 }}
+    scrollEventThrottle={16}
+    onScroll={Animated.event(
+      [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+      {
+        listener: event => {
+          if (this.isCloseToBottom(event.nativeEvent)) {
+            this.loadMoreData()
+          }
+        }
+      }
+    )}     >
         <View style={styles.wrapper}>
           {tag && (
             <View>

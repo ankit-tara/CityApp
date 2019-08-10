@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   FlatList,
+  Animated,
   ActivityIndicator
 } from "react-native";
 import styles from "../assets/style.js";
@@ -27,7 +28,7 @@ const ShowAllCities = props => {
   const [loadMore, setloadMore] = useState(false);
   const [isSearching, setisSearching] = useState(false);
   const [loading, setloading] = useState(true);
-
+  const scrollY  = new Animated.Value(0)
 
   useEffect(() => {
     getCategories(per_page)
@@ -63,7 +64,7 @@ const ShowAllCities = props => {
     return (
       //Footer View with Load More button
       <View style={[styles.row,styles.footer]}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           activeOpacity={0.9}
           onPress={loadMoreData}
           //On Click of button calling loadMoreData function to load more data
@@ -71,10 +72,18 @@ const ShowAllCities = props => {
         >
           <Text style={styles.btnText}>Show More</Text>
           {loadMore && <ActivityIndicator style={{ marginLeft: 8 }} color={APP_ORANGE} />}
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        {loadMore && <ActivityIndicator style={{ marginLeft: 8 }} color={APP_ORANGE} />}
+
       </View>
     );
   };
+
+  isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+    const paddingToBottom = 20
+    return layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom
+  }
 
   handleSearch=(text)=>{
     setisSearching(true)
@@ -96,7 +105,18 @@ const ShowAllCities = props => {
   }
   
   return (
-    <ScrollView>
+    <ScrollView  
+    scrollEventThrottle={16}
+    onScroll={Animated.event(
+      [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+      {
+        listener: event => {
+          if (this.isCloseToBottom(event.nativeEvent)) {
+            this.loadMoreData()
+          }
+        }
+      }
+    )}     >
       <SearchBar placeholder="Search City" onChangeText={handleSearch}/>
       <View style={[{ paddingHorizontal: 10 }]}>
         {isSearching && <ActivityIndicator style={{ marginLeft: 8,alignSelf:'center' }} color={APP_ORANGE} />}

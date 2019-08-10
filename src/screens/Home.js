@@ -37,10 +37,10 @@ const Home = props => {
   const authLocation = useSelector(state => state.authLocation);
 
   useEffect(() => {
+    SplashScreen.hide();
     props.locationLoadingStart();
     loadPageData();
     // checkGranted();
-    SplashScreen.hide();
   }, [false]);
 
   const loadPageData = async () => {

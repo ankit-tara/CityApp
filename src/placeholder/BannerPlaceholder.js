@@ -10,7 +10,7 @@ const BannerPlaceholder = () => (
         width={100}
         height={180}
         style={{ borderRadius: 0 }}
-        color={APP_ORANGE}
+        // color={APP_ORANGE}
       />
     </Placeholder>
   </View>

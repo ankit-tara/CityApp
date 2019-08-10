@@ -9,7 +9,7 @@ const CategoryPlaceholder = () => (
         <PlaceholderLine
           width={30}
           height={100}
-          style={{ borderRadius: 0, marginRight: 10 }}
+          style={{ borderRadius: 0, marginHorizontal: 10 }}
         />
         <PlaceholderLine
           width={30}

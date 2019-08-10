@@ -24,6 +24,7 @@ const ShowAllTags = props => {
   const [currentSearchpage, setcurrentSearchpage] = useState(0);
   const [loadMore, setloadMore] = useState(false);
   const [isSearching, setisSearching] = useState(false);
+  const [postEnd, setpostEnd] = useState(false);
   const scrollY  = new Animated.Value(0)
 
   useEffect(() => {
@@ -51,6 +52,10 @@ const ShowAllTags = props => {
         settags(new_data);
         setdefaultData(data);
         setloadMore(false);
+        console.log(data.length)
+        if(data.length<=0){
+          setpostEnd(true)
+        }
       })
       .catch(e => console.log(e));
   };
@@ -102,11 +107,11 @@ const ShowAllTags = props => {
   return (
     <ScrollView
     scrollEventThrottle={16}
-    onScroll={Animated.event(
+    onMomentumScrollEnd={Animated.event(
       [{ nativeEvent: { contentOffset: { y: scrollY } } }],
       {
         listener: event => {
-          if (this.isCloseToBottom(event.nativeEvent)) {
+          if (this.isCloseToBottom(event.nativeEvent)&&!postEnd) {
             this.loadMoreData()
           }
         }

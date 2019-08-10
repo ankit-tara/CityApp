@@ -15,8 +15,7 @@ import SearchBar from "../components/SearchBar";
 import Header from "../components/Header";
 import { APP_ORANGE } from "../theme/colors.js";
 import Icon from "react-native-vector-icons/dist/FontAwesome5";
-import Placeholder from "../placeholder/CityPlaceholder"
-
+import Placeholder from "../placeholder/CityPlaceholder";
 
 const ShowAllCities = props => {
   const per_page = 21;
@@ -28,14 +27,16 @@ const ShowAllCities = props => {
   const [loadMore, setloadMore] = useState(false);
   const [isSearching, setisSearching] = useState(false);
   const [loading, setloading] = useState(true);
-  const scrollY  = new Animated.Value(0)
+  const [postEnd, setpostEnd] = useState(false);
+
+  const scrollY = new Animated.Value(0);
 
   useEffect(() => {
     getCategories(per_page)
       .then(data => {
         setcategories(data);
         setdefaultData(data);
-        setloading(false)
+        setloading(false);
       })
       .catch(e => console.log(e));
   }, [false]);
@@ -56,6 +57,9 @@ const ShowAllCities = props => {
         setcategories(new_data);
         setdefaultData(data);
         setloadMore(false);
+        if (data.length <= 0) {
+          setpostEnd(true);
+        }
       })
       .catch(e => console.log(e));
   };
@@ -63,7 +67,7 @@ const ShowAllCities = props => {
   renderFooter = () => {
     return (
       //Footer View with Load More button
-      <View style={[styles.row,styles.footer]}>
+      <View style={[styles.row, styles.footer]}>
         {/* <TouchableOpacity
           activeOpacity={0.9}
           onPress={loadMoreData}
@@ -73,54 +77,63 @@ const ShowAllCities = props => {
           <Text style={styles.btnText}>Show More</Text>
           {loadMore && <ActivityIndicator style={{ marginLeft: 8 }} color={APP_ORANGE} />}
         </TouchableOpacity> */}
-        {loadMore && <ActivityIndicator style={{ marginLeft: 8 }} color={APP_ORANGE} />}
-
+        {loadMore && (
+          <ActivityIndicator style={{ marginLeft: 8 }} color={APP_ORANGE} />
+        )}
       </View>
     );
   };
 
-  isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
-    const paddingToBottom = 20
-    return layoutMeasurement.height + contentOffset.y >=
+  isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+    const paddingToBottom = 40;
+    return (
+      layoutMeasurement.height + contentOffset.y >=
       contentSize.height - paddingToBottom
-  }
+    );
+  };
 
-  handleSearch=(text)=>{
-    setisSearching(true)
-    if(!text){
-      setcategories(defaultData)
+  handleSearch = text => {
+    setisSearching(true);
+    if (!text) {
+      setcategories(defaultData);
       setisSearching(false);
-      return
+      return;
     }
-   
-    searchCategories(text,per_page, currentSearchpage + 1)
-    .then(data => {
-      // let new_data = searchData.concat(data);
-      // setcurrentSearchpage(currentSearchpage + 1);
-      setsearcgData(data);
-      setcategories(data);
-      setisSearching(false);
-    })
-    .catch(e => console.log(e));
-  }
-  
+
+    searchCategories(text, per_page, currentSearchpage + 1)
+      .then(data => {
+        // let new_data = searchData.concat(data);
+        // setcurrentSearchpage(currentSearchpage + 1);
+        setsearcgData(data);
+        setcategories(data);
+        setisSearching(false);
+      })
+      .catch(e => console.log(e));
+  };
+
   return (
-    <ScrollView  
-    scrollEventThrottle={16}
-    onScroll={Animated.event(
-      [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-      {
-        listener: event => {
-          if (this.isCloseToBottom(event.nativeEvent)) {
-            this.loadMoreData()
+    <ScrollView
+      scrollEventThrottle={16}
+      onMomentumScrollEnd={Animated.event(
+        [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+        {
+          listener: event => {
+            if (this.isCloseToBottom(event.nativeEvent) && !postEnd) {
+              this.loadMoreData();
+            }
           }
         }
-      }
-    )}     >
-      <SearchBar placeholder="Search City" onChangeText={handleSearch}/>
+      )}
+    >
+      <SearchBar placeholder="Search City" onChangeText={handleSearch} />
       <View style={[{ paddingHorizontal: 10 }]}>
-        {isSearching && <ActivityIndicator style={{ marginLeft: 8,alignSelf:'center' }} color={APP_ORANGE} />}
-        {loading && <Placeholder/>}
+        {isSearching && (
+          <ActivityIndicator
+            style={{ marginLeft: 8, alignSelf: "center" }}
+            color={APP_ORANGE}
+          />
+        )}
+        {loading && <Placeholder />}
         <View>
           {categories.map(cat => (
             <TouchableOpacity
@@ -133,17 +146,25 @@ const ShowAllCities = props => {
                 title={cat.name}
                 showText={true}
               /> */}
-              <Text style={styles.cityheading}><Icon style={{marginRight :30}} name="city" size={14} color='#ec9902'/>   {cat.name}</Text>
+              <Text style={styles.cityheading}>
+                <Icon
+                  style={{ marginRight: 30 }}
+                  name="city"
+                  size={14}
+                  color="#ec9902"
+                />{" "}
+                {cat.name}
+              </Text>
             </TouchableOpacity>
           ))}
         </View>
-        
-        {categories && categories.length >=21&& renderFooter()}
+
+        {categories && categories.length >= 21 && renderFooter()}
       </View>
     </ScrollView>
   );
 };
 ShowAllCities.navigationOptions = {
-  header: <Header/>
+  header: <Header />
 };
 export default ShowAllCities;

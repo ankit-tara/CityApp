@@ -1,4 +1,4 @@
-package com.cityapp;
+package com.siricityapp;
 
 import android.app.Application;
 import android.util.Log;

@@ -20,7 +20,7 @@ const WhatsAppModal = ({ isOpen = false, closeModal, numbers = [] }) => {
     >
       <View style={styles.container}>
         <View style={styles.box}>
-          <Text>Choose a number</Text>
+          <Text style={{textAlign:'center'}}>Choose a number</Text>
           {numbers.map(number => (
             <TouchableOpacity
               onPress={() => Linking.openURL(`whatsapp://send?phone=${number}`)}
@@ -31,8 +31,10 @@ const WhatsAppModal = ({ isOpen = false, closeModal, numbers = [] }) => {
             </TouchableOpacity>
           ))}
         </View>
+        <TouchableOpacity onPress={closeModal} style={styles.close}>
+        <Icon name="cross" size={35} color="#fff" style={styles.Icon} />
+        </TouchableOpacity>
       </View>
-      <Text>hello</Text>
     </Modal>
   );
 };
@@ -43,17 +45,34 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal: 20,
-    marginVertical: 20
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    backgroundColor:'rgba(0,0,0,0.7)'
+
   },
   box: {
     backgroundColor: "#fff",
-    paddingHorizontal: 20,
-    paddingVertical: 20
+    paddingHorizontal: 30,
+    paddingVertical: 30,
+    shadowOffset: { width: 10, height: 10 },
+    shadowColor: "black",
+    shadowOpacity: 1.0,
+    shadowRadius: 15,
+    elevation: 7,
+    position:'relative',
   },
-  number: {
-    padding: 10,
+  number:{
+    marginTop:10,
+  },
+  text: {
+    paddingHorizontal: 10,
+    paddingVertical:3,
     fontSize: 20,
-    fontFamily: M_BOLD
+    fontFamily: M_BOLD,
+  },
+  close:{
+    position:'absolute',
+    top:'30%',
+    right:50,
   }
 });

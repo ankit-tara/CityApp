@@ -20,6 +20,7 @@ import Swiper from "react-native-swiper";
 import { APP_ORANGE } from "../theme/colors";
 import ImageModal from "../components/ImageModal";
 import WhatsAppModal from "../components/WhatsAppModal";
+import moment from 'moment'
 
 const Single = props => {
   const [isCollapsed, setisCollapsed] = useState(true);
@@ -130,28 +131,22 @@ const Single = props => {
               <Text style={styles.iconText}>Contact </Text>
             </View>
             <Text style={styles.results}>{post.acf.contact_no}</Text>
-            <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity
+            <View style={[{ flexDirection: "row" },styles.buttons]}>
+              <TouchableOpacity style={styles.call}
                 onPress={() => Linking.openURL(`tel:${post.acf.contact_no}`)}
               >
-                <Text style={styles.iconText}>
-                  <Icon
-                    name="phone"
-                    size={20}
-                    color="#0274f1"
-                    style={styles.Icon}
-                  />
+              <Icon name="phone" size={17} color="#fff" style={styles.btnIcon} />
+                <Text style={styles.btnText}>
                   Call{" "}
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => gotoWhatsApp()}>
-                <Text style={styles.iconText}>
-                  <Icon
-                    name="whatsapp"
-                    size={20}
-                    color="#25D366"
-                    style={styles.Icon}
+              <TouchableOpacity  style={styles.whatsapp} onPress={() => gotoWhatsApp()}>
+              <Icon name="whatsapp"
+                    size={18}
+                    color="#fff"
+                    style={styles.btnIcon}
                   />
+                <Text style={styles.btnText}>
                   Whatsapp{" "}
                 </Text>
               </TouchableOpacity>
@@ -177,19 +172,13 @@ const Single = props => {
             </View>
             <Collapsible collapsed={isCollapsed}>
               <View>
-                <Text style={styles.results}>Monday: {post.acf.monday}</Text>
-                <Text style={styles.results}>Tuesday: {post.acf.tuesday}</Text>
-                <Text style={styles.results}>
-                  Wednesday: {post.acf.wednesday}
-                </Text>
-                <Text style={styles.results}>
-                  Thursday: {post.acf.thursday}
-                </Text>
-                <Text style={styles.results}>Friday: {post.acf.friday}</Text>
-                <Text style={styles.results}>
-                  Saturday: {post.acf.saturday}
-                </Text>
-                <Text style={styles.results}>Sunday: {post.acf.sunday}</Text>
+                {/* <Text style={styles.results}>Monday: {moment().format(post.acf.monday.opens_at)-moment().format(post.acf.monday.closes_at) }</Text>
+                <Text style={styles.results}>Tuesday: {moment().format(post.acf.tuesday.opens_at)-moment().format(post.acf.tuesday.closes_at) }</Text>
+                <Text style={styles.results}>Wednesday: {moment().format(post.acf.wednesday.opens_at)-moment().format(post.acf.wednesday.closes_at) }</Text>
+                <Text style={styles.results}>Thursday: {moment().format(post.acf.thursday.opens_at)-moment().format(post.acf.thursday.closes_at) }</Text>
+                <Text style={styles.results}>Friday: {moment().format(post.acf.friday.opens_at)-moment().format(post.acf.friday.closes_at) }</Text>
+                <Text style={styles.results}>Saturday: {moment().format(post.acf.saturday.opens_at)-moment().format(post.acf.saturday.closes_at) }</Text>
+                <Text style={styles.results}>Sunday: {moment().format(post.acf.sunday.opens_at)-moment().format(post.acf.sunday.closes_at) }</Text> */}
               </View>
             </Collapsible>
           </View>
@@ -321,5 +310,36 @@ const styles = StyleSheet.create({
   },
   results: {
     paddingLeft: 20
+  },
+  buttons:{
+    paddingVertical:6,
+    flexDirection: "row",
+    justifyContent:'flex-start',
+    alignItems:'center',
+    paddingLeft:20
+  },
+  call:{
+    backgroundColor:'#0274f1',
+    paddingHorizontal:7,
+    paddingVertical:5,
+    borderRadius:3,
+    flexDirection: "row",
+
+  },
+  whatsapp:{
+    backgroundColor:'#25D366',
+    paddingHorizontal:7,
+    paddingVertical:5,
+    borderRadius:3,
+    marginLeft:10,
+    flexDirection: "row",
+
+  },
+  btnIcon:{
+    marginRight: 4
+  },
+  btnText:{
+    color:'#fff',
+    fontWeight:'bold',
   }
 });

@@ -14,7 +14,7 @@ const SearchBar = ({ onChangeText, placeholder }) => {
     settypingTimeout(
       setTimeout(function() {
         onChangeText && onChangeText(text);
-      }, 5000)
+      }, 2000)
     );
   };
 

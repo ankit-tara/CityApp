@@ -83,6 +83,8 @@ const Explore = props => {
                       post: item
                     })
                   }
+                  key={`post-${item.id}`}
+
                 >
                   {renderTags(item.title.rendered)}
                 </TouchableOpacity>
@@ -102,6 +104,8 @@ const Explore = props => {
                       type: "tag"
                     })
                   }
+                  key={`tag-${item.id}`}
+
                 >
                   {renderTags(item.name)}
                 </TouchableOpacity>
@@ -118,9 +122,10 @@ const Explore = props => {
                   onPress={() =>
                     props.navigation.navigate("ListByCity", {
                       item: item,
-                      type: "tag"
+                      type: "cat"
                     })
                   }
+                  key={`cat-${item.id}`}
                 >
                   {renderTags(item.name)}
                 </TouchableOpacity>

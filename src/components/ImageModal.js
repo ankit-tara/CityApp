@@ -19,6 +19,7 @@ const ImageModal = ({ urls = [], isOpen = false, closeModal, index = 0 }) => {
         activeOpacity={0.8}
         onPress={closeModal}
         style={{ margin: 10 }}
+        saveToLocalByLongPress={false}
       >
         <Icon name="cross" style={{ color: "#fff" }} size={26} />
       </TouchableOpacity>

@@ -7,7 +7,10 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
-  TouchableNativeFeedback
+  TouchableNativeFeedback,
+  Linking,
+  Alert,
+  Modal
 } from "react-native";
 import Icon from "react-native-vector-icons/dist/MaterialCommunityIcons";
 import Collapsible from "react-native-collapsible";
@@ -16,6 +19,7 @@ import { M_BOLD } from "../theme/fonts";
 import Swiper from "react-native-swiper";
 import { APP_ORANGE } from "../theme/colors";
 import ImageModal from "../components/ImageModal";
+import WhatsAppModal from "../components/WhatsAppModal";
 
 const Single = props => {
   const [isCollapsed, setisCollapsed] = useState(true);
@@ -24,6 +28,8 @@ const Single = props => {
   const [mainImg, setmainImg] = useState([]);
   const [showImages, setshowImages] = useState(false);
   const [showMainImage, setshowMainImage] = useState(false);
+  const [showWhatsapp, setshowWhatsapp] = useState(false);
+  const [contactNo, setcontactNo] = useState([]);
 
   useEffect(() => {
     let params = props.navigation.state.params;
@@ -31,9 +37,17 @@ const Single = props => {
       let post = params.post;
       setpost(post);
       post.acf && post.acf.images && getImgUrls(post.acf.images);
-      post.fimg_url &&  getMainImgUrl(post.fimg_url);
+      post.acf && post.acf.contact_no && getIContactNo(post.acf.contact_no);
+      post.fimg_url && getMainImgUrl(post.fimg_url);
     }
   }, []);
+
+  const getIContactNo = contact_no => {
+    console.log(contact_no);
+    let numbers = contact_no.split(",");
+    console.log(numbers);
+    setcontactNo(numbers);
+  };
 
   const getImgUrls = images => {
     let arr = [];
@@ -45,8 +59,8 @@ const Single = props => {
 
   const getMainImgUrl = image => {
     let arr = [];
-    if(image){
-       arr.push({ url: image });
+    if (image) {
+      arr.push({ url: image });
     }
     setmainImg(arr);
   };
@@ -54,6 +68,22 @@ const Single = props => {
   const hideImages = () => setshowImages(false);
 
   const hideMainImage = () => setshowMainImage(false);
+
+  const hideWhatsapp = () => setshowWhatsapp(false);
+
+  const gotoWhatsApp = () => {
+    if (contactNo <= 0) {
+      alert("Oops!! No number found");
+      return;
+    }
+    if (contactNo.length == 1) {
+      Linking.openURL(`whatsapp://send?phone=${contactNo[0]}`);
+      return;
+    }
+    if (contactNo.length > 1) {
+      setshowWhatsapp(true);
+    }
+  };
 
   if (!post) return null;
 
@@ -65,11 +95,12 @@ const Single = props => {
           source={{
             uri: post.fimg_url
           }}
-          onPress={()=>setshowMainImage(true)}
         >
-          <View style={styles.overlay}>
-            <Text style={styles.title}>{post.title.rendered}</Text>
-          </View>
+          <TouchableNativeFeedback onPress={() => setshowMainImage(true)}>
+            <View style={styles.overlay}>
+              <Text style={styles.title}>{post.title.rendered}</Text>
+            </View>
+          </TouchableNativeFeedback>
         </ImageBackground>
         <View style={styles.content}>
           <View style={styles.detailBox}>
@@ -99,6 +130,32 @@ const Single = props => {
               <Text style={styles.iconText}>Contact </Text>
             </View>
             <Text style={styles.results}>{post.acf.contact_no}</Text>
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity
+                onPress={() => Linking.openURL(`tel:${post.acf.contact_no}`)}
+              >
+                <Text style={styles.iconText}>
+                  <Icon
+                    name="phone"
+                    size={20}
+                    color="#0274f1"
+                    style={styles.Icon}
+                  />
+                  Call{" "}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => gotoWhatsApp()}>
+                <Text style={styles.iconText}>
+                  <Icon
+                    name="whatsapp"
+                    size={20}
+                    color="#25D366"
+                    style={styles.Icon}
+                  />
+                  Whatsapp{" "}
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
           <View style={styles.detailBox}>
             <View style={styles.flex}>
@@ -171,7 +228,16 @@ const Single = props => {
         </View>
       </ScrollView>
       <ImageModal urls={images} isOpen={showImages} closeModal={hideImages} />
-      <ImageModal urls={mainImg} isOpen={showMainImage} closeModal={hideMainImage} />
+      <ImageModal
+        urls={mainImg}
+        isOpen={showMainImage}
+        closeModal={hideMainImage}
+      />
+      <WhatsAppModal
+        isOpen={showWhatsapp}
+        closeModal={hideWhatsapp}
+        numbers={contactNo}
+      />
     </View>
   );
 };
@@ -252,5 +318,8 @@ const styles = StyleSheet.create({
     backgroundColor: APP_ORANGE,
     width: 12,
     height: 12
+  },
+  results: {
+    paddingLeft: 20
   }
 });

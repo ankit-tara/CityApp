@@ -16,7 +16,8 @@ import Header from "../components/Header";
 import { APP_ORANGE } from "../theme/colors.js";
 import Icon from "react-native-vector-icons/dist/FontAwesome5";
 import Placeholder from "../placeholder/CityPlaceholder";
-
+import AlphaScrollFlatList from 'alpha-scroll-flat-list';
+const ITEM_HEIGHT = 50;
 const ShowAllCities = props => {
   const per_page = 21;
   const [categories, setcategories] = useState([]);
@@ -135,17 +136,12 @@ const ShowAllCities = props => {
         )}
         {loading && <Placeholder />}
         <View>
-          {categories.map(cat => (
+          {/* {categories.map(cat => (
             <TouchableOpacity
               key={`cat-${cat.id}`}
               onPress={() => handleOnpress(cat)}
               style={styles.singleCity}
             >
-              {/* <SingleCard
-                image={cat.acf.taxonomy_image}
-                title={cat.name}
-                showText={true}
-              /> */}
               <Text style={styles.cityheading}>
                 <Icon
                   style={{ marginRight: 30 }}
@@ -156,7 +152,32 @@ const ShowAllCities = props => {
                 {cat.name}
               </Text>
             </TouchableOpacity>
-          ))}
+          ))} */}
+            <AlphaScrollFlatList
+          keyExtractor={(item)=>item.id}
+          data={categories.sort((prev, next) => prev.name.localeCompare(next.name))}
+          renderItem={(cat)=>(
+             <TouchableOpacity
+              key={`cat-${cat.item.id}`}
+              onPress={() => handleOnpress(cat.item)}
+              style={styles.singleCity}
+            >
+              {console.log(cat.item)}
+              <Text style={styles.cityheading}>
+                <Icon
+                  style={{ marginRight: 30 }}
+                  name="city"
+                  size={14}
+                  color="#ec9902"
+                />{" "}
+                {cat.item.name}
+              </Text>
+            </TouchableOpacity>
+          )}
+          scrollKey={'name'}
+          reverse={false}
+          itemHeight={ITEM_HEIGHT}
+        />
         </View>
 
         {categories && categories.length >= 21 && renderFooter()}

@@ -171,14 +171,42 @@ const Single = props => {
               </TouchableOpacity>
             </View>
             <Collapsible collapsed={isCollapsed}>
-              <View>
-                {/* <Text style={styles.results}>Monday: {moment().format(post.acf.monday.opens_at)-moment().format(post.acf.monday.closes_at) }</Text>
-                <Text style={styles.results}>Tuesday: {moment().format(post.acf.tuesday.opens_at)-moment().format(post.acf.tuesday.closes_at) }</Text>
-                <Text style={styles.results}>Wednesday: {moment().format(post.acf.wednesday.opens_at)-moment().format(post.acf.wednesday.closes_at) }</Text>
-                <Text style={styles.results}>Thursday: {moment().format(post.acf.thursday.opens_at)-moment().format(post.acf.thursday.closes_at) }</Text>
-                <Text style={styles.results}>Friday: {moment().format(post.acf.friday.opens_at)-moment().format(post.acf.friday.closes_at) }</Text>
-                <Text style={styles.results}>Saturday: {moment().format(post.acf.saturday.opens_at)-moment().format(post.acf.saturday.closes_at) }</Text>
-                <Text style={styles.results}>Sunday: {moment().format(post.acf.sunday.opens_at)-moment().format(post.acf.sunday.closes_at) }</Text> */}
+              <View style={styles.results}>
+                 <Text style={styles.timing}>
+                 Monday:
+                 {post.acf.monday && moment(post.acf.monday.opens_at ,'hh:mm A').format('hh:mm A')} - 
+                 {post.acf.monday && moment(post.acf.monday.closes_at,'hh:mm A').format('hh:mm A') }
+                 </Text>
+                 <Text style={styles.timing}>
+                 Tuesday: 
+                 {post.acf.tuesday && moment(post.acf.tuesday.opens_at ,'hh:mm A').format('hh:mm A')} - 
+                 {post.acf.tuesday && moment(post.acf.tuesday.closes_at,'hh:mm A').format('hh:mm A') }
+                 </Text>
+                 <Text style={styles.timing}>
+                 Wednesday: 
+                 {post.acf.wednesday && moment(post.acf.wednesday.opens_at ,'hh:mm A').format('hh:mm A')} - 
+                 {post.acf.wednesday && moment(post.acf.wednesday.closes_at,'hh:mm A').format('hh:mm A') }
+                 </Text>
+                 <Text style={styles.timing}>
+                 Thursday: 
+                 {post.acf.thursday && moment(post.acf.thursday.opens_at ,'hh:mm A').format('hh:mm A')} - 
+                 {post.acf.thursday && moment(post.acf.thursday.closes_at,'hh:mm A').format('hh:mm A') }
+                 </Text>
+                 <Text style={styles.timing}>
+                 Friday: 
+                 {post.acf.friday && moment(post.acf.friday.opens_at ,'hh:mm A').format('hh:mm A')} - 
+                 {post.acf.friday && moment(post.acf.friday.closes_at,'hh:mm A').format('hh:mm A') }
+                 </Text>
+                 <Text style={styles.timing}>
+                 Saturday: 
+                 {post.acf.saturday && moment(post.acf.saturday.opens_at ,'hh:mm A').format('hh:mm A')} - 
+                 {post.acf.saturday && moment(post.acf.saturday.closes_at,'hh:mm A').format('hh:mm A') }
+                 </Text>
+                 {/* <Text style={styles.timing}>
+                 Sunday: 
+                 {post.acf.sunday.opens_at && moment(post.acf.sunday.opens_at ,'hh:mm A').format('hh:mm A')} - 
+                 {post.acf.sunday.closes_at && moment(post.acf.sunday.closes_at,'hh:mm A').format('hh:mm A') }
+                 </Text> */}
               </View>
             </Collapsible>
           </View>
@@ -309,7 +337,7 @@ const styles = StyleSheet.create({
     height: 12
   },
   results: {
-    paddingLeft: 20
+    paddingLeft: 20,
   },
   buttons:{
     paddingVertical:6,
@@ -341,5 +369,8 @@ const styles = StyleSheet.create({
   btnText:{
     color:'#fff',
     fontWeight:'bold',
+  },
+  timing:{
+    marginBottom:4
   }
 });

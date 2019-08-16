@@ -1,3 +1,15 @@
+
+import moment from "moment";
+var days = [
+  "sunday",
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday"
+];
+
 /**
  * truncate text
  */
@@ -39,3 +51,29 @@ export function getRandomColor() {
   }
   return color;
 }
+
+export function getTimeInfo  (data) {
+  if (!data || !data.acf) return;
+  let date = moment();
+  let today_day = date.day();
+  let day = days[today_day];
+  let day_data = data.acf[day];
+  if (!day_data || (!day_data.opens_at && day_data.closes_at)) return;
+  let opens_at = day_data.opens_at
+    ? moment(day_data.opens_at, "hh:mm A")
+    : "";
+  let closes_at = day_data.opens_at
+    ? moment(day_data.closes_at, "hh:mm A")
+    : "";
+  if (
+    opens_at &&
+    closes_at &&
+    date.isAfter(opens_at) &&
+    date.isBefore(closes_at)
+  ) {
+    return "Open Now"
+  }
+  if (opens_at) {
+    return ` Will open at ${moment(opens_at, "hh:mm A").format("hh:mm A")}`
+  }
+};

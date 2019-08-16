@@ -14,13 +14,13 @@ import Icon from "react-native-vector-icons/dist/Entypo";
 
 // import styles from "../assets/style.js";
 import { getPostBytag } from "../Utils/Api.js";
-import { text_truncate, strip_html_tags } from "../Utils/Helpers.js";
-import { M_BOLD } from "../theme/fonts.js";
+import {
+  text_truncate,
+  strip_html_tags,
+  getTimeInfo
+} from "../Utils/Helpers.js";
+import { M_BOLD, M_Light } from "../theme/fonts.js";
 import { APP_ORANGE } from "../theme/colors.js";
-var days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-
-const date = new Date()
-const today_day = date.getDay()
 
 const ListByTag = props => {
   const per_page = 10;
@@ -32,7 +32,6 @@ const ListByTag = props => {
 
   useEffect(() => {
     if (props.navigation.state.params.item) {
-      console.log(props.navigation.state.params.item);
       settag(props.navigation.state.params.item);
       getPostBytag(props.navigation.state.params.item.id)
         .then(data => {
@@ -41,14 +40,6 @@ const ListByTag = props => {
         .catch(e => console.log(e));
     }
   }, [props]);
-
-  getTime=(data)=>{
-    let day = days[today_day]
-    console.log(day)
-    console.log(data[day])
-
-    
-  }
 
   loadMoreData = () => {
     setloadMore(true);
@@ -73,17 +64,7 @@ const ListByTag = props => {
   renderFooter = () => {
     if (!posts.length || posts.length < 10) return null;
     return (
-      // Footer View with Load More button
       <View style={styles.footer}>
-        {/* <TouchableOpacity
-          activeOpacity={0.9}
-          onPress={() => loadMoreData()}
-          //On Click of button calling loadMoreData function to load more data
-          style={styles.loadMoreBtn}
-        >
-          <Text style={styles.btnText}>Load More</Text>
-          {loadMore && <ActivityIndicator style={{ marginLeft: 8 }} color={APP_ORANGE} />}
-        </TouchableOpacity> */}
         {loadMore && (
           <ActivityIndicator style={{ marginLeft: 8 }} color={APP_ORANGE} />
         )}
@@ -123,47 +104,59 @@ const ListByTag = props => {
               <FlatList
                 keyExtractor={item => `post-${item.id}`}
                 data={posts}
-                renderItem={post => (
-                  <TouchableOpacity onPress={() => gotoPost(post.item)}>
-                    <View style={styles.place}>
-                      <View style={styles.left}>
-                        {post.item.fimg_url ? (
-                          <Image
-                            style={{ width: 50, height: 50, borderRadius: 25 }}
-                            source={{
-                              uri: post.item.fimg_url
-                            }}
-                          />
-                        ) : (
-                          <View
-                            style={{ borderRadius: 25, backgroundColor: "red" }}
-                          >
-                            <Icon
-                              name="image"
-                              size={30}
-                              color="#fff"
-                              style={styles.image}
+                renderItem={post => {
+                  let timeInfo = getTimeInfo(post.item);
+                  return (
+                    <TouchableOpacity onPress={() => gotoPost(post.item)}>
+                      <View style={styles.place}>
+                        <View style={styles.left}>
+                          {post.item.fimg_url ? (
+                            <Image
+                              style={{
+                                width: 50,
+                                height: 50,
+                                borderRadius: 25
+                              }}
+                              source={{
+                                uri: post.item.fimg_url
+                              }}
                             />
-                          </View>
-                        )}
-                      </View>
-                      <View style={styles.right}>
-                        <Text style={styles.title}>
-                          {post.item.title.rendered}
-                        </Text>
-                        {post.item.content.rendered != "" && (
-                          <Text style={styles.description}>
-                            {text_truncate(
-                              strip_html_tags(post.item.content.rendered),
-                              75
-                            )}
+                          ) : (
+                            <View
+                              style={{
+                                borderRadius: 25,
+                                backgroundColor: "red"
+                              }}
+                            >
+                              <Icon
+                                name="image"
+                                size={30}
+                                color="#fff"
+                                style={styles.image}
+                              />
+                            </View>
+                          )}
+                        </View>
+                        <View style={styles.right}>
+                          <Text style={styles.title}>
+                            {post.item.title.rendered}
                           </Text>
-                        )}
-                       { post.item.acf && <Text>{getTime(post.item.acf)}</Text>}
+                          {post.item.content.rendered != "" && (
+                            <Text style={styles.description}>
+                              {text_truncate(
+                                strip_html_tags(post.item.content.rendered),
+                                75
+                              )}
+                            </Text>
+                          )}
+                          {timeInfo && (
+                            <Text style={styles.timeInfo}>{timeInfo}</Text>
+                          )}
+                        </View>
                       </View>
-                    </View>
-                  </TouchableOpacity>
-                )}
+                    </TouchableOpacity>
+                  );
+                }}
                 // ItemSeparatorComponent={() => <View style={styles.separator} />}
                 ListFooterComponent={renderFooter}
                 //Adding Load More button as footer component
@@ -261,5 +254,11 @@ const styles = StyleSheet.create({
     backgroundColor: "gray",
     textAlign: "center",
     paddingTop: 10
+  },
+  timeInfo: {
+    fontFamily: M_Light,
+    color: "#000",
+    fontSize: 12,
+    marginVertical: 5
   }
 });

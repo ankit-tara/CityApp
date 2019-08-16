@@ -24,6 +24,7 @@ const WhatsAppModal = ({ isOpen = false, closeModal, numbers = [] }) => {
           {numbers.map(number => (
             <TouchableOpacity
               onPress={() => Linking.openURL(`whatsapp://send?phone=${number}`)}
+              key={`whatsapp-${number}`}
             >
               <View style={styles.number}>
                 <Text style={styles.text}>{number}</Text>

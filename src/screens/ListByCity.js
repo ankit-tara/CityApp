@@ -11,12 +11,11 @@ import {
   Image
 } from "react-native";
 import Icon from "react-native-vector-icons/dist/Entypo";
-
-// import styles from "../assets/style.js";
 import { getPostByCategory } from "../Utils/Api.js";
-import { text_truncate, strip_html_tags } from "../Utils/Helpers.js";
-import { M_BOLD } from "../theme/fonts.js";
+import { text_truncate, strip_html_tags, getTimeInfo } from "../Utils/Helpers.js";
+import { M_BOLD ,M_Light} from "../theme/fonts.js";
 import { APP_ORANGE } from "../theme/colors.js";
+
 const ListByCity = props => {
   const per_page = 10;
   const [category, setcategory] = useState();
@@ -58,17 +57,8 @@ const ListByCity = props => {
   renderFooter = () => {
     if (!posts.length || posts.length<10) return null;
     return (
-      //Footer View with Load More button
       <View style={styles.footer}>
-        {/* <TouchableOpacity
-          activeOpacity={0.9}
-          onPress={() => loadMoreData()}
-          //On Click of button calling loadMoreData function to load more data
-          style={styles.loadMoreBtn}
-        >
-          <Text style={styles.btnText}>Load More</Text>
-          {loadMore && <ActivityIndicator style={{ marginLeft: 8 }} color={APP_ORANGE}/>}
-        </TouchableOpacity> */}
+       
         {loadMore && <ActivityIndicator style={{ marginLeft: 8 }} color={APP_ORANGE}/>}
       </View>
     );
@@ -105,7 +95,9 @@ const ListByCity = props => {
               <FlatList
                 keyExtractor={item => `post-${item.id}`}
                 data={posts}
-                renderItem={post => (
+                renderItem={post => {
+                  let timeInfo = getTimeInfo(post.item);
+                  return(
                   <TouchableOpacity onPress={()=>gotoPost(post.item)}>
                   <View style={styles.place}>
                     <View style={styles.left}>
@@ -147,13 +139,14 @@ const ListByCity = props => {
                           75
                         )}
                       </Text>)}
+                      {timeInfo && (
+                            <Text style={styles.timeInfo}>{timeInfo}</Text>
+                          )}
                     </View>
                   </View>
                   </TouchableOpacity>
-                )}
-                // ItemSeparatorComponent={() => <View style={styles.separator} />}
+                )}}
                 ListFooterComponent={renderFooter}
-                //Adding Load More button as footer component
               />
             </View>
           )}
@@ -238,5 +231,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 5
+  },
+  timeInfo: {
+    fontFamily: M_Light,
+    color: "#000",
+    fontSize: 12,
+    marginVertical: 5
   }
 });

@@ -15,12 +15,12 @@ import {
 import Icon from "react-native-vector-icons/dist/MaterialCommunityIcons";
 import Collapsible from "react-native-collapsible";
 import { strip_html_tags } from "../Utils/Helpers";
-import { M_BOLD } from "../theme/fonts";
+import { M_BOLD, M_SemiBold } from "../theme/fonts";
 import Swiper from "react-native-swiper";
 import { APP_ORANGE } from "../theme/colors";
 import ImageModal from "../components/ImageModal";
 import WhatsAppModal from "../components/WhatsAppModal";
-import moment from 'moment'
+import moment from "moment";
 
 const Single = props => {
   const [isCollapsed, setisCollapsed] = useState(true);
@@ -86,6 +86,24 @@ const Single = props => {
     }
   };
 
+  const getTime = day => {
+    let time = " ---";
+    if (post.acf && post.acf[day] && post.acf[day].opens_at) {
+      time =
+        post.acf[day].opens_at &&
+        moment(post.acf[day].opens_at, "hh:mm A").format("hh:mm A") +
+          " " +
+          post.acf[day].closes_at &&
+        moment(post.acf[day].closes_at, "hh:mm A").format("hh:mm A");
+    }
+    return (
+      <Text style={styles.timing}>
+        <Text style={styles.dayname}>{day}:</Text>
+        {time}
+      </Text>
+    );
+  };
+
   if (!post) return null;
 
   return (
@@ -131,24 +149,30 @@ const Single = props => {
               <Text style={styles.iconText}>Contact </Text>
             </View>
             <Text style={styles.results}>{post.acf.contact_no}</Text>
-            <View style={[{ flexDirection: "row" },styles.buttons]}>
-              <TouchableOpacity style={styles.call}
+            <View style={[{ flexDirection: "row" }, styles.buttons]}>
+              <TouchableOpacity
+                style={styles.call}
                 onPress={() => Linking.openURL(`tel:${post.acf.contact_no}`)}
               >
-              <Icon name="phone" size={17} color="#fff" style={styles.btnIcon} />
-                <Text style={styles.btnText}>
-                  Call{" "}
-                </Text>
+                <Icon
+                  name="phone"
+                  size={17}
+                  color="#fff"
+                  style={styles.btnIcon}
+                />
+                <Text style={styles.btnText}>Call </Text>
               </TouchableOpacity>
-              <TouchableOpacity  style={styles.whatsapp} onPress={() => gotoWhatsApp()}>
-              <Icon name="whatsapp"
-                    size={18}
-                    color="#fff"
-                    style={styles.btnIcon}
-                  />
-                <Text style={styles.btnText}>
-                  Whatsapp{" "}
-                </Text>
+              <TouchableOpacity
+                style={styles.whatsapp}
+                onPress={() => gotoWhatsApp()}
+              >
+                <Icon
+                  name="whatsapp"
+                  size={18}
+                  color="#fff"
+                  style={styles.btnIcon}
+                />
+                <Text style={styles.btnText}>Whatsapp </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -172,41 +196,13 @@ const Single = props => {
             </View>
             <Collapsible collapsed={isCollapsed}>
               <View style={styles.results}>
-                 <Text style={styles.timing}>
-                 Monday:
-                 {post.acf.monday && moment(post.acf.monday.opens_at ,'hh:mm A').format('hh:mm A')} - 
-                 {post.acf.monday && moment(post.acf.monday.closes_at,'hh:mm A').format('hh:mm A') }
-                 </Text>
-                 <Text style={styles.timing}>
-                 Tuesday: 
-                 {post.acf.tuesday && moment(post.acf.tuesday.opens_at ,'hh:mm A').format('hh:mm A')} - 
-                 {post.acf.tuesday && moment(post.acf.tuesday.closes_at,'hh:mm A').format('hh:mm A') }
-                 </Text>
-                 <Text style={styles.timing}>
-                 Wednesday: 
-                 {post.acf.wednesday && moment(post.acf.wednesday.opens_at ,'hh:mm A').format('hh:mm A')} - 
-                 {post.acf.wednesday && moment(post.acf.wednesday.closes_at,'hh:mm A').format('hh:mm A') }
-                 </Text>
-                 <Text style={styles.timing}>
-                 Thursday: 
-                 {post.acf.thursday && moment(post.acf.thursday.opens_at ,'hh:mm A').format('hh:mm A')} - 
-                 {post.acf.thursday && moment(post.acf.thursday.closes_at,'hh:mm A').format('hh:mm A') }
-                 </Text>
-                 <Text style={styles.timing}>
-                 Friday: 
-                 {post.acf.friday && moment(post.acf.friday.opens_at ,'hh:mm A').format('hh:mm A')} - 
-                 {post.acf.friday && moment(post.acf.friday.closes_at,'hh:mm A').format('hh:mm A') }
-                 </Text>
-                 <Text style={styles.timing}>
-                 Saturday: 
-                 {post.acf.saturday && moment(post.acf.saturday.opens_at ,'hh:mm A').format('hh:mm A')} - 
-                 {post.acf.saturday && moment(post.acf.saturday.closes_at,'hh:mm A').format('hh:mm A') }
-                 </Text>
-                 {/* <Text style={styles.timing}>
-                 Sunday: 
-                 {post.acf.sunday.opens_at && moment(post.acf.sunday.opens_at ,'hh:mm A').format('hh:mm A')} - 
-                 {post.acf.sunday.closes_at && moment(post.acf.sunday.closes_at,'hh:mm A').format('hh:mm A') }
-                 </Text> */}
+                {getTime("monday")}
+                {getTime("tuesday")}
+                {getTime("wednesday")}
+                {getTime("thursday")}
+                {getTime("friday")}
+                {getTime("saturday")}
+                {getTime("sunday")}
               </View>
             </Collapsible>
           </View>
@@ -337,40 +333,42 @@ const styles = StyleSheet.create({
     height: 12
   },
   results: {
-    paddingLeft: 20,
+    paddingLeft: 20
   },
-  buttons:{
-    paddingVertical:6,
+  buttons: {
+    paddingVertical: 6,
     flexDirection: "row",
-    justifyContent:'flex-start',
-    alignItems:'center',
-    paddingLeft:20
+    justifyContent: "flex-start",
+    alignItems: "center",
+    paddingLeft: 20
   },
-  call:{
-    backgroundColor:'#0274f1',
-    paddingHorizontal:7,
-    paddingVertical:5,
-    borderRadius:3,
-    flexDirection: "row",
-
+  call: {
+    backgroundColor: "#0274f1",
+    paddingHorizontal: 7,
+    paddingVertical: 5,
+    borderRadius: 3,
+    flexDirection: "row"
   },
-  whatsapp:{
-    backgroundColor:'#25D366',
-    paddingHorizontal:7,
-    paddingVertical:5,
-    borderRadius:3,
-    marginLeft:10,
-    flexDirection: "row",
-
+  whatsapp: {
+    backgroundColor: "#25D366",
+    paddingHorizontal: 7,
+    paddingVertical: 5,
+    borderRadius: 3,
+    marginLeft: 10,
+    flexDirection: "row"
   },
-  btnIcon:{
+  btnIcon: {
     marginRight: 4
   },
-  btnText:{
-    color:'#fff',
-    fontWeight:'bold',
+  btnText: {
+    color: "#fff",
+    fontWeight: "bold"
   },
-  timing:{
-    marginBottom:4
+  timing: {
+    marginBottom: 4
+  },
+  dayname: {
+    fontFamily: M_SemiBold,
+    textTransform: "capitalize"
   }
 });

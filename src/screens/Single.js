@@ -19,7 +19,7 @@ import { M_BOLD, M_SemiBold } from "../theme/fonts";
 import Swiper from "react-native-swiper";
 import { APP_ORANGE } from "../theme/colors";
 import ImageModal from "../components/ImageModal";
-import WhatsAppModal from "../components/WhatsAppModal";
+import MultipleNumber from "../components/MultipleNumber";
 import moment from "moment";
 
 const Single = props => {
@@ -30,6 +30,7 @@ const Single = props => {
   const [showImages, setshowImages] = useState(false);
   const [showMainImage, setshowMainImage] = useState(false);
   const [showWhatsapp, setshowWhatsapp] = useState(false);
+  const [showCall, setshowCall] = useState(false);
   const [contactNo, setcontactNo] = useState([]);
 
   useEffect(() => {
@@ -72,6 +73,8 @@ const Single = props => {
 
   const hideWhatsapp = () => setshowWhatsapp(false);
 
+  const hideCall = () => setshowCall(false);
+
   const gotoWhatsApp = () => {
     if (contactNo <= 0) {
       alert("Oops!! No number found");
@@ -83,6 +86,19 @@ const Single = props => {
     }
     if (contactNo.length > 1) {
       setshowWhatsapp(true);
+    }
+  };
+  const gotoCall = () => {
+    if (contactNo <= 0) {
+      alert("Oops!! No number found");
+      return;
+    }
+    if (contactNo.length == 1) {
+      Linking.openURL(`tel:${post.acf.contact_no}`)
+      return;
+    }
+    if (contactNo.length > 1) {
+      setshowCall(true);
     }
   };
 
@@ -152,7 +168,8 @@ const Single = props => {
             <View style={[{ flexDirection: "row" }, styles.buttons]}>
               <TouchableOpacity
                 style={styles.call}
-                onPress={() => Linking.openURL(`tel:${post.acf.contact_no}`)}
+                onPress={() => gotoCall()}
+                // onPress={() => Linking.openURL(`tel:${post.acf.contact_no}`)}
               >
                 <Icon
                   name="phone"
@@ -246,10 +263,18 @@ const Single = props => {
         isOpen={showMainImage}
         closeModal={hideMainImage}
       />
-      <WhatsAppModal
+      <MultipleNumber
         isOpen={showWhatsapp}
         closeModal={hideWhatsapp}
         numbers={contactNo}
+        isWhatsapp={true}
+      />
+      <MultipleNumber
+        isOpen={showCall}
+        closeModal={hideCall}
+        numbers={contactNo}
+        isWhatsapp={false}
+
       />
     </View>
   );

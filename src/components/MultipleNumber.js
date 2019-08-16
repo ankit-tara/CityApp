@@ -10,7 +10,7 @@ import {
 import Icon from "react-native-vector-icons/dist/Entypo";
 import { M_BOLD } from "../theme/fonts";
 
-const WhatsAppModal = ({ isOpen = false, closeModal, numbers = [] }) => {
+const WhatsAppModal = ({ isOpen = false, closeModal, numbers = [],isWhatsapp=false}) => {
   return (
     <Modal
       visible={isOpen}
@@ -23,7 +23,7 @@ const WhatsAppModal = ({ isOpen = false, closeModal, numbers = [] }) => {
           <Text style={{textAlign:'center'}}>Choose a number</Text>
           {numbers.map(number => (
             <TouchableOpacity
-              onPress={() => Linking.openURL(`whatsapp://send?phone=${number}`)}
+              onPress={() =>isWhatsapp ? Linking.openURL(`whatsapp://send?phone=${number}`) :  Linking.openURL(`tel:${number}`) }
               key={`whatsapp-${number}`}
             >
               <View style={styles.number}>

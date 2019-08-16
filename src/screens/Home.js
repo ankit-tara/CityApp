@@ -51,7 +51,7 @@ const Home = props => {
       let dataStoredTime = new moment(data.time);
       let timeDiff = currentTime.diff(dataStoredTime, "minutes");
       console.log(timeDiff);
-      if (timeDiff < 30) {
+      if (timeDiff < 5) {
         setloadingMsg(`Getting location data of ${data.data.city}`);
         console.log("get data from stiorage");
         getCityData(data.data);

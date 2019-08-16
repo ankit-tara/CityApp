@@ -21,7 +21,7 @@ import { APP_ORANGE } from "../theme/colors";
 import ImageModal from "../components/ImageModal";
 import MultipleNumber from "../components/MultipleNumber";
 import moment from "moment";
-
+import Map from "../components/Map";
 const Single = props => {
   const [isCollapsed, setisCollapsed] = useState(true);
   const [post, setpost] = useState();
@@ -94,7 +94,7 @@ const Single = props => {
       return;
     }
     if (contactNo.length == 1) {
-      Linking.openURL(`tel:${post.acf.contact_no}`)
+      Linking.openURL(`tel:${post.acf.contact_no}`);
       return;
     }
     if (contactNo.length > 1) {
@@ -159,6 +159,13 @@ const Single = props => {
             </View>
             <Text style={styles.results}>{post.acf.address}</Text>
           </View>
+          {post.acf.map && 
+          <View style={styles.detailBox}>
+            <View style={styles.flex}>
+              <Map lat={post.acf.map.lat}  lng={post.acf.map.lng}/>
+            </View>
+          </View>
+          }
           <View style={styles.detailBox}>
             <View style={styles.flex}>
               <Icon name="phone" size={20} color="#000" style={styles.Icon} />
@@ -274,7 +281,6 @@ const Single = props => {
         closeModal={hideCall}
         numbers={contactNo}
         isWhatsapp={false}
-
       />
     </View>
   );

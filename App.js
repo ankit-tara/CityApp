@@ -17,7 +17,7 @@ import Header from "./src/components/Header";
 import Icon from "react-native-vector-icons/dist/Entypo";
 import { TAB_ICON_ACTIVE, TAB_ICON_INACTIVE } from "./src/theme/colors";
 import { M_Regular } from "./src/theme/fonts";
-
+import Map from "./src/components/Map"
 const HomeStack = createStackNavigator({
   Home: Home,
   ListByCity: ListByCity,
@@ -48,7 +48,8 @@ const TabNavigator = createBottomTabNavigator(
     Home: HomeStack,
     Search: SearchStack,
     Nearby:PlacesStack,
-    Cities: CitiesStack
+    Cities: CitiesStack,
+    // map:Map
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -70,7 +71,7 @@ const TabNavigator = createBottomTabNavigator(
         }
       }
     }),
-    // resetOnBlur:true,
+    resetOnBlur:true,
     tabBarOptions: {
       activeTintColor: TAB_ICON_ACTIVE,
       inactiveTintColor: TAB_ICON_INACTIVE,

@@ -114,7 +114,7 @@ const Single = props => {
     }
     return (
       <Text style={styles.timing}>
-        <Text style={styles.dayname}>{day}:</Text>
+        <Text style={styles.dayname}>{day}: </Text>
         {time}
       </Text>
     );

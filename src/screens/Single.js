@@ -162,7 +162,7 @@ const Single = props => {
           {post.acf.map && 
           <View style={styles.detailBox}>
             <View style={styles.flex}>
-              <Map lat={post.acf.map.lat}  lng={post.acf.map.lng}/>
+              <Map lat={post.acf.map.lat}  lng={post.acf.map.lng} address={post.acf.address}/>
             </View>
           </View>
           }

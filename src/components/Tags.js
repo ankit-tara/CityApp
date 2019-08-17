@@ -40,7 +40,7 @@ const Tags = props => {
               key={`cat-${cat.id}`}
               onPress={() => handleOnpress(cat)}
             >
-              <SingleCard image={cat.acf.taxonomy_image} title={cat.name} />
+              <SingleCard image={cat.acf.taxonomy_image ? cat.acf.taxonomy_image.sizes.thumbnail:''} title={cat.name} />
             </TouchableOpacity>
           ))}
       </ScrollView>

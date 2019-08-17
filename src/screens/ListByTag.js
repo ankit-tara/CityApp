@@ -28,6 +28,8 @@ const ListByTag = props => {
   const [posts, setposts] = useState([]);
   const [currentpage, setcurrentpage] = useState(1);
   const [loadMore, setloadMore] = useState(false);
+  const [postEnd, setpostEnd] = useState(false);
+
   const scrollY = new Animated.Value(0);
 
   useEffect(() => {
@@ -45,6 +47,7 @@ const ListByTag = props => {
     setloadMore(true);
     getPostBytag(tag.id, per_page, currentpage + 1)
       .then(data => {
+        // console.log(data)
         let new_data = posts.concat(data);
         setcurrentpage(currentpage + 1);
         setposts(new_data);
@@ -106,7 +109,7 @@ const ListByTag = props => {
                 data={posts}
                 renderItem={post => {
                   let timeInfo = getTimeInfo(post.item);
-                  return (
+                  return (post.item &&
                     <TouchableOpacity onPress={() => gotoPost(post.item)}>
                       <View style={styles.place}>
                         <View style={styles.left}>
@@ -139,9 +142,9 @@ const ListByTag = props => {
                         </View>
                         <View style={styles.right}>
                           <Text style={styles.title}>
-                            {post.item.title.rendered}
+                            {post.item.title && post.item.title.rendered }
                           </Text>
-                          {post.item.content.rendered != "" && (
+                          {post.item.content && post.item.content.rendered != "" && (
                             <Text style={styles.description}>
                               {text_truncate(
                                 strip_html_tags(post.item.content.rendered),

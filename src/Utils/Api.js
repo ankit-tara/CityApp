@@ -69,7 +69,8 @@ export function getPostByCategory(category,currentpage=1,perpage=10) {
  * get post by tag
  */
 export function getPostBytag(tag,currentpage=1,perpage=10) {
-    let url = `${API_INITIAL}/posts?tags=${tag}&per_page=${perpage}&page=${currentpage}`
+    let url = `${API_INITIAL}/posts?post_tag=${tag}&per_page=${perpage}&page=${currentpage}`
+    // let url = `${API_INITIAL}/posts?tags=${tag}&per_page=${perpage}&page=${currentpage}`
     console.log(url)
     return fetch(url)
         .then(response => response.json())
@@ -82,7 +83,8 @@ export function getPostBytag(tag,currentpage=1,perpage=10) {
  * get Tags List
  */
 export function getTags(perpage=10,currentpage=1) {
-    let url = `${API_INITIAL}/tags?per_page=${perpage}&page=${currentpage}`
+    let url = `${API_INITIAL}/post_tag?per_page=${perpage}&page=${currentpage}`
+    // let url = `${API_INITIAL}/tags?per_page=${perpage}&page=${currentpage}`
     console.log(url)
     return fetch(url)
         .then(response => response.json())
@@ -95,7 +97,8 @@ export function getTags(perpage=10,currentpage=1) {
  * get Tags List
  */
 export function searchTags(searchText,perpage=10,currentpage=1) {
-    let url = `${API_INITIAL}/tags?search=${searchText}&per_page=${perpage}&page=${currentpage}`
+    let url = `${API_INITIAL}/post_tag?search=${searchText}&per_page=${perpage}&page=${currentpage}`
+    // let url = `${API_INITIAL}/tags?search=${searchText}&per_page=${perpage}&page=${currentpage}`
     console.log(url)
     return fetch(url)
         .then(response => response.json())

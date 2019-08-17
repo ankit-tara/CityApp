@@ -25,8 +25,8 @@ const SingleCard = ({ image, title, showText = true }) => {
 
   return (
     <View style={styles.box}>
-      {!image && noImageView()}
-      {image && ImageView()}
+      {image=='' && noImageView()}
+      {image!='' && ImageView()}
       <Text style={styles.boxText}>{showText && text_truncate(title, 16)}</Text>
     </View>
   );

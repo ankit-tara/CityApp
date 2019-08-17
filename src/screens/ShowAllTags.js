@@ -128,7 +128,7 @@ const ShowAllTags = props => {
               style={styles.singleCity}
             >
               <SingleCard
-                image={tag.acf.taxonomy_image}
+                image={tag.acf.taxonomy_image ? tag.acf.taxonomy_image.sizes.thumbnail:''}
                 title={tag.name}
                 showText={true}
               />

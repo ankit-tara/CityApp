@@ -6,7 +6,6 @@ export default (state = new Location(), action) => {
   switch (action.type) {
     case SELECT_LOCATION:
       let data = { ...action.locationData };
-  
       return data;
 
     case UNSELECT_LOCATION:

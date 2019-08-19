@@ -19,7 +19,7 @@ const MainBanner = ({ data }) => {
   return (
     <View style={styles.wrapper} >
       {images.length > 0 &&
-        <Swiper style={styles.wrapper} height={180} autoplay={true}  autoplayTimeout={3}
+        <Swiper style={styles.wrapper} height={180} autoplay={true}  autoplayTimeout={5}
           dot={<View style={[styles.dot, styles.dotStyle]} />}
           activeDot={<View style={[styles.dot, styles.activeDot]} />}
           paginationStyle={{

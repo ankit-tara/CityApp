@@ -103,14 +103,15 @@ const Single = props => {
   };
 
   const getTime = day => {
+    console.log(post.acf[day])
     let time = " ---";
     if (post.acf && post.acf[day] && post.acf[day].opens_at) {
-      time =
-        post.acf[day].opens_at &&
-        moment(post.acf[day].opens_at, "hh:mm A").format("hh:mm A") +
-          " " +
-          post.acf[day].closes_at &&
-        moment(post.acf[day].closes_at, "hh:mm A").format("hh:mm A");
+      let opens_at =  post.acf[day].opens_at ?
+      moment(post.acf[day].opens_at, "hh:mm A").format("hh:mm A"):''
+      let closes_at =   post.acf[day].closes_at ?
+      moment(post.acf[day].closes_at, "hh:mm A").format("hh:mm A"):'';
+      time = `${opens_at} - ${closes_at}`
+      
     }
     return (
       <Text style={styles.timing}>
@@ -169,8 +170,12 @@ const Single = props => {
           <View style={styles.detailBox}>
             <View style={styles.flex}>
               <Icon name="phone" size={20} color="#000" style={styles.Icon} />
-              <Text style={styles.iconText}>Contact </Text>
+              <Text
+              
+              
+              style={styles.iconText}>Contact </Text>
             </View>
+            <Text style={styles.results}>{post.acf.dvc_name}</Text>
             <Text style={styles.results}>{post.acf.contact_no}</Text>
             <View style={[{ flexDirection: "row" }, styles.buttons]}>
               <TouchableOpacity

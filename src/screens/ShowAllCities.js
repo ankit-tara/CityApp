@@ -126,7 +126,7 @@ const ShowAllCities = props => {
       )}
     >
       <SearchBar placeholder="Search City" onChangeText={handleSearch} />
-      <View style={[{ paddingHorizontal: 10 }]}>
+      <View style={[{ paddingHorizontal: 30 }]}>
         {isSearching && (
           <ActivityIndicator
             style={{ marginLeft: 8, alignSelf: "center" }}
@@ -141,18 +141,16 @@ const ShowAllCities = props => {
               onPress={() => handleOnpress(cat)}
               style={styles.singleCity}
             >
-              <Text style={styles.cityheading}>
-                <Icon
-                  style={{ marginRight: 30 }}
-                  name="city"
-                  size={14}
-                  color="#ec9902"
-                />{" "}
-                {cat.name}
-              </Text>
+             
+              <Icon
+                style={{ marginRight: 15 }}
+                name="city"
+                size={14}
+                color="#ec9902"
+              />
+              <Text style={styles.cityheading}>{cat.name}</Text>
             </TouchableOpacity>
           ))}
-          
         </View>
 
         {categories && categories.length >= 21 && renderFooter()}

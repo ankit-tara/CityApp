@@ -15,6 +15,8 @@ import SingleCard from "../components/SingleCard";
 import SearchBar from "../components/SearchBar";
 import Header from "../components/Header";
 import { APP_ORANGE } from "../theme/colors.js";
+import Icon from "react-native-vector-icons/dist/FontAwesome5";
+
 const ShowAllTags = props => {
   const per_page = 21;
   const [tags, settags] = useState([]);
@@ -117,10 +119,10 @@ const ShowAllTags = props => {
         }
       }
     )}     >
-      <SearchBar placeholder="Search City" onChangeText={handleSearch}/>
+      <SearchBar placeholder="Search Category" onChangeText={handleSearch}/>
       <View style={[{ paddingHorizontal: 10 }]}>
         {isSearching && <ActivityIndicator style={{ marginLeft: 8,alignSelf:'center' }} color={APP_ORANGE} />}
-        <View style={[styles.row, styles.wrap]}>
+        {/* <View style={[styles.row, styles.wrap]}>
           {tags.map(tag => (
             <TouchableOpacity
               key={`tag-${tag.id}`}
@@ -135,14 +137,32 @@ const ShowAllTags = props => {
             </TouchableOpacity>
           ))}
         </View>
-        
+         */}
+         <View style={{marginHorizontal:20}}>
+          {tags.map(cat => (
+            <TouchableOpacity
+              key={`cat-${cat.id}`}
+              onPress={() => handleOnpress(cat)}
+              style={styles.singleCity}
+            >
+             
+              <Icon
+                style={{ marginRight: 10 }}
+                name="tag"
+                size={16}
+                color="#ec9902"
+              />
+              <Text style={styles.cityheading}>{cat.name}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
         {tags && tags.length >=21&& renderFooter()}
       </View>
     </ScrollView>
   );
 };
 ShowAllTags.navigationOptions = {
-  title: 'Tags',
+  title: 'Categories',
   headerTitleStyle: {
     textAlign: "center",
     alignSelf: "center",

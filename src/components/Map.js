@@ -30,7 +30,8 @@ const Map = ({ lat, lng, address = "" }) => {
     const label = address;
     const url = Platform.select({
       ios: `${scheme}${label}@${latLng}`,
-      android: `https://www.google.com/maps/search/?api=1&query=${address}`
+      // android: `https://www.google.com/maps/search/?api=1&query=${address}`
+      android: `${scheme}${address}`
       // android: `${scheme}${latLng}(${label})`
     });
 
@@ -49,28 +50,13 @@ const Map = ({ lat, lng, address = "" }) => {
         }}
       >
         <MapView.Marker
-          onPress={data => {
-            console.log(data);
-            gotoMaps();
-          }}
+          onPress={gotoMaps}
           coordinate={{ latitude: parseFloat(lat), longitude: parseFloat(lng) }}
           title={"Location"}
           description={address}
         />
       </MapView>
-      {/* <MapView
-      //  provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-       style={styles.map}
-       region={{
-         latitude: lat,
-         longitude:lng,
-        //  latitude: 37.78825,
-        //  longitude: -122.4324,
-         latitudeDelta: 0.015,
-         longitudeDelta: 0.0121,
-       }}
-     >
-     </MapView> */}
+     
     </View>
   );
 };

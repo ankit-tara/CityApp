@@ -4,8 +4,8 @@ import {
   createAppContainer,
   createStackNavigator
 } from "react-navigation";
+import TestGeo from "./src/components/TestGeo"
 import Home from "./src/screens/Home";
-import Search from "./src/screens/Search";
 import Places from "./src/screens/Places";
 import Explore from "./src/screens/Explore";
 import ListByCity from "./src/screens/ListByCity";
@@ -13,11 +13,9 @@ import ListByTag from "./src/screens/ListByTag";
 import ShowAllCitiesPage from "./src/screens/ShowAllCities";
 import ShowAllTags from "./src/screens/ShowAllTags";
 import Single from "./src/screens/Single";
-import Header from "./src/components/Header";
 import Icon from "react-native-vector-icons/dist/Entypo";
 import { TAB_ICON_ACTIVE, TAB_ICON_INACTIVE } from "./src/theme/colors";
 import { M_Regular } from "./src/theme/fonts";
-import Map from "./src/components/Map"
 const HomeStack = createStackNavigator({
   Home: Home,
   ListByCity: ListByCity,
@@ -49,7 +47,7 @@ const TabNavigator = createBottomTabNavigator(
     Search: SearchStack,
     Nearby:PlacesStack,
     Cities: CitiesStack,
-    // map:Map
+    // TestGeo:TestGeo
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({

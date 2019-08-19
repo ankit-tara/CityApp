@@ -23,16 +23,16 @@ import Geolocation from "react-native-geolocation-service";
 import Spinner from "react-native-spinkit";
 import { APP_ORANGE } from "../theme/colors";
 import { connect, useSelector } from "react-redux";
-import json from "../assets/sample-location.json";
 import { LOCATION_DATA } from "../Utils/constants";
 import AsyncStorage from "@react-native-community/async-storage";
-import moment from "moment";
+import moment from "moment"
 const Home = props => {
   const [loader, setloader] = useState(true);
   const [loadingMsg, setloadingMsg] = useState(null);
   const [bannerData, setBannerData] = useState([]);
   const [adData, setAdData] = useState([]);
   const [catData, setCatData] = useState([]);
+  const [status, setstatus] = useState("");
   const locationLoading = useSelector(state => state.locationLoading);
   const authLocation = useSelector(state => state.authLocation);
 
@@ -40,18 +40,18 @@ const Home = props => {
     SplashScreen.hide();
     props.locationLoadingStart();
     loadPageData();
-    // checkGranted();
   }, [false]);
 
   const loadPageData = async () => {
+    props.unselectLocation()
     const value = await AsyncStorage.getItem(LOCATION_DATA);
     if (value) {
       let currentTime = new moment();
       let data = JSON.parse(value);
       let dataStoredTime = new moment(data.time);
       let timeDiff = currentTime.diff(dataStoredTime, "minutes");
-      console.log(timeDiff);
       if (timeDiff < 5) {
+        setstatus('from storage')
         setloadingMsg(`Getting location data of ${data.data.city}`);
         console.log("get data from stiorage");
         getCityData(data.data);
@@ -59,7 +59,6 @@ const Home = props => {
       }
     }
     console.log("get data from api");
-
     checkGranted();
   };
   const checkGranted = async () => {
@@ -71,12 +70,14 @@ const Home = props => {
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         Geolocation.getCurrentPosition(
           position => {
+            
             let value = `${position.coords.latitude},${
               position.coords.longitude
             }`;
             getLocationData(value)
               .then(handleLocationData)
               .catch(e => getGlobalData());
+          
           },
           error => {
             getGlobalData();
@@ -106,8 +107,6 @@ const Home = props => {
   };
 
   const getCityData = data => {
-    console.log('authLocation')
-    console.log(authLocation)
     props.selectLocation(data);
     getHomePageData(data.city)
       .then(setHomePageData)
@@ -117,9 +116,11 @@ const Home = props => {
     props.locationLoadingStop();
   };
 
-  const handleLocationData = async data => {
-    if (data.status == "OK") {
-      let data = new Location(json);
+  const handleLocationData = async (locationData) => {
+    console.log('reached');
+    console.log(locationData);
+    if (locationData.status == "OK") {
+      let data = new Location(locationData);
       setloadingMsg(`Getting location data of ${data.city}`);
 
       let storage_data = {
@@ -128,7 +129,8 @@ const Home = props => {
       };
 
       await AsyncStorage.setItem(LOCATION_DATA, JSON.stringify(storage_data));
-      
+      setstatus("from api");
+
       getCityData(data);
     } else {
       getGlobalData();
@@ -172,7 +174,7 @@ const Home = props => {
     <View style={styles.flex}>
       <ScrollView>
         <Banner data={bannerData} />
-        {/* <Text>{locationLoading.toString()}</Text> */}
+        {/* <Text>{status}</Text> */}
 
         <BlockHeader heading="Categories" onLinkPress={ShowAllTags} />
         <Tags {...props} />

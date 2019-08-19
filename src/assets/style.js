@@ -109,7 +109,9 @@ export default StyleSheet.create({
     flexWrap: "wrap"
   },
   singleCity: {
-    marginVertical: 10
+    marginVertical: 10,
+    flexDirection:'row',
+    // marginHorizontal:20
   },
   footer: {
     justifyContent: "center",

@@ -22,7 +22,7 @@ const AppHeader = () => {
   return (
 
     <View style={[styles.row, styles.header]}>
-      <View style={[styles.flex]}>
+      {/* <View style={[styles.flex]}> */}
         {/* <Menu
           style={{ marginTop: 40,width:'50%' }}
           ref={this.setMenuRef}
@@ -31,9 +31,9 @@ const AppHeader = () => {
           <MenuItem onPress={this.hideMenu}><Icon name="account-multiple-plus-outline" size={27} color='black' /> Invite Friends</MenuItem>
           <MenuItem onPress={this.hideMenu}><Icon name="star-outline" size={27} color='black' /> Rate Us</MenuItem>
         </Menu> */}
-      </View>
+      {/* </View> */}
       <Text style={[styles.flex, styles.logo]}> CityApp </Text>
-      <Text style={[styles.flex]} />
+      {/* <Text style={[styles.flex]} /> */}
 
     </View>
   )

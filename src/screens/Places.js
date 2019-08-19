@@ -16,7 +16,7 @@ import Icon from "react-native-vector-icons/dist/Entypo";
 import { text_truncate, strip_html_tags, getTimeInfo } from "../Utils/Helpers";
 import Spinner from "react-native-spinkit";
 import { APP_ORANGE } from "../theme/colors";
-import { M_Light } from "../theme/fonts";
+import { M_Light ,M_BOLD} from "../theme/fonts";
 
 const Places = props => {
   const [data, setdata] = useState([]);
@@ -26,14 +26,14 @@ const Places = props => {
 
   useEffect(() => {
     let city = authLocation.city;
-
+console.log(city)
     getPostByCategoryName(city)
       .then(data => {
         setdata(data);
         setloading(false);
       })
       .catch(e => console.log(e));
-  }, [authLocation]);
+  }, []);
 
   if (loading) {
     return (
@@ -41,6 +41,13 @@ const Places = props => {
         <Spinner type="Pulse" color={APP_ORANGE} size={80} />
       </View>
     );
+  }
+  if(!data.length && !loading){
+    return(
+      <View style={{flex:1,justifyContent:"center",alignItems:'center',marginHorizontal:20 }}>
+        <Text style={{fontSize:20,color:'gray',fontFamily:M_BOLD,textAlign:"center"}}>Oops!! there are no nearby places registered right now.</Text>
+      </View>
+    )
   }
 
   return (

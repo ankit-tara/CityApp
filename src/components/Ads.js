@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Text, StyleSheet, View, Image, Dimensions } from "react-native";
+import { Text, StyleSheet, View, Image, Dimensions, TouchableOpacity } from "react-native";
+import {withNavigation} from 'react-navigation'
 import Swiper from "react-native-swiper";
 import { M_SemiBold } from "../theme/fonts";
 const { width } = Dimensions.get("window");
 
-const Ads = ({ images }) => {
+const Ads = (props) => {
+
   return (
     <View style={styles.container}>
       <Text style={styles.adHeading}>Sponsered ads</Text>
-      {images.length > 0 && (
+      {props.images.length > 0 && (
         <Swiper autoplay={true}  autoplayTimeout={5} 
           style={styles.wrapper}
           height={120}
@@ -21,21 +23,25 @@ const Ads = ({ images }) => {
           }
           loop
         >
-          {images.map(img =>img.ad_image && (
-            <View style={styles.slide} key={`ad-img-${img.ad_image.ID}`}>
+          {props.images.map(img =>img.ad_image && (
+            <TouchableOpacity style={styles.slide} key={`ad-img-${img.ad_image.ID}`}  onPress={() =>
+             props.navigation.navigate("Single", {
+              item: img.ad_image.ID,
+                })
+            }>
               <Image
                 resizeMode="contain"
                 style={styles.image}
                 source={{ uri: img.ad_image.sizes.medium }}
               />
-            </View>
+            </TouchableOpacity>
           ))}
         </Swiper>
       )}
     </View>
   );
 };
-export default Ads;
+export default withNavigation(Ads);
 
 const styles = StyleSheet.create({
   container: {

@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   TouchableNativeFeedback,
   Linking,
+  Share,
   Alert,
   Modal
 } from "react-native";
@@ -102,6 +103,31 @@ const Single = props => {
     }
   };
 
+  onShare = async () => {
+    try {
+      const result = await Share.share({
+        message:post.title.rendered + '\n' + post.link,
+          url: post.link,
+          title: post.title.rendered + '\n' + post.link,
+          dialogTitle:post.title.rendered ,
+      });
+
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+
+
   const getTime = day => {
     console.log(post.acf[day])
     let time = " ---";
@@ -138,6 +164,9 @@ const Single = props => {
             </View>
           </TouchableNativeFeedback>
         </ImageBackground>
+        <TouchableOpacity style={{alignItems:'flex-end'}} onPress={this.onShare}>
+           <Icon name="share"  size={24} color="#000" style={[styles.Icon,{margin:4}]}/>
+           </TouchableOpacity>
         <View style={styles.content}>
           <View style={styles.detailBox}>
             <View style={styles.flex}>

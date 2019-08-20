@@ -178,7 +178,7 @@ const Home = props => {
 
         <BlockHeader heading="Categories" onLinkPress={ShowAllTags} />
         <Tags {...props} />
-        {adData && <Ads images={adData} />}
+        {adData && <Ads images={adData}  />}
         {catData.length > 0 &&
           catData.map(cat => {
             cat.tag.id = cat.tag.term_id;

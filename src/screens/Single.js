@@ -165,7 +165,7 @@ const Single = props => {
           </TouchableNativeFeedback>
         </ImageBackground>
         <TouchableOpacity style={{alignItems:'flex-end'}} onPress={this.onShare}>
-           <Icon name="share"  size={24} color="#000" style={[styles.Icon,{margin:4}]}/>
+           <Icon name="share-variant"  size={24} color="#000" style={[styles.Icon,{margin:4}]}/>
            </TouchableOpacity>
         <View style={styles.content}>
           <View style={styles.detailBox}>

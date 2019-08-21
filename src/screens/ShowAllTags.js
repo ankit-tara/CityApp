@@ -152,7 +152,7 @@ const ShowAllTags = props => {
                 size={16}
                 color="#ec9902"
               />
-              <Text style={styles.cityheading}>{decodeURIComponent(cat.name)}</Text>
+              <Text style={styles.cityheading}>{(cat.name).replace("&amp;","&")}</Text>
             </TouchableOpacity>
           ))}
         </View>

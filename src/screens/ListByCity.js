@@ -31,7 +31,6 @@ const ListByCity = props => {
 
   useEffect(() => {
     if (props.navigation.state.params.item) {
-      console.log(props.navigation.state.params.item);
       setcategory(props.navigation.state.params.item);
       getPostByCategory(props.navigation.state.params.item.id)
         .then(data => {

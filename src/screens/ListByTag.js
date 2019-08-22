@@ -11,6 +11,7 @@ import {
   Image
 } from "react-native";
 import Icon from "react-native-vector-icons/dist/Entypo";
+import { useSelector } from "react-redux";
 
 // import styles from "../assets/style.js";
 import { getPostBytag } from "../Utils/Api.js";
@@ -29,13 +30,16 @@ const ListByTag = props => {
   const [currentpage, setcurrentpage] = useState(1);
   const [loadMore, setloadMore] = useState(false);
   const [postEnd, setpostEnd] = useState(false);
+  const authLocation = useSelector(state => state.authLocation);
 
   const scrollY = new Animated.Value(0);
 
   useEffect(() => {
+    let city = authLocation.city;
+
     if (props.navigation.state.params.item) {
       settag(props.navigation.state.params.item);
-      getPostBytag(props.navigation.state.params.item.id)
+      getPostBytag(props.navigation.state.params.item.id,city)
         .then(data => {
           setposts(data);
         })
@@ -45,7 +49,9 @@ const ListByTag = props => {
 
   loadMoreData = () => {
     setloadMore(true);
-    getPostBytag(tag.id, per_page, currentpage + 1)
+    let city = authLocation.city;
+
+    getPostBytag(tag.id,city, per_page, currentpage + 1)
       .then(data => {
         // console.log(data)
         let new_data = posts.concat(data);

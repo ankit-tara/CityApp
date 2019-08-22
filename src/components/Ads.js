@@ -41,7 +41,6 @@ const Ads = props => {
                     }
                   }}
                 >
-                  {console.log(img)}
                   <Image
                     resizeMode="contain"
                     style={styles.image}

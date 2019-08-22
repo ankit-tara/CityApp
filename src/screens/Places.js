@@ -26,7 +26,6 @@ const Places = props => {
 
   useEffect(() => {
     let city = authLocation.city;
-console.log(city)
     getPostByCategoryName(city)
       .then(data => {
         setdata(data);

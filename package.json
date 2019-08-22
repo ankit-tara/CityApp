@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.1",
+    "@react-native-firebase/app": "^0.2.3",
+    "@react-native-firebase/messaging": "^0.2.3",
     "alpha-scroll-flat-list": "^0.2.20",
     "moment": "^2.24.0",
     "react": "16.8.6",
@@ -23,6 +25,7 @@
     "react-native-maps": "^0.25.0",
     "react-native-material-menu": "^0.6.6",
     "react-native-popup-menu": "^0.15.6",
+    "react-native-push-notification": "^3.1.9",
     "react-native-spinkit": "^1.4.1",
     "react-native-splash-screen": "^3.2.0",
     "react-native-swiper": "^1.5.14",

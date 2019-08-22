@@ -39,7 +39,6 @@ const Single = props => {
   const [contactNo, setcontactNo] = useState([]);
 
   useEffect(() => {
-    console.log(props);
 
     let params = props.navigation.state.params;
     if (params && params.post && params.post.id && params.post.id != post.id) {
@@ -48,8 +47,7 @@ const Single = props => {
       return;
     }
     if (params && !params.post && params.postId && params.postId != post.id) {
-      console.log(params.postId);
-      getPostByID(params.postId.replace(":", ""))
+      getPostByID(params.postId.toString().replace(":", ""))
         .then(data => {
           if (data && data.id) {
             setPostData(data);
@@ -68,9 +66,7 @@ const Single = props => {
   };
 
   const getIContactNo = contact_no => {
-    console.log(contact_no);
     let numbers = contact_no.split(",");
-    console.log(numbers);
     setcontactNo(numbers);
   };
 
@@ -127,10 +123,11 @@ const Single = props => {
 
   onShare = async () => {
     try {
+      let url = post.link + '?visitlink=cityapp://citypost:'+post.id
       const result = await Share.share({
-        message: post.title.rendered + "\n" + post.link,
-        url: post.link,
-        title: post.title.rendered + "\n" + post.link,
+        message: post.title.rendered + "\n" + url,
+        url:url,
+        title: post.title.rendered + "\n" + url,
         dialogTitle: post.title.rendered
       });
 
@@ -235,12 +232,19 @@ const Single = props => {
               </View>
             </View>
           )}
+           <View style={styles.detailBox}>
+            <View style={styles.flex}>
+              <Icon name="map" size={20} color="#000" style={styles.Icon} />
+              <Text style={styles.iconText}>Name</Text>
+            </View>
+            <Text style={styles.results}>{post.dvc_name}</Text>
+          </View>
           <View style={styles.detailBox}>
             <View style={styles.flex}>
               <Icon name="phone" size={20} color="#000" style={styles.Icon} />
               <Text style={styles.iconText}>Contact </Text>
             </View>
-            <Text style={styles.results}>{post.acf.dvc_name}</Text>
+            {/* <Text style={styles.results}>{post.acf.dvc_name}</Text> */}
             <Text style={styles.results}>{post.acf.contact_no}</Text>
             <View style={[{ flexDirection: "row" }, styles.buttons]}>
               <TouchableOpacity
@@ -358,8 +362,7 @@ const Single = props => {
 
 export default Single;
 Single.navigationOptions = ({ navigation }) => {
-  console.log(navigation);
-  console.log(navigation.state.routeName);
+
   if (navigation.state.routeName == "SinglePost") {
     return {
       title: "Place",

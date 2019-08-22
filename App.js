@@ -94,7 +94,7 @@ const StackNavigator = createStackNavigator(
     },
     SinglePostStack: {
       screen: SinglePostStack,
-      path:'singlepost:postId'
+      path:'citypost:postId'
     }
   },
   {

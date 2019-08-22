@@ -54,7 +54,6 @@ const ShowAllTags = props => {
         settags(new_data);
         setdefaultData(data);
         setloadMore(false);
-        console.log(data.length)
         if(data.length<=0){
           setpostEnd(true)
         }

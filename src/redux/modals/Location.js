@@ -4,8 +4,6 @@ const defaultLocation = {
 
 export default class Location {
   constructor(location = defaultLocation) {
-    console.log("location");
-    console.log(location);
     this.city = this.getCityName(location);
   }
 

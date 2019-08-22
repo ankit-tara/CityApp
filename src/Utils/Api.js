@@ -68,8 +68,8 @@ export function getPostByCategory(category,currentpage=1,perpage=10) {
 /**
  * get post by tag
  */
-export function getPostBytag(tag,currentpage=1,perpage=10) {
-    let url = `${API_INITIAL}/posts?post_tag=${tag}&per_page=${perpage}&page=${currentpage}`
+export function getPostBytag(tag,city='',currentpage=1,perpage=10,) {
+    let url = `${API_INITIAL}/posts?post_tag=${tag}&per_page=${perpage}&page=${currentpage}&filter[category_name]=${city}`
     // let url = `${API_INITIAL}/posts?tags=${tag}&per_page=${perpage}&page=${currentpage}`
     console.log(url)
     return fetch(url)

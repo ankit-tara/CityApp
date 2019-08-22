@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "942434448921",
+    "firebase_url": "https://cityapp-fd757.firebaseio.com",
+    "project_id": "cityapp-fd757",
+    "storage_bucket": "cityapp-fd757.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942434448921:android:703705913a89908d",
+        "android_client_info": {
+          "package_name": "com.siricityapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "942434448921-ooqusqj5kfn4h3plfa2avnt69jgbfpki.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAN_waNIb_e3yVwSjLRdzV3Zb7o1GBVidM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "942434448921-ooqusqj5kfn4h3plfa2avnt69jgbfpki.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

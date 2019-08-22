@@ -12,8 +12,12 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/dist/Entypo";
 import { getPostByCategory } from "../Utils/Api.js";
-import { text_truncate, strip_html_tags, getTimeInfo } from "../Utils/Helpers.js";
-import { M_BOLD ,M_Light} from "../theme/fonts.js";
+import {
+  text_truncate,
+  strip_html_tags,
+  getTimeInfo
+} from "../Utils/Helpers.js";
+import { M_BOLD, M_Light } from "../theme/fonts.js";
 import { APP_ORANGE } from "../theme/colors.js";
 
 const ListByCity = props => {
@@ -22,7 +26,8 @@ const ListByCity = props => {
   const [posts, setposts] = useState([]);
   const [currentpage, setcurrentpage] = useState(1);
   const [loadMore, setloadMore] = useState(false);
-  const scrollY  = new Animated.Value(0)
+  const [postEnd, setpostEnd] = useState(false);
+  const scrollY = new Animated.Value(0);
 
   useEffect(() => {
     if (props.navigation.state.params.item) {
@@ -40,51 +45,60 @@ const ListByCity = props => {
     setloadMore(true);
     getPostByCategory(category.id, per_page, currentpage + 1)
       .then(data => {
-        let new_data = posts.concat(data);
-        setcurrentpage(currentpage + 1);
-        setposts(new_data);
+        if(Array.isArray(data) && data.length){
+          let new_data = posts.concat(data);
+          setcurrentpage(currentpage + 1);
+          setposts(new_data);
+        
+        }else{
+          setpostEnd(true)
+        }
         setloadMore(false);
       })
       .catch(e => console.log(e));
   };
 
-  isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
-    const paddingToBottom = 20
-    return layoutMeasurement.height + contentOffset.y >=
+  isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+    const paddingToBottom = 20;
+    return (
+      layoutMeasurement.height + contentOffset.y >=
       contentSize.height - paddingToBottom
-  }
+    );
+  };
 
   renderFooter = () => {
-    if (!posts.length || posts.length<10) return null;
+    if (!posts.length || posts.length < 10) return null;
     return (
       <View style={styles.footer}>
-       
-        {loadMore && <ActivityIndicator style={{ marginLeft: 8 }} color={APP_ORANGE}/>}
+        {loadMore && (
+          <ActivityIndicator style={{ marginLeft: 8 }} color={APP_ORANGE} />
+        )}
       </View>
     );
   };
-  
-  gotoPost=(post)=>{
-    props.navigation.navigate('Single',{
-      post:post
-    })
-  }
 
+  gotoPost = post => {
+    props.navigation.navigate("Single", {
+      post: post
+    });
+  };
 
   return (
     <View style={{ flex: 1 }}>
-           <ScrollView style={{ marginBottom: 50 }}
-              scrollEventThrottle={16}
-              onScroll={Animated.event(
-                [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-                {
-                  listener: event => {
-                    if (this.isCloseToBottom(event.nativeEvent)) {
-                      this.loadMoreData()
-                    }
-                  }
-                }
-              )}     >
+      <ScrollView
+        // style={{ marginBottom: 50 }}
+        scrollEventThrottle={16}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          {
+            listener: event => {
+              if (!loadMore && !postEnd && this.isCloseToBottom(event.nativeEvent)) {
+                this.loadMoreData();
+              }
+            }
+          }
+        )}
+      >
         <View style={styles.wrapper}>
           {category && (
             <View>
@@ -97,55 +111,65 @@ const ListByCity = props => {
                 data={posts}
                 renderItem={post => {
                   let timeInfo = getTimeInfo(post.item);
-                  return(
-                  <TouchableOpacity onPress={()=>gotoPost(post.item)}>
-                  <View style={styles.place}>
-                    <View style={styles.left}>
-                      {post.item.fimg_url ? (
-                        <Image
-                          style={{ width: 50, height: 50, borderRadius: 25 }}
-                          source={{
-                            uri: post.item.fimg_url
-                          }}
-                        />
-                      ) : (
-                        <View
-                          style={{ borderRadius: 25, backgroundColor: "red" }}
-                        >
-                          <Icon
-                            name="image"
-                            size={30}
-                            color="#fff"
-                            style={{
-                              width: 50,
-                              height: 50,
-                              borderRadius: 25,
-                              backgroundColor: "gray",
-                              textAlign: "center",
-                              paddingTop:10
-                            }}
-                          />
+                  if(!post.item) return null
+                  return (
+                    <TouchableOpacity onPress={() => gotoPost(post.item)}>
+                      <View style={styles.place}>
+                        <View style={styles.left}>
+                          {post.item.fimg_url ? (
+                            <Image
+                              style={{
+                                width: 50,
+                                height: 50,
+                                borderRadius: 25
+                              }}
+                              source={{
+                                uri: post.item.fimg_url
+                              }}
+                            />
+                          ) : (
+                            <View
+                              style={{
+                                borderRadius: 25,
+                                backgroundColor: "red"
+                              }}
+                            >
+                              <Icon
+                                name="image"
+                                size={30}
+                                color="#fff"
+                                style={{
+                                  width: 50,
+                                  height: 50,
+                                  borderRadius: 25,
+                                  backgroundColor: "gray",
+                                  textAlign: "center",
+                                  paddingTop: 10
+                                }}
+                              />
+                            </View>
+                          )}
                         </View>
-                      )}
-                    </View>
-                    <View style={styles.right}>
-                      <Text style={styles.title}>
-                        {post.item.title.rendered}
-                      </Text>
-                      {post.item.content.rendered != '' && (
-                      <Text style={styles.description}>
-                        {text_truncate(
-                          strip_html_tags(post.item.content.rendered),
-                          75
-                        )}
-                      </Text>)}
-                      {timeInfo && (
+                        <View style={styles.right}>
+                          <Text style={styles.title}>
+                            {post.item.title.rendered}
+                          </Text>
+                          {post.item.content.rendered != "" && (
+                            <Text style={styles.description}>
+                              {text_truncate(
+                                strip_html_tags(post.item.content.rendered),
+                                75
+                              )}
+                            </Text>
+                          )}
+                          {timeInfo && (
                             <Text style={styles.timeInfo}>{timeInfo}</Text>
                           )}
-                    </View>
-                  </View>
-                  </TouchableOpacity>
-                )}}
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                }}
                 ListFooterComponent={renderFooter}
               />
             </View>
@@ -156,14 +180,14 @@ const ListByCity = props => {
   );
 };
 ListByCity.navigationOptions = {
-  title: 'Places',
+  title: "Places",
   headerTitleStyle: {
     textAlign: "center",
     alignSelf: "center",
     flex: 1,
-    fontFamily:M_BOLD,
+    fontFamily: M_BOLD
   },
-  headerRight:<View/>
+  headerRight: <View />
 };
 export default ListByCity;
 

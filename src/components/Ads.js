@@ -1,41 +1,55 @@
 import React, { useState, useEffect } from "react";
-import { Text, StyleSheet, View, Image, Dimensions, TouchableOpacity } from "react-native";
-import {withNavigation} from 'react-navigation'
+import {
+  Text,
+  StyleSheet,
+  View,
+  Image,
+  Dimensions,
+  TouchableOpacity
+} from "react-native";
+import { withNavigation } from "react-navigation";
 import Swiper from "react-native-swiper";
 import { M_SemiBold } from "../theme/fonts";
-const { width } = Dimensions.get("window");
 
-const Ads = (props) => {
-
+const Ads = props => {
   return (
     <View style={styles.container}>
       <Text style={styles.adHeading}>Sponsered ads</Text>
       {props.images.length > 0 && (
-        <Swiper autoplay={true}  autoplayTimeout={5} 
+        <Swiper
+          autoplay={true}
+          autoplayTimeout={5}
           style={styles.wrapper}
           height={120}
           showsButton={true}
           showsPagination={false}
           nextButton={<Text style={styles.buttonText}>›</Text>}
           prevButton={<Text style={styles.buttonText}>‹</Text>}
-          onMomentumScrollEnd={(e, state, context) =>
-            console.log("index:", state.index)
-          }
           loop
         >
-          {props.images.map(img =>img.ad_image && (
-            <TouchableOpacity style={styles.slide} key={`ad-img-${img.ad_image.ID}`}  onPress={() =>
-             props.navigation.navigate("Single", {
-              item: img.ad_image.ID,
-                })
-            }>
-              <Image
-                resizeMode="contain"
-                style={styles.image}
-                source={{ uri: img.ad_image.sizes.medium }}
-              />
-            </TouchableOpacity>
-          ))}
+          {props.images.map(
+            img =>
+              img.ad_image && (
+                <TouchableOpacity
+                  style={styles.slide}
+                  key={`ad-img-${img.ad_image.ID}`}
+                  onPress={() => {
+                    if (img.related_to) {
+                      props.navigation.navigate("Single", {
+                        postId: img.related_to.ID
+                      });
+                    }
+                  }}
+                >
+                  {console.log(img)}
+                  <Image
+                    resizeMode="contain"
+                    style={styles.image}
+                    source={{ uri: img.ad_image.sizes.medium }}
+                  />
+                </TouchableOpacity>
+              )
+          )}
         </Swiper>
       )}
     </View>
@@ -81,6 +95,6 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     color: "#ccc",
     fontSize: 12,
-    fontFamily:M_SemiBold
+    fontFamily: M_SemiBold
   }
 });

@@ -4,7 +4,6 @@ import {
   createAppContainer,
   createStackNavigator
 } from "react-navigation";
-import TestGeo from "./src/components/TestGeo"
 import Home from "./src/screens/Home";
 import Places from "./src/screens/Places";
 import Explore from "./src/screens/Explore";
@@ -45,9 +44,8 @@ const TabNavigator = createBottomTabNavigator(
   {
     Home: HomeStack,
     Search: SearchStack,
-    Nearby:PlacesStack,
-    Cities: CitiesStack,
-    // TestGeo:TestGeo
+    Nearby: PlacesStack,
+    Cities: CitiesStack
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -69,24 +67,42 @@ const TabNavigator = createBottomTabNavigator(
         }
       }
     }),
-    resetOnBlur:true,
+    resetOnBlur: true,
     tabBarOptions: {
       activeTintColor: TAB_ICON_ACTIVE,
       inactiveTintColor: TAB_ICON_INACTIVE,
       labelStyle: {
         fontSize: 10,
-        fontFamily:M_Regular,
-        textTransform:'uppercase'
+        fontFamily: M_Regular,
+        textTransform: "uppercase"
       }
     }
   }
 );
 
-// const StackNavigator = createStackNavigator({
-//   Tab: {
-//     screen: TabNavigator,
-//     navigationOptions: { header: <Header/> }
-//  }
-// })
+const SinglePostStack = createStackNavigator({
+  SinglePost: {
+    screen: Single,
+    // path:'singlepost:postId'
+  },
+})
 
-export default createAppContainer(TabNavigator);
+const StackNavigator = createStackNavigator(
+  {
+    Tab: {
+      screen: TabNavigator
+    },
+    SinglePostStack: {
+      screen: SinglePostStack,
+      path:'singlepost:postId'
+    }
+  },
+  {
+    headerMode: "none",
+    navigationOptions: {
+      headerVisible: false
+    }
+  }
+);
+
+export default createAppContainer(StackNavigator);

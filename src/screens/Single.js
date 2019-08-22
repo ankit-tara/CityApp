@@ -23,9 +23,13 @@ import ImageModal from "../components/ImageModal";
 import MultipleNumber from "../components/MultipleNumber";
 import moment from "moment";
 import Map from "../components/Map";
+import { getPostByID } from "../Utils/Api";
+import Spinner from "react-native-spinkit";
+
 const Single = props => {
+  const [loading, setloading] = useState(true);
   const [isCollapsed, setisCollapsed] = useState(true);
-  const [post, setpost] = useState();
+  const [post, setpost] = useState({});
   const [images, setimages] = useState([]);
   const [mainImg, setmainImg] = useState([]);
   const [showImages, setshowImages] = useState(false);
@@ -35,15 +39,33 @@ const Single = props => {
   const [contactNo, setcontactNo] = useState([]);
 
   useEffect(() => {
+    console.log(props);
+
     let params = props.navigation.state.params;
-    if (params && params.post) {
+    if (params && params.post && params.post.id && params.post.id != post.id) {
       let post = params.post;
-      setpost(post);
-      post.acf && post.acf.images && getImgUrls(post.acf.images);
-      post.acf && post.acf.contact_no && getIContactNo(post.acf.contact_no);
-      post.fimg_url && getMainImgUrl(post.fimg_url);
+      setPostData(post);
+      return;
     }
-  }, []);
+    if (params && !params.post && params.postId && params.postId != post.id) {
+      console.log(params.postId);
+      getPostByID(params.postId.replace(":", ""))
+        .then(data => {
+          if (data && data.id) {
+            setPostData(data);
+          }
+        })
+        .catch(e => setloading(false));
+    }
+  }, [props]);
+
+  const setPostData = post => {
+    setpost(post);
+    post.acf && post.acf.images && getImgUrls(post.acf.images);
+    post.acf && post.acf.contact_no && getIContactNo(post.acf.contact_no);
+    post.fimg_url && getMainImgUrl(post.fimg_url);
+    setloading(false);
+  };
 
   const getIContactNo = contact_no => {
     console.log(contact_no);
@@ -106,10 +128,10 @@ const Single = props => {
   onShare = async () => {
     try {
       const result = await Share.share({
-        message:post.title.rendered + '\n' + post.link,
-          url: post.link,
-          title: post.title.rendered + '\n' + post.link,
-          dialogTitle:post.title.rendered ,
+        message: post.title.rendered + "\n" + post.link,
+        url: post.link,
+        title: post.title.rendered + "\n" + post.link,
+        dialogTitle: post.title.rendered
       });
 
       if (result.action === Share.sharedAction) {
@@ -126,18 +148,16 @@ const Single = props => {
     }
   };
 
-
-
   const getTime = day => {
-    console.log(post.acf[day])
     let time = " ---";
     if (post.acf && post.acf[day] && post.acf[day].opens_at) {
-      let opens_at =  post.acf[day].opens_at ?
-      moment(post.acf[day].opens_at, "hh:mm A").format("hh:mm A"):''
-      let closes_at =   post.acf[day].closes_at ?
-      moment(post.acf[day].closes_at, "hh:mm A").format("hh:mm A"):'';
-      time = `${opens_at} - ${closes_at}`
-      
+      let opens_at = post.acf[day].opens_at
+        ? moment(post.acf[day].opens_at, "hh:mm A").format("hh:mm A")
+        : "";
+      let closes_at = post.acf[day].closes_at
+        ? moment(post.acf[day].closes_at, "hh:mm A").format("hh:mm A")
+        : "";
+      time = `${opens_at} - ${closes_at}`;
     }
     return (
       <Text style={styles.timing}>
@@ -146,6 +166,13 @@ const Single = props => {
       </Text>
     );
   };
+  if (loading) {
+    return (
+      <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
+        <Spinner type="9CubeGrid" color={APP_ORANGE} size={40} />
+      </View>
+    );
+  }
 
   if (!post) return null;
 
@@ -164,9 +191,17 @@ const Single = props => {
             </View>
           </TouchableNativeFeedback>
         </ImageBackground>
-        <TouchableOpacity style={{alignItems:'flex-end'}} onPress={this.onShare}>
-           <Icon name="share-variant"  size={24} color="#000" style={[styles.Icon,{margin:4}]}/>
-           </TouchableOpacity>
+        <TouchableOpacity
+          style={{ alignItems: "flex-end" }}
+          onPress={this.onShare}
+        >
+          <Icon
+            name="share-variant"
+            size={24}
+            color="#000"
+            style={[styles.Icon, { margin: 4 }]}
+          />
+        </TouchableOpacity>
         <View style={styles.content}>
           <View style={styles.detailBox}>
             <View style={styles.flex}>
@@ -189,20 +224,21 @@ const Single = props => {
             </View>
             <Text style={styles.results}>{post.acf.address}</Text>
           </View>
-          {post.acf.map && 
-          <View style={styles.detailBox}>
-            <View style={styles.flex}>
-              <Map lat={post.acf.map.lat}  lng={post.acf.map.lng} address={post.acf.address}/>
+          {post.acf.map && (
+            <View style={styles.detailBox}>
+              <View style={styles.flex}>
+                <Map
+                  lat={post.acf.map.lat}
+                  lng={post.acf.map.lng}
+                  address={post.acf.address}
+                />
+              </View>
             </View>
-          </View>
-          }
+          )}
           <View style={styles.detailBox}>
             <View style={styles.flex}>
               <Icon name="phone" size={20} color="#000" style={styles.Icon} />
-              <Text
-              
-              
-              style={styles.iconText}>Contact </Text>
+              <Text style={styles.iconText}>Contact </Text>
             </View>
             <Text style={styles.results}>{post.acf.dvc_name}</Text>
             <Text style={styles.results}>{post.acf.contact_no}</Text>
@@ -321,15 +357,36 @@ const Single = props => {
 };
 
 export default Single;
-Single.navigationOptions = {
-  title: "Place",
-  headerTitleStyle: {
-    textAlign: "center",
-    alignSelf: "center",
-    flex: 1,
-    fontFamily: M_BOLD
-  },
-  headerRight: <View />
+Single.navigationOptions = ({ navigation }) => {
+  console.log(navigation);
+  console.log(navigation.state.routeName);
+  if (navigation.state.routeName == "SinglePost") {
+    return {
+      title: "Place",
+      headerTitleStyle: {
+        textAlign: "center",
+        alignSelf: "center",
+        flex: 1,
+        fontFamily: M_BOLD
+      },
+      headerRight: <View />,
+      headerLeft: (
+        <TouchableOpacity onPress={()=>navigation.navigate('Tab')}>
+          <Icon name="home" size={28} color="#000" style={{ marginLeft: 20 }} />
+        </TouchableOpacity>
+      )
+    };
+  }
+  return {
+    title: "Place",
+    headerTitleStyle: {
+      textAlign: "center",
+      alignSelf: "center",
+      flex: 1,
+      fontFamily: M_BOLD
+    },
+    headerRight: <View />
+  };
 };
 const styles = StyleSheet.create({
   gallery: {

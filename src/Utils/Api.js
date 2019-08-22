@@ -132,3 +132,17 @@ export function getPostByCategoryName(name,currentpage=1,perpage=10) {
             throw error;
         });
 }
+
+/**
+ * get post by id
+ */
+export function getPostByID(id) {
+    let url = `${API_INITIAL}/posts/${id}`
+    console.log(url)
+    return fetch(url)
+        .then(response => response.json())
+        .catch(error => {
+            throw error;
+        });
+}
+

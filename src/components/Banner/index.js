@@ -28,7 +28,7 @@ const MainBanner = ({ data }) => {
           {images.map((img) => (
             <View style={styles.slide} key={`img-${img.image.ID}`} >
               <Image resizeMode='cover' style={styles.image} source={{ uri: img.image.url }} />
-              <Text style={styles.bannerText}>{img.image.title}</Text>
+              {img.image.title!='' && <Text style={styles.bannerText}>{img.image.title}</Text>}
             </View>
           ))}
         </Swiper>

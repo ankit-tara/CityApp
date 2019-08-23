@@ -15,9 +15,10 @@ import { getPostByCategory } from "../Utils/Api.js";
 import {
   text_truncate,
   strip_html_tags,
-  getTimeInfo
+  getTimeInfo,
+  decode_html
 } from "../Utils/Helpers.js";
-import { M_BOLD, M_Light } from "../theme/fonts.js";
+import { M_BOLD, M_Light, M_Regular } from "../theme/fonts.js";
 import { APP_ORANGE } from "../theme/colors.js";
 
 const ListByCity = props => {
@@ -42,7 +43,7 @@ const ListByCity = props => {
 
   loadMoreData = () => {
     setloadMore(true);
-    getPostByCategory(category.id, per_page, currentpage + 1)
+    getPostByCategory(category.id,  currentpage + 1,per_page)
       .then(data => {
         if(Array.isArray(data) && data.length){
           let new_data = posts.concat(data);
@@ -151,7 +152,7 @@ const ListByCity = props => {
                         </View>
                         <View style={styles.right}>
                           <Text style={styles.title}>
-                            {post.item.title.rendered}
+                            {decode_html(post.item.title.rendered)}
                           </Text>
                           {post.item.content.rendered != "" && (
                             <Text style={styles.description}>
@@ -256,9 +257,10 @@ const styles = StyleSheet.create({
     borderRadius: 5
   },
   timeInfo: {
-    fontFamily: M_Light,
+    fontFamily: M_Regular,
     color: "#000",
     fontSize: 12,
-    marginVertical: 5
+    marginVertical: 5,
+    color:'green'
   }
 });

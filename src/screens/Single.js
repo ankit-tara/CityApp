@@ -15,7 +15,7 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/dist/MaterialCommunityIcons";
 import Collapsible from "react-native-collapsible";
-import { strip_html_tags } from "../Utils/Helpers";
+import { strip_html_tags, decode_html } from "../Utils/Helpers";
 import { M_BOLD, M_SemiBold } from "../theme/fonts";
 import Swiper from "react-native-swiper";
 import { APP_ORANGE } from "../theme/colors";
@@ -124,11 +124,12 @@ const Single = props => {
   onShare = async () => {
     try {
       let url = post.link + '?visitlink=cityapp://citypost:'+post.id
+      let title = decode_html(post.title.rendered)
       const result = await Share.share({
-        message: post.title.rendered + "\n" + url,
+        message: title + "\n" + url,
         url:url,
-        title: post.title.rendered + "\n" + url,
-        dialogTitle: post.title.rendered
+        title: title + "\n" + url,
+        dialogTitle: title
       });
 
       if (result.action === Share.sharedAction) {
@@ -189,7 +190,7 @@ const Single = props => {
         >
           <TouchableNativeFeedback onPress={() => setshowMainImage(true)}>
             <View style={styles.overlay}>
-              <Text style={styles.title}>{post.title.rendered}</Text>
+              <Text style={styles.title}>{decode_html(post.title.rendered)}</Text>
             </View>
           </TouchableNativeFeedback>
         </ImageBackground>

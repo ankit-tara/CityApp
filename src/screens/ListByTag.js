@@ -18,9 +18,10 @@ import { getPostBytag } from "../Utils/Api.js";
 import {
   text_truncate,
   strip_html_tags,
-  getTimeInfo
+  getTimeInfo,
+  decode_html
 } from "../Utils/Helpers.js";
-import { M_BOLD, M_Light } from "../theme/fonts.js";
+import { M_BOLD, M_Light, M_Regular } from "../theme/fonts.js";
 import { APP_ORANGE } from "../theme/colors.js";
 
 const ListByTag = props => {
@@ -53,10 +54,14 @@ const ListByTag = props => {
 
     getPostBytag(tag.id,city, per_page, currentpage + 1)
       .then(data => {
+        if(Array.isArray(data) && data.length){
         // console.log(data)
         let new_data = posts.concat(data);
         setcurrentpage(currentpage + 1);
         setposts(new_data);
+        }else{
+          setpostEnd(true)
+        }
         setloadMore(false);
       })
       .catch(e => console.log(e));
@@ -90,13 +95,13 @@ const ListByTag = props => {
   return (
     <View style={{ flex: 1 }}>
       <ScrollView
-        style={{ marginBottom: 50 }}
+        // style={{ marginBottom: 50 }}
         scrollEventThrottle={16}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
           {
             listener: event => {
-              if (this.isCloseToBottom(event.nativeEvent)) {
+              if (this.isCloseToBottom(event.nativeEvent) && !postEnd) {
                 this.loadMoreData();
               }
             }
@@ -148,7 +153,7 @@ const ListByTag = props => {
                         </View>
                         <View style={styles.right}>
                           <Text style={styles.title}>
-                            {post.item.title && post.item.title.rendered }
+                            {post.item.title && decode_html(post.item.title.rendered) }
                           </Text>
                           {post.item.content && post.item.content.rendered != "" && (
                             <Text style={styles.description}>
@@ -265,9 +270,10 @@ const styles = StyleSheet.create({
     paddingTop: 10
   },
   timeInfo: {
-    fontFamily: M_Light,
+    fontFamily: M_Regular,
     color: "#000",
     fontSize: 12,
-    marginVertical: 5
+    marginVertical: 5,
+    color:'green'
   }
 });

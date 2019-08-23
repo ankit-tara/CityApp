@@ -9,7 +9,7 @@ import {
   ActivityIndicator
 } from "react-native";
 import Icon from "react-native-vector-icons/dist/Entypo";
-import { getRandomColor } from "../Utils/Helpers";
+import { getRandomColor, decode_html } from "../Utils/Helpers";
 import Header from "../components/Header";
 import { M_BOLD, M_Regular } from "../theme/fonts";
 import { searchGlobal } from "../Utils/Api";
@@ -40,7 +40,7 @@ const Explore = props => {
   }, []);
 
   const renderTags = text => {
-    return <Text style={[styles.category]}>{text}</Text>;
+    return <Text style={[styles.category]}>{decode_html(text)}</Text>;
   };
   const handleSearch = text => {
     setisSearching(true);

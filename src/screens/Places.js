@@ -14,10 +14,10 @@ import Header from "../components/Header";
 import { useSelector } from "react-redux";
 import { getPostByCategoryName, searchPost } from "../Utils/Api";
 import Icon from "react-native-vector-icons/dist/Entypo";
-import { text_truncate, strip_html_tags, getTimeInfo } from "../Utils/Helpers";
+import { text_truncate, strip_html_tags, getTimeInfo, decode_html } from "../Utils/Helpers";
 import Spinner from "react-native-spinkit";
 import { APP_ORANGE } from "../theme/colors";
-import { M_Light, M_BOLD } from "../theme/fonts";
+import { M_Light, M_BOLD, M_Regular } from "../theme/fonts";
 import SearchBar from "../components/SearchBar";
 const scrollY = new Animated.Value(0);
 
@@ -50,7 +50,7 @@ const Places = props => {
   loadMoreData = () => {
     let city = authLocation.city;
     setloadMore(true);
-    getPostByCategoryName(city, per_page, currentpage + 1)
+    getPostByCategoryName(city,  currentpage + 1,per_page)
       .then(postdata => {
         if (Array.isArray(postdata) && postdata.length) {
           let new_data = data.concat(postdata);
@@ -210,7 +210,7 @@ const Places = props => {
                   )}
                 </View>
                 <View style={styles.right}>
-                  <Text style={styles.title}>{post.item.title.rendered}</Text>
+                  <Text style={styles.title}>{decode_html(post.item.title.rendered)}</Text>
                   {post.item.content.rendered != "" && (
                     <Text style={styles.description}>
                       {text_truncate(
@@ -293,10 +293,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   timeInfo: {
-    fontFamily: M_Light,
+    fontFamily: M_Regular,
     color: "#000",
     fontSize: 12,
-    marginVertical: 5
+    marginVertical: 5,
+    color:'green'
   },
   footer: {
     justifyContent: "center",

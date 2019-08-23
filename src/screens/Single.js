@@ -147,6 +147,8 @@ const Single = props => {
 
   const getTime = day => {
     let time = " ---";
+    console.log( post.acf[day])
+   
     if (post.acf && post.acf[day] && post.acf[day].opens_at) {
       let opens_at = post.acf[day].opens_at
         ? moment(post.acf[day].opens_at, "hh:mm A").format("hh:mm A")
@@ -155,6 +157,9 @@ const Single = props => {
         ? moment(post.acf[day].closes_at, "hh:mm A").format("hh:mm A")
         : "";
       time = `${opens_at} - ${closes_at}`;
+    }
+    if (post.acf && post.acf[day] && post.acf[day].open_24_hrs) {
+      time = "Open 24 Hrs"
     }
     return (
       <Text style={styles.timing}>
@@ -234,10 +239,10 @@ const Single = props => {
           )}
            <View style={styles.detailBox}>
             <View style={styles.flex}>
-              <Icon name="map" size={20} color="#000" style={styles.Icon} />
+              <Icon name="account-circle-outline" size={20} color="#000" style={styles.Icon} />
               <Text style={styles.iconText}>Name</Text>
             </View>
-            <Text style={styles.results}>{post.dvc_name}</Text>
+            <Text style={styles.results}>{post.acf.dvc_name}</Text>
           </View>
           <View style={styles.detailBox}>
             <View style={styles.flex}>

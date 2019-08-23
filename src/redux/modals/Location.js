@@ -10,7 +10,9 @@ export default class Location {
   getCityName(data) {
     if (data.status == "OK") {
       var cityName = data.results[0].address_components.filter(
-        x => x.types.filter(t => t == "administrative_area_level_2").length > 0
+        x => x.types.filter(t => t == "locality").length > 0
+      // var cityName = data.results[0].address_components.filter(
+      //   x => x.types.filter(t => t == "administrative_area_level_2").length > 0
       )[0].short_name;
       return cityName;
     }

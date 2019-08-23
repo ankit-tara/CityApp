@@ -52,6 +52,18 @@ export function searchCategories(searchText,perpage=10,currentpage=1) {
             throw error;
         });
 }
+/**
+ * get post List
+ */
+export function searchPost(searchText,city='',perpage=10,currentpage=1) {
+    let url = `${API_INITIAL}/posts?search=${searchText}&per_page=${perpage}&page=${currentpage}&filter[category_name]=${city}`
+    console.log(url)
+    return fetch(url)
+        .then(response => response.json())
+        .catch(error => {
+            throw error;
+        });
+}
 
 /**
  * get post by category

@@ -32,6 +32,10 @@ target 'CityApp' do
 
   pod 'react-native-maps', :path => '../node_modules/react-native-maps'
 
+  pod 'RNFBApp', :path => '../node_modules/@react-native-firebase/app'
+
+  pod 'RNFBMessaging', :path => '../node_modules/@react-native-firebase/messaging'
+
   target 'CityAppTests' do
     inherit! :search_paths
     # Pods for testing

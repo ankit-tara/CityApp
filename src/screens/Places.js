@@ -7,24 +7,37 @@ import {
   FlatList,
   ActivityIndicator,
   StyleSheet,
+  Animated,
   Image
 } from "react-native";
 import Header from "../components/Header";
 import { useSelector } from "react-redux";
-import { getPostByCategoryName } from "../Utils/Api";
+import { getPostByCategoryName, searchPost } from "../Utils/Api";
 import Icon from "react-native-vector-icons/dist/Entypo";
 import { text_truncate, strip_html_tags, getTimeInfo } from "../Utils/Helpers";
 import Spinner from "react-native-spinkit";
 import { APP_ORANGE } from "../theme/colors";
-import { M_Light ,M_BOLD} from "../theme/fonts";
+import { M_Light, M_BOLD } from "../theme/fonts";
+import SearchBar from "../components/SearchBar";
+const scrollY = new Animated.Value(0);
 
 const Places = props => {
+  const per_page = 10;
+
   const [data, setdata] = useState([]);
   const [loading, setloading] = useState(true);
+  const [defaultData, setdefaultData] = useState([]);
+  const [currentpage, setcurrentpage] = useState(1);
+  const [currentSearchpage, setcurrentSearchpage] = useState(0);
+  const [loadMore, setloadMore] = useState(false);
+  const [isSearching, setisSearching] = useState(false);
+  const [postEnd, setpostEnd] = useState(false);
   const locationLoading = useSelector(state => state.locationLoading);
   const authLocation = useSelector(state => state.authLocation);
 
   useEffect(() => {
+    console.log("nearby");
+    console.log(authLocation);
     let city = authLocation.city;
     getPostByCategoryName(city)
       .then(data => {
@@ -32,7 +45,71 @@ const Places = props => {
         setloading(false);
       })
       .catch(e => console.log(e));
-  }, []);
+  }, [authLocation]);
+
+  loadMoreData = () => {
+    let city = authLocation.city;
+    setloadMore(true);
+    getPostByCategoryName(city, per_page, currentpage + 1)
+      .then(postdata => {
+        if (Array.isArray(postdata) && postdata.length) {
+          let new_data = data.concat(postdata);
+          setcurrentpage(currentpage + 1);
+          setdata(new_data);
+          setdefaultData(data);
+
+          if (postdata.length <= 0) {
+            setpostEnd(true);
+          }
+        } else {
+          setpostEnd(true);
+        }
+        setloadMore(false);
+      })
+      .catch(e => console.log(e));
+  };
+
+  isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+    const paddingToBottom = 20;
+    return (
+      layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom
+    );
+  };
+
+  handleSearch = text => {
+    setisSearching(true);
+    if (!text) {
+      setdata(defaultData);
+      setisSearching(false);
+      return;
+    }
+    let city = authLocation.city;
+    searchPost(text, city)
+      .then(data => {
+        if (Array.isArray(data) && data.length) {
+          // let new_data = searchData.contag(data);
+          // setcurrentSearchpage(currentSearchpage + 1);
+          // setsearcgData(data);
+          setdata(data);
+          setisSearching(false);
+        } else {
+          setpostEnd(true);
+        }
+        // setloadMore(false)
+      })
+      .catch(e => console.log(e));
+  };
+
+  renderFooter = () => {
+    return (
+      <View style={[styles.row, styles.footer]}>
+        {loadMore && (
+          <ActivityIndicator style={{ marginLeft: 8 }} color={APP_ORANGE} />
+        )}
+      </View>
+    );
+  };
 
   if (loading) {
     return (
@@ -41,16 +118,57 @@ const Places = props => {
       </View>
     );
   }
-  if(!data.length && !loading){
-    return(
-      <View style={{flex:1,justifyContent:"center",alignItems:'center',marginHorizontal:20 }}>
-        <Text style={{fontSize:20,color:'gray',fontFamily:M_BOLD,textAlign:"center"}}>Oops!! there are no nearby places registered right now.</Text>
+
+  if (!data.length && !loading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          marginHorizontal: 20
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 20,
+            color: "gray",
+            fontFamily: M_BOLD,
+            textAlign: "center"
+          }}
+        >
+          Oops!! there are no nearby places registered right now.
+        </Text>
       </View>
-    )
+    );
   }
 
   return (
-    <ScrollView>
+    <ScrollView
+      scrollEventThrottle={16}
+      onMomentumScrollEnd={Animated.event(
+        [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+        {
+          listener: event => {
+            if (
+              this.isCloseToBottom(event.nativeEvent) &&
+              !postEnd &&
+              !loadMore
+            ) {
+              this.loadMoreData();
+            }
+          }
+        }
+      )}
+    >
+      <SearchBar placeholder="Search..." onChangeText={handleSearch} />
+      {isSearching && (
+        <ActivityIndicator
+          style={{ marginLeft: 8, alignSelf: "center" }}
+          color={APP_ORANGE}
+        />
+      )}
+
       <FlatList
         keyExtractor={item => `post-${item.id}`}
         data={data}
@@ -108,6 +226,8 @@ const Places = props => {
           );
         }}
       />
+      {renderFooter()}
+      {/* {data && data.length >= per_page && renderFooter()} */}
     </ScrollView>
   );
 };
@@ -177,5 +297,13 @@ const styles = StyleSheet.create({
     color: "#000",
     fontSize: 12,
     marginVertical: 5
+  },
+  footer: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 20
+  },
+  row: {
+    flexDirection: "row"
   }
 });

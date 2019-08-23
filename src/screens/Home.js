@@ -87,20 +87,20 @@ const Home = props => {
 
   const loadPageData = async () => {
     props.unselectLocation()
-    const value = await AsyncStorage.getItem(LOCATION_DATA);
-    if (value) {
-      let currentTime = new moment();
-      let data = JSON.parse(value);
-      let dataStoredTime = new moment(data.time);
-      let timeDiff = currentTime.diff(dataStoredTime, "minutes");
-      if (timeDiff < 5) {
-        setstatus('from storage')
-        setloadingMsg(`Getting location data of ${data.data.city}`);
-        console.log("get data from stiorage");
-        getCityData(data.data);
-        return;
-      }
-    }
+    // const value = await AsyncStorage.getItem(LOCATION_DATA);
+    // if (value) {
+    //   let currentTime = new moment();
+    //   let data = JSON.parse(value);
+    //   let dataStoredTime = new moment(data.time);
+    //   let timeDiff = currentTime.diff(dataStoredTime, "minutes");
+    //   if (timeDiff < 5) {
+    //     setstatus('from storage')
+    //     setloadingMsg(`Getting location data of ${data.data.city}`);
+    //     console.log("get data from stiorage");
+    //     getCityData(data.data);
+    //     return;
+    //   }
+    // }
     console.log("get data from api");
     checkGranted();
   };
@@ -141,6 +141,7 @@ const Home = props => {
   };
 
   const getGlobalData = () => {
+    props.unselectLocation()
     getHomePageData()
       .then(setHomePageData)
       .catch(e => console.log(e));

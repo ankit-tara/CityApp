@@ -18,13 +18,16 @@ import Collapsible from "react-native-collapsible";
 import { strip_html_tags, decode_html } from "../Utils/Helpers";
 import { M_BOLD, M_SemiBold } from "../theme/fonts";
 import Swiper from "react-native-swiper";
-import { APP_ORANGE } from "../theme/colors";
+import { APP_ORANGE, GOLD_MEMBER, SILVER_MEMBER } from "../theme/colors";
 import ImageModal from "../components/ImageModal";
 import MultipleNumber from "../components/MultipleNumber";
 import moment from "moment";
 import Map from "../components/Map";
-import { getPostByID } from "../Utils/Api";
+import { getPostByID, getPlaceDetails } from "../Utils/Api";
 import Spinner from "react-native-spinkit";
+import samplePlace from "../assets/sample-place.json";
+var dayNameArr = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thrusday", "Friday", "Saturday"];
+
 
 const Single = props => {
   const [loading, setloading] = useState(true);
@@ -39,14 +42,23 @@ const Single = props => {
   const [contactNo, setcontactNo] = useState([]);
 
   useEffect(() => {
-
     let params = props.navigation.state.params;
+
+    if (params && params.googlePlaceId && params.googlePlaceId != post.id) {
+      let googlePlaceId = params.googlePlaceId;
+      isFromGoogle(googlePlaceId);
+      return;
+    }
     if (params && params.post && params.post.id && params.post.id != post.id) {
       let post = params.post;
       setPostData(post);
       return;
     }
     if (params && !params.post && params.postId && params.postId != post.id) {
+      if (params.postId.toString().match(/[a-z]/i) != null) {
+        isFromGoogle(params.postId);
+        return;
+      }
       getPostByID(params.postId.toString().replace(":", ""))
         .then(data => {
           if (data && data.id) {
@@ -57,7 +69,58 @@ const Single = props => {
     }
   }, [props]);
 
+  const isFromGoogle = googlePlaceId => {
+    // getPlaceDetails(googlePlaceId)
+    //   .then(data => console.log(data))
+    //   .catch(error => console.log(error));
+    setGooglePostData(samplePlace.result);
+  };
+
+  const setGooglePostData = data => {
+    let g_data = {};
+    g_data.acf = {};
+    g_data.title = {};
+    g_data.map = {};
+    g_data.id = data.place_id;
+    g_data.link = `http://www.siridigitalmarketing.com/cityapp/`;
+    g_data.acf.address = data.formatted_address;
+    g_data.acf.contact_no = data.formatted_phone_number;
+    g_data.title.rendered = data.name;
+    g_data.acf.dvc_name = data.name;
+    g_data.map.address = data.formatted_address;
+    g_data.map.lat = data.geometry ? data.geometry.location.lat : null;
+    g_data.map.lng = data.geometry ? data.geometry.location.lng : null;
+    // console.log(data)
+
+    // if (data.opening_hours && data.opening_hours.weekday_text) {
+    //   data.opening_hours.weekday_text.map(weekday => {
+    //     let weekday_data = weekday.split(": ");
+    //     g_data.acf[weekday_data[0]] = "";
+    //     let time_data = weekday_data[1].split('–')
+    //     console.log(time_data)
+    //     console.log(weekday_data[1]);
+    //   });
+    // }
+    if (data.opening_hours && data.opening_hours.periods) {
+       data.opening_hours.periods.map(period => {
+        if(period.close){
+          let openTime = moment(period.open.time, "hhmm").format("hh:mm:ss")
+          let closeTime =moment(period.close.time, "hhmm").format("hh:mm:ss")
+          let day = dayNameArr[period.close.day]
+          g_data.acf[day]={}
+          g_data.acf[day].closes_at=closeTime
+          g_data.acf[day].opens_at=openTime
+          g_data.acf[day].open_24_hrs=closeTime == openTime ? true:false
+          return g_data
+        }
+      });
+    }
+    console.log(g_data)
+    setPostData(g_data);
+  };
+
   const setPostData = post => {
+    console.log(post)
     setpost(post);
     post.acf && post.acf.images && getImgUrls(post.acf.images);
     post.acf && post.acf.contact_no && getIContactNo(post.acf.contact_no);
@@ -123,11 +186,11 @@ const Single = props => {
 
   onShare = async () => {
     try {
-      let url = post.link + '?visitlink=cityapp://citypost:'+post.id
-      let title = decode_html(post.title.rendered)
+      let url = post.link + "?visitlink=cityapp://citypost:" + post.id;
+      let title = decode_html(post.title.rendered);
       const result = await Share.share({
         message: title + "\n" + url,
-        url:url,
+        url: url,
         title: title + "\n" + url,
         dialogTitle: title
       });
@@ -148,8 +211,6 @@ const Single = props => {
 
   const getTime = day => {
     let time = " ---";
-    console.log( post.acf[day])
-   
     if (post.acf && post.acf[day] && post.acf[day].opens_at) {
       let opens_at = post.acf[day].opens_at
         ? moment(post.acf[day].opens_at, "hh:mm A").format("hh:mm A")
@@ -160,7 +221,7 @@ const Single = props => {
       time = `${opens_at} - ${closes_at}`;
     }
     if (post.acf && post.acf[day] && post.acf[day].open_24_hrs) {
-      time = "Open 24 Hrs"
+      time = "Open 24 Hrs";
     }
     return (
       <Text style={styles.timing}>
@@ -190,36 +251,61 @@ const Single = props => {
         >
           <TouchableNativeFeedback onPress={() => setshowMainImage(true)}>
             <View style={styles.overlay}>
-              <Text style={styles.title}>{decode_html(post.title.rendered)}</Text>
+              <Text style={styles.title}>
+                {decode_html(post.title.rendered)}
+              </Text>
             </View>
           </TouchableNativeFeedback>
         </ImageBackground>
-        <TouchableOpacity
-          style={{ alignItems: "flex-end" }}
-          onPress={this.onShare}
-        >
-          <Icon
-            name="share-variant"
-            size={24}
-            color="#000"
-            style={[styles.Icon, { margin: 4 }]}
-          />
-        </TouchableOpacity>
-        <View style={styles.content}>
-          <View style={styles.detailBox}>
-            <View style={styles.flex}>
-              <Icon
-                name="information-outline"
-                size={22}
-                color="#000"
-                style={styles.Icon}
-              />
-              <Text style={styles.iconText}>More Information</Text>
+        <View style={styles.iconContainer}>
+          <>
+            <View>
+              {post.acf.member_status && post.acf.member_status != "normal" && (
+                <TouchableOpacity>
+                  <Icon
+                    name="crown"
+                    size={30}
+                    color={
+                      post.acf.member_status == "gold"
+                        ? GOLD_MEMBER
+                        : SILVER_MEMBER
+                    }
+                    style={[styles.Icon, { margin: 4 }]}
+                  />
+                </TouchableOpacity>
+              )}
             </View>
-            <Text style={styles.results}>
-              {strip_html_tags(post.content.rendered)}
-            </Text>
-          </View>
+            <TouchableOpacity
+              onPress={this.onShare}
+              style={{ alignItems: "flex-end" }}
+            >
+              <Icon
+                name="share-variant"
+                size={24}
+                color="#000"
+                style={[styles.Icon, { margin: 4 }]}
+              />
+            </TouchableOpacity>
+          </>
+        </View>
+
+        <View style={styles.content}>
+          {post.content && (
+            <View style={styles.detailBox}>
+              <View style={styles.flex}>
+                <Icon
+                  name="information-outline"
+                  size={22}
+                  color="#000"
+                  style={styles.Icon}
+                />
+                <Text style={styles.iconText}>More Information</Text>
+              </View>
+              <Text style={styles.results}>
+                {strip_html_tags(post.content.rendered)}
+              </Text>
+            </View>
+          )}
           <View style={styles.detailBox}>
             <View style={styles.flex}>
               <Icon name="map" size={20} color="#000" style={styles.Icon} />
@@ -238,9 +324,14 @@ const Single = props => {
               </View>
             </View>
           )}
-           <View style={styles.detailBox}>
+          <View style={styles.detailBox}>
             <View style={styles.flex}>
-              <Icon name="account-circle-outline" size={20} color="#000" style={styles.Icon} />
+              <Icon
+                name="account-circle-outline"
+                size={20}
+                color="#000"
+                style={styles.Icon}
+              />
               <Text style={styles.iconText}>Name</Text>
             </View>
             <Text style={styles.results}>{post.acf.dvc_name}</Text>
@@ -368,7 +459,6 @@ const Single = props => {
 
 export default Single;
 Single.navigationOptions = ({ navigation }) => {
-
   if (navigation.state.routeName == "SinglePost") {
     return {
       title: "Place",
@@ -380,7 +470,7 @@ Single.navigationOptions = ({ navigation }) => {
       },
       headerRight: <View />,
       headerLeft: (
-        <TouchableOpacity onPress={()=>navigation.navigate('Tab')}>
+        <TouchableOpacity onPress={() => navigation.navigate("Tab")}>
           <Icon name="home" size={28} color="#000" style={{ marginLeft: 20 }} />
         </TouchableOpacity>
       )
@@ -501,5 +591,10 @@ const styles = StyleSheet.create({
   dayname: {
     fontFamily: M_SemiBold,
     textTransform: "capitalize"
+  },
+  iconContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 20
   }
 });

@@ -27,6 +27,7 @@ import { LOCATION_DATA } from "../Utils/constants";
 import AsyncStorage from "@react-native-community/async-storage";
 import moment from "moment"
 var PushNotification = require("react-native-push-notification");
+import LocationServicesDialogBox from "react-native-android-location-services-dialog-box";
 
 const Home = props => {
   const [loader, setloader] = useState(true);
@@ -40,7 +41,7 @@ const Home = props => {
 
   useEffect(() => {
     SplashScreen.hide();
-    configurePushNotification()
+    // configurePushNotification()
     props.locationLoadingStart();
     loadPageData();
   }, [false]);
@@ -87,29 +88,52 @@ const Home = props => {
 
   const loadPageData = async () => {
     props.unselectLocation()
-    // const value = await AsyncStorage.getItem(LOCATION_DATA);
-    // if (value) {
-    //   let currentTime = new moment();
-    //   let data = JSON.parse(value);
-    //   let dataStoredTime = new moment(data.time);
-    //   let timeDiff = currentTime.diff(dataStoredTime, "minutes");
-    //   if (timeDiff < 5) {
-    //     setstatus('from storage')
-    //     setloadingMsg(`Getting location data of ${data.data.city}`);
-    //     console.log("get data from stiorage");
-    //     getCityData(data.data);
-    //     return;
-    //   }
-    // }
+    const value = await AsyncStorage.getItem(LOCATION_DATA);
+    if (value) {
+      let currentTime = new moment();
+      let data = JSON.parse(value);
+      let dataStoredTime = new moment(data.time);
+      let timeDiff = currentTime.diff(dataStoredTime, "minutes");
+      if (timeDiff < 5) {
+        setstatus('from storage')
+        setloadingMsg(`Getting location data of ${data.data.city}`);
+        console.log("get data from stiorage");
+        getCityData(data.data);
+        return;
+      }
+    }
     console.log("get data from api");
-    checkGranted();
+    checkLocationAcess()
+    // checkGranted();
   };
+  checkLocationAcess=()=>{
+    LocationServicesDialogBox.checkLocationServicesIsEnabled({
+      message: "<h2 style='color: #0af13e'>Use Location ?</h2>This app wants to change your device settings:<br/><br/>Use GPS, Wi-Fi, and cell network for location<br/><br/><a href='#'>Learn more</a>",
+      ok: "YES",
+      cancel: "NO",
+      enableHighAccuracy: true, // true => GPS AND NETWORK PROVIDER, false => GPS OR NETWORK PROVIDER
+      showDialog: true, // false => Opens the Location access page directly
+      openLocationServices: true, // false => Directly catch method is called if location services are turned off
+      preventOutSideTouch: false, // true => To prevent the location services window from closing when it is clicked outside
+      preventBackClick: false, // true => To prevent the location services popup from closing when it is clicked back button
+      providerListener: false // true ==> Trigger locationProviderStatusChange listener when the location state changes
+  }).then(function(success) {
+    console.log(success)
+   checkGranted()
+  }).catch((error) => {
+    console.log(error)
+
+    checkGranted()
+    // error.message => "disabled"
+  });
+  }
   const checkGranted = async () => {
     try {
       setloadingMsg("Checking your location");
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
       );
+      console.log(granted)
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         Geolocation.getCurrentPosition(
           position => {
@@ -117,12 +141,14 @@ const Home = props => {
             let value = `${position.coords.latitude},${
               position.coords.longitude
             }`;
+            console.log(value)
             getLocationData(value)
               .then(handleLocationData)
               .catch(e => getGlobalData());
           
           },
           error => {
+            console.log(error)
             getGlobalData();
           },
           {

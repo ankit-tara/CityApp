@@ -14,13 +14,19 @@ import Header from "../components/Header";
 import { useSelector } from "react-redux";
 import { getPostByCategoryName, searchPost } from "../Utils/Api";
 import Icon from "react-native-vector-icons/dist/Entypo";
-import { text_truncate, strip_html_tags, getTimeInfo, decode_html } from "../Utils/Helpers";
+import {
+  text_truncate,
+  strip_html_tags,
+  getTimeInfo,
+  decode_html
+} from "../Utils/Helpers";
 import Spinner from "react-native-spinkit";
 import { APP_ORANGE } from "../theme/colors";
 import { M_Light, M_BOLD, M_Regular } from "../theme/fonts";
 import SearchBar from "../components/SearchBar";
+import sampleJson from  "../assets/sample-places.json"
 const scrollY = new Animated.Value(0);
-
+import GoogleList from "../components/googleData/List"
 const Places = props => {
   const per_page = 10;
 
@@ -38,7 +44,9 @@ const Places = props => {
   useEffect(() => {
     console.log("nearby");
     console.log(authLocation);
+    console.log(sampleJson);
     let city = authLocation.city;
+    if (!city) return
     getPostByCategoryName(city)
       .then(data => {
         setdata(data);
@@ -50,7 +58,7 @@ const Places = props => {
   loadMoreData = () => {
     let city = authLocation.city;
     setloadMore(true);
-    getPostByCategoryName(city,  currentpage + 1,per_page)
+    getPostByCategoryName(city, currentpage + 1, per_page)
       .then(postdata => {
         if (Array.isArray(postdata) && postdata.length) {
           let new_data = data.concat(postdata);
@@ -110,7 +118,7 @@ const Places = props => {
       </View>
     );
   };
-
+return (<GoogleList data={sampleJson} />)
   if (loading) {
     return (
       <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
@@ -142,94 +150,103 @@ const Places = props => {
       </View>
     );
   }
-
-  return (
-    <ScrollView
-      scrollEventThrottle={16}
-      onMomentumScrollEnd={Animated.event(
-        [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-        {
-          listener: event => {
-            if (
-              this.isCloseToBottom(event.nativeEvent) &&
-              !postEnd &&
-              !loadMore
-            ) {
-              this.loadMoreData();
+  if (data.length && !loading) {
+    return (
+      <ScrollView
+        scrollEventThrottle={16}
+        onMomentumScrollEnd={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          {
+            listener: event => {
+              if (
+                this.isCloseToBottom(event.nativeEvent) &&
+                !postEnd &&
+                !loadMore
+              ) {
+                this.loadMoreData();
+              }
             }
           }
-        }
-      )}
-    >
-      <SearchBar placeholder="Search..." onChangeText={handleSearch} />
-      {isSearching && (
-        <ActivityIndicator
-          style={{ marginLeft: 8, alignSelf: "center" }}
-          color={APP_ORANGE}
-        />
-      )}
+        )}
+      >
+        <SearchBar placeholder="Search..." onChangeText={handleSearch} />
+        {isSearching && (
+          <ActivityIndicator
+            style={{ marginLeft: 8, alignSelf: "center" }}
+            color={APP_ORANGE}
+          />
+        )}
 
-      <FlatList
-        keyExtractor={item => `post-${item.id}`}
-        data={data}
-        renderItem={post => {
-          let timeInfo = getTimeInfo(post.item);
-          return (
-            <TouchableOpacity
-              onPress={() =>
-                props.navigation.navigate("Single", {
-                  post: post.item
-                })
-              }
-            >
-              <View style={styles.place}>
-                <View style={styles.left}>
-                  {post.item.fimg_url ? (
-                    <Image
-                      style={{ width: 50, height: 50, borderRadius: 25 }}
-                      source={{
-                        uri: post.item.fimg_url
-                      }}
-                    />
-                  ) : (
-                    <View style={{ borderRadius: 25, backgroundColor: "red" }}>
-                      <Icon
-                        name="image"
-                        size={30}
-                        color="#fff"
-                        style={{
-                          width: 50,
-                          height: 50,
-                          borderRadius: 25,
-                          backgroundColor: "gray",
-                          textAlign: "center",
-                          paddingTop: 10
+        <FlatList
+          keyExtractor={item => `post-${item.id}`}
+          data={data}
+          renderItem={post => {
+            let timeInfo = getTimeInfo(post.item);
+            return (
+              <TouchableOpacity
+                onPress={() =>
+                  props.navigation.navigate("Single", {
+                    post: post.item
+                  })
+                }
+              >
+                <View style={styles.place}>
+                  <View style={styles.left}>
+                    {post.item.fimg_url ? (
+                      <Image
+                        style={{ width: 50, height: 50, borderRadius: 25 }}
+                        source={{
+                          uri: post.item.fimg_url
                         }}
                       />
-                    </View>
-                  )}
-                </View>
-                <View style={styles.right}>
-                  <Text style={styles.title}>{decode_html(post.item.title.rendered)}</Text>
-                  {post.item.content.rendered != "" && (
-                    <Text style={styles.description}>
-                      {text_truncate(
-                        strip_html_tags(post.item.content.rendered),
-                        75
-                      )}
+                    ) : (
+                      <View
+                        style={{ borderRadius: 25, backgroundColor: "red" }}
+                      >
+                        <Icon
+                          name="image"
+                          size={30}
+                          color="#fff"
+                          style={{
+                            width: 50,
+                            height: 50,
+                            borderRadius: 25,
+                            backgroundColor: "gray",
+                            textAlign: "center",
+                            paddingTop: 10
+                          }}
+                        />
+                      </View>
+                    )}
+                  </View>
+                  <View style={styles.right}>
+                    <Text style={styles.title}>
+                      {decode_html(post.item.title.rendered)}
                     </Text>
-                  )}
-                  {timeInfo && <Text style={styles.timeInfo}>{timeInfo}</Text>}
+                    {post.item.content.rendered != "" && (
+                      <Text style={styles.description}>
+                        {text_truncate(
+                          strip_html_tags(post.item.content.rendered),
+                          75
+                        )}
+                      </Text>
+                    )}
+                    {timeInfo && (
+                      <Text style={styles.timeInfo}>{timeInfo}</Text>
+                    )}
+                  </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-          );
-        }}
-      />
-      {renderFooter()}
-      {/* {data && data.length >= per_page && renderFooter()} */}
-    </ScrollView>
-  );
+              </TouchableOpacity>
+            );
+          }}
+        />
+        {renderFooter()}
+        {/* {data && data.length >= per_page && renderFooter()} */}
+      </ScrollView>
+    );
+  }
+
+  return null
 };
 
 Places.navigationOptions = {
@@ -297,7 +314,7 @@ const styles = StyleSheet.create({
     color: "#000",
     fontSize: 12,
     marginVertical: 5,
-    color:'green'
+    color: "green"
   },
   footer: {
     justifyContent: "center",

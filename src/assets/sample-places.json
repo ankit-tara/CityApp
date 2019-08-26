@@ -1,0 +1,872 @@
+{
+    "html_attributions": [],
+    "next_page_token": "CqQCFQEAAKEVwglpwI0NtjEuxTKvIq8S0XGmZYP7QLDVKhNjTfxSJXmZq-2UTiqR6HxsxVzoce_LSuJDJFt3VKtULkgWkJIUYIKRm14dv_hCd3LkMH1FUmiRJmQN57W-gY4otXRrxMJBgYgJYBfqRAgyaQKX8ZMbrae6qEfU7vbNLbLbwM3Xf9ibGIV3pv5ZW7WFxHARt-53F5yC4_SjyXC-2rjBNw2ye925qufRE1aFlmFCI_iK6zlE189qx4pIJj7odMAunW-xlc0Y_Pkiq_-7UiCh1GDkIZkdU8DjlYRJAv1e1i5V6OIh4D3UU_ooXPw8ijSxOWQsyj84aRmIvEOGU_8ARs9t1MYSXptv4FGlETWyoBKX2Ethj5n5RTwnlhPLuwzeixIQpRz5bmy3XIZwsWdRewArwhoUHgCz2xHN_O1m9XkCWfTNpLoEZl4",
+    "results": [
+        {
+            "geometry": {
+                "location": {
+                    "lat": 30.900965,
+                    "lng": 75.8572758
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 30.9621175,
+                        "lng": 75.9538007
+                    },
+                    "southwest": {
+                        "lat": 30.8385729,
+                        "lng": 75.7595458
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png",
+            "id": "94ead91d34665deec24a4cce4ca6ca8e5222cf48",
+            "name": "Ludhiana",
+            "photos": [
+                {
+                    "height": 5312,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/115886351589798960196/photos\">Andrew Tull</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAm-AaKvkJBHEqbawVdRlvnLVah6DlETssq0S24w771w8jrEUCw-8Sc0qxgTZYudTOb7BBsN8kzULX3btTF7MHDClkrumG_pCrX_FcvUK23aqCPqFXoi7dAcNwSbR8bK_YEhAwXULCk3JjCGfLuU8rp9waGhSy6xHxVRgdWKgAonNUPDYiGWVw4g",
+                    "width": 2988
+                }
+            ],
+            "place_id": "ChIJfVo0YnSDGjkREAbGjjQCEWg",
+            "reference": "ChIJfVo0YnSDGjkREAbGjjQCEWg",
+            "scope": "GOOGLE",
+            "types": [
+                "locality",
+                "political"
+            ],
+            "vicinity": "Ludhiana"
+        },
+        {
+            "geometry": {
+                "location": {
+                    "lat": 30.8724515,
+                    "lng": 75.8734064
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 30.8737823802915,
+                        "lng": 75.8747547802915
+                    },
+                    "southwest": {
+                        "lat": 30.8710844197085,
+                        "lng": 75.87205681970848
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "0b2531c964689c5bf067dbb8f6b3d0fb3306d94e",
+            "name": "Sokhi Brothers India",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 1536,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/108520651706296325104/photos\">Sokhi Brothers India</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAyhWB8HTny4BUuyJQDB6Usmx-uRfpFukzJc1SBq26S5awkfaLxdFcFcdmQLYWTyLoNHUBI8FwvZUDtVsXZstTImSIpz3QoluPumU93UpuNFgTeUm3EGNFgVdbSQ1z_sHMEhD0E_mJ4EX4DatWoGpiBQEtGhShLr5iSnF4gbwi77Dp6DslH2EzUw",
+                    "width": 2048
+                }
+            ],
+            "place_id": "ChIJNUPpG-uCGjkR3aMOPlFTqQw",
+            "plus_code": {
+                "compound_code": "VVCF+X9 New Janta Nagar, Ludhiana, Punjab, India",
+                "global_code": "8J2QVVCF+X9"
+            },
+            "rating": 5,
+            "reference": "ChIJNUPpG-uCGjkR3aMOPlFTqQw",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 4,
+            "vicinity": "New Janta Nagar, Ludhiana"
+        },
+        {
+            "geometry": {
+                "location": {
+                    "lat": 30.87272179999999,
+                    "lng": 75.8726713
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 30.87407078029149,
+                        "lng": 75.87400158029149
+                    },
+                    "southwest": {
+                        "lat": 30.87137281970849,
+                        "lng": 75.87130361970848
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/school-71.png",
+            "id": "868d83dbbfc0693663925a677813e40967bdd6bf",
+            "name": "GNCC Computer Education",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 2368,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/108897045270762555325/photos\">Gurmeet Singh</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAbJuycU61u7MVLf9lJ6u9x0xy-erP8SgymU4vThHx_Bc_wPDseVGthc81hn8WI9uEQ3JmuWsaKmcxBEUnzJD_joo4kWy8oYZRJdTsoNqZbVUsOPxqCNIKbBjwOEZfsN7SEhBxpzdP0F8O7oGoOmYoQpWYGhQ8TxBg2VKXff8j9qL16q84nnMn2Q",
+                    "width": 4208
+                }
+            ],
+            "place_id": "ChIJIauOHb6CGjkRzw0FlgV7ZCI",
+            "plus_code": {
+                "compound_code": "VVFF+33 New Janta Nagar, Ludhiana, Punjab, India",
+                "global_code": "8J2QVVFF+33"
+            },
+            "rating": 3.3,
+            "reference": "ChIJIauOHb6CGjkRzw0FlgV7ZCI",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 24,
+            "vicinity": "House No.6966, Street Number Near Kali Mata Mandir, 3663/1, Street Number 8, New Janta Nagar, Ludhiana"
+        },
+        {
+            "geometry": {
+                "location": {
+                    "lat": 30.87373,
+                    "lng": 75.87339
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 30.8750763302915,
+                        "lng": 75.8747667302915
+                    },
+                    "southwest": {
+                        "lat": 30.8723783697085,
+                        "lng": 75.87206876970849
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "a1acffeb7e87a44f221058e403591d3bbe1be267",
+            "name": "Kailash Studio",
+            "place_id": "ChIJuS7aq-uCGjkR-TuX15zTbOw",
+            "plus_code": {
+                "compound_code": "VVFF+F9 Ludhiana, Punjab, India",
+                "global_code": "8J2QVVFF+F9"
+            },
+            "reference": "ChIJuS7aq-uCGjkR-TuX15zTbOw",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "vicinity": "Daba Road, Inder Gas Agency, New Janta Nagar, Ludhiana"
+        },
+        {
+            "geometry": {
+                "location": {
+                    "lat": 30.8723943,
+                    "lng": 75.87318359999999
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 30.8737828302915,
+                        "lng": 75.8745352302915
+                    },
+                    "southwest": {
+                        "lat": 30.8710848697085,
+                        "lng": 75.8718372697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "a47381978558ff944180930c2c4ded1787d01915",
+            "name": "Jass Sandhu",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 600,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/110024313492468247409/photos\">Sandhu&#39;s Web Store</a>"
+                    ],
+                    "photo_reference": "CmRaAAAA_kjd4sppke8zkaUOzcpp1U3ZhKJ7dWzvhGk91ijLQcK6LkFIvEB2o_QGfshF5EaQ1Sow004SlfIVcReZXKOoc1-fjhMKJMMdpa9soMOiCgtjQth4h_rY-CdA0Upc5T36EhDGhmnRN3XVJl-Qam4qZsDpGhRKhofBcSkLDMZi9SxsLwzwWwgPSQ",
+                    "width": 1920
+                }
+            ],
+            "place_id": "ChIJB3UpGuuCGjkRpO6RyOCmbDI",
+            "plus_code": {
+                "compound_code": "VVCF+X7 New Janta Nagar, Ludhiana, Punjab, India",
+                "global_code": "8J2QVVCF+X7"
+            },
+            "rating": 5,
+            "reference": "ChIJB3UpGuuCGjkRpO6RyOCmbDI",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 7,
+            "vicinity": "7021, 2, Street Number 14/2, New Janta Nagar, Ludhiana"
+        },
+        {
+            "geometry": {
+                "location": {
+                    "lat": 30.8741589,
+                    "lng": 75.8725101
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 30.8755075802915,
+                        "lng": 75.87389088029151
+                    },
+                    "southwest": {
+                        "lat": 30.8728096197085,
+                        "lng": 75.87119291970849
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "4c79efd16e1d06e2c6001517471dd7aec899655f",
+            "name": "A2Z Enterprises",
+            "opening_hours": {
+                "open_now": true
+            },
+            "place_id": "ChIJvxnFvOuCGjkRd3V7_ZjaPPg",
+            "plus_code": {
+                "compound_code": "VVFF+M2 Ludhiana, Punjab, India",
+                "global_code": "8J2QVVFF+M2"
+            },
+            "reference": "ChIJvxnFvOuCGjkRd3V7_ZjaPPg",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "vicinity": "Shop No.2, Street No.4, ATI Road, New Janta Nagar, Ludhiana"
+        },
+        {
+            "geometry": {
+                "location": {
+                    "lat": 30.87439,
+                    "lng": 75.87357
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 30.8757409302915,
+                        "lng": 75.87483878029153
+                    },
+                    "southwest": {
+                        "lat": 30.8730429697085,
+                        "lng": 75.8721408197085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "afa95f5b73198a748fd87ce927afe93a6e1a8288",
+            "name": "Albert Tailors & Drappers",
+            "opening_hours": {
+                "open_now": true
+            },
+            "place_id": "ChIJAdb9suuCGjkR6OSXj_YlrKQ",
+            "plus_code": {
+                "compound_code": "VVFF+QC Ludhiana, Punjab, India",
+                "global_code": "8J2QVVFF+QC"
+            },
+            "rating": 4.5,
+            "reference": "ChIJAdb9suuCGjkR6OSXj_YlrKQ",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "clothing_store",
+                "store",
+                "establishment"
+            ],
+            "user_ratings_total": 2,
+            "vicinity": "Main, A.T.I. Road, A.T.I College, Ranjit Nagar, Ludhiana"
+        },
+        {
+            "geometry": {
+                "location": {
+                    "lat": 30.87393969999999,
+                    "lng": 75.8741445
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 30.87528688029149,
+                        "lng": 75.8755156302915
+                    },
+                    "southwest": {
+                        "lat": 30.8725889197085,
+                        "lng": 75.8728176697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "6a0319baab13ffb5a976d26f8ac674a0ed4255bc",
+            "name": "LAL KITAB JYOTISH VASTU RESEARCH ASTROLOGER PAWAN KUMAR VERMA ( B.A.,D. P. I., LL. B. )",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 2592,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/102916193984845407038/photos\">Research Astrologer Pawan Kumar verma</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAvbsg9Vy8WHfSCrmk8hlmJc8e7Hzx1Uhh0gMnJWxf7-C-Pxl4a_-5tNXBBcFzGZLNifvvPVZqHArSfueGUQCat9S4pdMJ4nR44pEXFrPGc0rZqg-5kkZo-o4ZMncYjczSEhCFzk7bG0UsEeqZkagLZ4x3GhRpbsKverXiFWY_H2Wsrd1x_YJouQ",
+                    "width": 1944
+                }
+            ],
+            "place_id": "ChIJ4yGdVuqCGjkRxdG2tOXD0Rs",
+            "plus_code": {
+                "compound_code": "VVFF+HM Ludhiana, Punjab, India",
+                "global_code": "8J2QVVFF+HM"
+            },
+            "rating": 4.8,
+            "reference": "ChIJ4yGdVuqCGjkRxdG2tOXD0Rs",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 42,
+            "vicinity": "Pawan Kumar Verma ( B.A.,D.P.I.,LL.B.) RESEARCH ASTROLOGER , street number 5, New, ATI Road, Guru Angad Colony, New Janta Nagar, Ludhiana"
+        },
+        {
+            "geometry": {
+                "location": {
+                    "lat": 30.874593,
+                    "lng": 75.872772
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 30.8759107802915,
+                        "lng": 75.8741202802915
+                    },
+                    "southwest": {
+                        "lat": 30.8732128197085,
+                        "lng": 75.87142231970849
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "949315c0dc72ff79439619dd2c897822ffd44050",
+            "name": "mahendra industries",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 1680,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/100098643640392886936/photos\">pawan kumar sharma</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAsIwzreJpGs2wh6JN4bax2L6vWsFme3ASUjPhIUI2n4awfwWL-7qGXBY4xSpMSlY0uU8JC2VPJYUuXqQ1mFx4BI_9f5dKmzk_60i6ZC-alYYWsUTbf3zGAHtUK1w4_qwoEhC-LEvN4ttF5oRTqV2foi8SGhRyItzCjtjCxdKDNhzdRAQuv5aG_w",
+                    "width": 1080
+                }
+            ],
+            "place_id": "ChIJBQtQbqKCGjkRdgQB4zPhfjE",
+            "plus_code": {
+                "compound_code": "VVFF+R4 New Janta Nagar, Ludhiana, Punjab, India",
+                "global_code": "8J2QVVFF+R4"
+            },
+            "rating": 4.1,
+            "reference": "ChIJBQtQbqKCGjkRdgQB4zPhfjE",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 16,
+            "vicinity": "Plot no 2724 Street Number 2, Near, ATI Road, New Janta Nagar, Ludhiana"
+        },
+        {
+            "geometry": {
+                "location": {
+                    "lat": 30.87462599999999,
+                    "lng": 75.8729
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 30.87596833029149,
+                        "lng": 75.87424853029151
+                    },
+                    "southwest": {
+                        "lat": 30.8732703697085,
+                        "lng": 75.87155056970849
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "bbcc5be2343a8b602568555676970a7637f2084c",
+            "name": "Sukhija Dental Clinic",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 616,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/109374265860567033832/photos\">Sukhija Dental Clinic</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAWb3pHwThe24SKTEc_e_BnHbzcBKL4ufdmwB9JDrh6W6PTWI9F4Vy5PohNcB71muybH9MaXGdtizRLUZz_UnPVkka-OvtBjfd3QartRegZRO6m97aXD6_9IPamfE4NMFNEhBaf2Lq1KNeUsVlnJUOvPUzGhTrm0xjTWQiSusK1cLFGpii72RlOA",
+                    "width": 616
+                }
+            ],
+            "place_id": "ChIJnbS5ueuCGjkRE3ia1roOsZI",
+            "plus_code": {
+                "compound_code": "VVFF+V5 Ludhiana, Punjab, India",
+                "global_code": "8J2QVVFF+V5"
+            },
+            "rating": 4,
+            "reference": "ChIJnbS5ueuCGjkRE3ia1roOsZI",
+            "scope": "GOOGLE",
+            "types": [
+                "dentist",
+                "health",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 3,
+            "vicinity": "8637, street no.6 guru angad dev colony ATI road, Ludhiana"
+        },
+        {
+            "geometry": {
+                "location": {
+                    "lat": 30.8725391,
+                    "lng": 75.874335
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 30.8739234802915,
+                        "lng": 75.8756853802915
+                    },
+                    "southwest": {
+                        "lat": 30.8712255197085,
+                        "lng": 75.8729874197085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "4c9bb4201d69703406aebe202551bbb081465a90",
+            "name": "Darshan Agro Industries V Belt Pulley India",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 700,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/113616025586891461128/photos\">Darshan Agro Industries V Belt Pulley India</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAKJ3KueoIr47tV0Nk0IQiRvvsuto8x8BGCBuw7jRUjKXh_raJhyel48ijf0vSGvyP5uzGZX9ClRioqBc-edTwuuukA9koWzXU0zWVY6dqVMii1aYkS7h33XZ8iG7nq0UtEhC9G1Cxb7CByOHUyi_55ZqjGhSWZZdA75B7ecT7MUFSCLmidjaZEA",
+                    "width": 1242
+                }
+            ],
+            "place_id": "ChIJM5i5EKSDGjkR1DianQi7DbY",
+            "plus_code": {
+                "compound_code": "VVFF+2P New Janta Nagar, Ludhiana, Punjab, India",
+                "global_code": "8J2QVVFF+2P"
+            },
+            "rating": 5,
+            "reference": "ChIJM5i5EKSDGjkR1DianQi7DbY",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 3,
+            "vicinity": "7052, Street Number 14, 2,Durga Nagar, New Janta Nagar, Ludhiana"
+        },
+        {
+            "geometry": {
+                "location": {
+                    "lat": 30.8746,
+                    "lng": 75.87213
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 30.8759430802915,
+                        "lng": 75.87347838029149
+                    },
+                    "southwest": {
+                        "lat": 30.8732451197085,
+                        "lng": 75.87078041970848
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "a8ddb2e6bdd996d5f599ce148dc86869c5a630a0",
+            "name": "United India Insurance Company Limited",
+            "place_id": "ChIJ66gHleuCGjkRinrgzCCnFm8",
+            "plus_code": {
+                "compound_code": "VVFC+RV Ludhiana, Punjab, India",
+                "global_code": "8J2QVVFC+RV"
+            },
+            "rating": 4,
+            "reference": "ChIJ66gHleuCGjkRinrgzCCnFm8",
+            "scope": "GOOGLE",
+            "types": [
+                "insurance_agency",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 4,
+            "vicinity": "Bank of India, ATI Road, Ranjit Nagar, Ludhiana"
+        },
+        {
+            "geometry": {
+                "location": {
+                    "lat": 30.874719,
+                    "lng": 75.872911
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 30.87607008029149,
+                        "lng": 75.87420668029151
+                    },
+                    "southwest": {
+                        "lat": 30.8733721197085,
+                        "lng": 75.87150871970849
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "fbf361bd520c17aa1ba780d129bb7f4141805701",
+            "name": "Network 11",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 300,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/106436947107016541835/photos\">Network 11</a>"
+                    ],
+                    "photo_reference": "CmRaAAAA74StaH_T07tmakuE7OC5Dc-P7tAXtMYHn-HhQX3UaCLOFCuaXwCjcfmMPFV6kUs3lz8EVCezpFEB2N5bcylXNEMNTxKZm2gS2z9ClIC_JC2zfPd4q23__LRVvMeNDgGUEhC9YwhxZSzhrJ1I-gqpTuPCGhQ580QhDIUHkfxp_VmYvx9CDlqIog",
+                    "width": 300
+                }
+            ],
+            "place_id": "ChIJ0RxIuOuCGjkR8S9i285kP-I",
+            "plus_code": {
+                "compound_code": "VVFF+V5 Ludhiana, Punjab, India",
+                "global_code": "8J2QVVFF+V5"
+            },
+            "rating": 4,
+            "reference": "ChIJ0RxIuOuCGjkR8S9i285kP-I",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 2,
+            "vicinity": "B21/8634, Street No. 6, Guru Angad Colony, Ati Road, Ludhiana"
+        },
+        {
+            "geometry": {
+                "location": {
+                    "lat": 30.873065,
+                    "lng": 75.871077
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 30.8744257802915,
+                        "lng": 75.87242643029151
+                    },
+                    "southwest": {
+                        "lat": 30.8717278197085,
+                        "lng": 75.86972846970849
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "08bb76f9d2b4ed2991daf5e141d4a01ecbc661fe",
+            "name": "GS Design Art",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 1968,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/114892628334056880667/photos\">GS Design Art</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAgnt6EhR9neaLVCScvlgFSnJYvdR5CrTawko7tXMt7j-pIrMZG9YD52-nJnJ9mr2TWlqynyoODU4HkNtx6l5wih9op9mC_q3u8mlqJXijwdJ3674RIoN4jMqeJij2hkMWEhBJ4I5MqnGwl7w9cmS_XNLcGhTk8bcQk67AUt8BMHadk0q24oMRfA",
+                    "width": 1200
+                }
+            ],
+            "place_id": "ChIJbe7hfuuCGjkR_Ys_uBOAnek",
+            "plus_code": {
+                "compound_code": "VVFC+6C Ludhiana, Punjab, India",
+                "global_code": "8J2QVVFC+6C"
+            },
+            "rating": 5,
+            "reference": "ChIJbe7hfuuCGjkR_Ys_uBOAnek",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 2,
+            "vicinity": "#7803, Street No. 11, New Janta Nagar (East),, Ludhiana"
+        },
+        {
+            "geometry": {
+                "location": {
+                    "lat": 30.8731196,
+                    "lng": 75.8710906
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 30.8744681802915,
+                        "lng": 75.87239653029151
+                    },
+                    "southwest": {
+                        "lat": 30.8717702197085,
+                        "lng": 75.8696985697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "6ec49a965d28d46398b0bcaceaf9c763e34d1e49",
+            "name": "GN Glob IT",
+            "opening_hours": {
+                "open_now": true
+            },
+            "place_id": "ChIJsQS4ppCCGjkRCWgjfEp7qCo",
+            "plus_code": {
+                "compound_code": "VVFC+6C Ludhiana, Punjab, India",
+                "global_code": "8J2QVVFC+6C"
+            },
+            "rating": 2.5,
+            "reference": "ChIJsQS4ppCCGjkRCWgjfEp7qCo",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 2,
+            "vicinity": "7803, St. No. 11/1, New Janta Nagar East,, Ludhiana"
+        },
+        {
+            "geometry": {
+                "location": {
+                    "lat": 30.87444299999999,
+                    "lng": 75.8715847
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 30.87588708029149,
+                        "lng": 75.87292698029151
+                    },
+                    "southwest": {
+                        "lat": 30.8731891197085,
+                        "lng": 75.8702290197085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/shopping-71.png",
+            "id": "7f3103bb4003f654347efeefed104f2e4391c2e0",
+            "name": "Tarun Gift & General Store",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 960,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/114546625610992939078/photos\">Taran Grover</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAe31XvBG4-WvFkw9gvFz2lxRbTMjq0rS4i9bB99L1gsPCKYJWLwvfUUHwgH7rT2uQ671-Wm_YhhDQ_wYGkFI_wkKpVCn9SXJaBc7NEJuMLd25FEaN0KnQ0UCH7LTXlXeAEhCBfY6hXQbCNsK7jxd8FrXSGhSOe6A9txRsHw6LuzpKNC1DNcnt4w",
+                    "width": 540
+                }
+            ],
+            "place_id": "ChIJY8AJlOuCGjkRtuL0h_rvthQ",
+            "plus_code": {
+                "compound_code": "VVFC+QJ New Janta Nagar, Ludhiana, Punjab, India",
+                "global_code": "8J2QVVFC+QJ"
+            },
+            "rating": 4.5,
+            "reference": "ChIJY8AJlOuCGjkRtuL0h_rvthQ",
+            "scope": "GOOGLE",
+            "types": [
+                "food",
+                "point_of_interest",
+                "store",
+                "establishment"
+            ],
+            "user_ratings_total": 2,
+            "vicinity": "ATI Road, Near Khuisar Gurdwara, New Janta Nagar, Ludhiana"
+        },
+        {
+            "geometry": {
+                "location": {
+                    "lat": 30.873742,
+                    "lng": 75.874693
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 30.8751369302915,
+                        "lng": 75.8760449302915
+                    },
+                    "southwest": {
+                        "lat": 30.8724389697085,
+                        "lng": 75.87334696970849
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "629d97f3278cc8024b835b4e58ba5b01ccdce77c",
+            "name": "FAF | Facebook auto followers | Facebook auto request | Facebook followers",
+            "place_id": "ChIJmwLtWOqCGjkROOSIPamSqm0",
+            "plus_code": {
+                "compound_code": "VVFF+FV New Janta Nagar, Ludhiana, Punjab, India",
+                "global_code": "8J2QVVFF+FV"
+            },
+            "rating": 4.7,
+            "reference": "ChIJmwLtWOqCGjkROOSIPamSqm0",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 6,
+            "vicinity": "New Janta Nagar, Ludhiana"
+        },
+        {
+            "geometry": {
+                "location": {
+                    "lat": 30.874619,
+                    "lng": 75.874066
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 30.8759397802915,
+                        "lng": 75.87541463029152
+                    },
+                    "southwest": {
+                        "lat": 30.8732418197085,
+                        "lng": 75.8727166697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/shopping-71.png",
+            "id": "31f306172c357cfab0053287d3424a3193b037de",
+            "name": "Dashmesh Electricals",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 2560,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/104383242174808250028/photos\">Jagjit Singh</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAPB96PQBjTgTIy2qrlCTSp89xGlSwe-dj1-1bi245AD22RgzxCvM0Y4AO5bTCw_525JRYdznJjZa2rNATaLCSRSYYrNT963PSsMQcFPbRC7yG2Ut_wa-ESRHFzIy8cA1vEhC7gSy4sxRag81pQPJAdVGdGhQpO3Rxk_nPSXL7XhNXKR4Zcqlqhg",
+                    "width": 1920
+                }
+            ],
+            "place_id": "ChIJFdgGTOqCGjkRE3oEFVFklkM",
+            "plus_code": {
+                "compound_code": "VVFF+RJ Ludhiana, Punjab, India",
+                "global_code": "8J2QVVFF+RJ"
+            },
+            "rating": 4,
+            "reference": "ChIJFdgGTOqCGjkRE3oEFVFklkM",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "store",
+                "establishment"
+            ],
+            "user_ratings_total": 1,
+            "vicinity": "ATI Road, Guru Angad Colony, Gurpal Nagar, Ludhiana"
+        },
+        {
+            "geometry": {
+                "location": {
+                    "lat": 30.87467,
+                    "lng": 75.87169999999999
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 30.8760204302915,
+                        "lng": 75.8730488802915
+                    },
+                    "southwest": {
+                        "lat": 30.87332246970851,
+                        "lng": 75.8703509197085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/shopping-71.png",
+            "id": "90ee5dd344f56798250b99c21eb52666b9d0bb0e",
+            "name": "Rana Auto Center",
+            "place_id": "ChIJgWfakuuCGjkRj7L1985cOn0",
+            "plus_code": {
+                "compound_code": "VVFC+VM Ludhiana, Punjab, India",
+                "global_code": "8J2QVVFC+VM"
+            },
+            "reference": "ChIJgWfakuuCGjkRj7L1985cOn0",
+            "scope": "GOOGLE",
+            "types": [
+                "car_repair",
+                "point_of_interest",
+                "store",
+                "establishment"
+            ],
+            "vicinity": "Daba Road, Inder Gas Agency, New Janta Nagar, Ludhiana"
+        },
+        {
+            "geometry": {
+                "location": {
+                    "lat": 30.8716498,
+                    "lng": 75.86937189999999
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 30.8747324,
+                        "lng": 75.87637
+                    },
+                    "southwest": {
+                        "lat": 30.8690209,
+                        "lng": 75.8668242
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png",
+            "id": "57a8181339861c9f6b940f81fea7ac4d88401259",
+            "name": "New Janta Nagar",
+            "photos": [
+                {
+                    "height": 1280,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/112610094072925326523/photos\">Ravi Mahajan</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAsHNNcCPM6uDfP8arF-ScOcu67v6QKsKCrrJva6Tf83SfuAFrqUJ-GlBsTaJgHjDH80ZmWvkYJ0bE1PlRj1SRKb3rUEKQBVfgUUSTkZMcITyl7DlIsAZNaVdz6QhDQMUGEhBjfe-0fHZCocnJ7sGfHyhwGhQFTn8E3H0w9BL_UIQwQIm07PRORg",
+                    "width": 960
+                }
+            ],
+            "place_id": "ChIJh8wG15SCGjkRigOKuRIJTzk",
+            "reference": "ChIJh8wG15SCGjkRigOKuRIJTzk",
+            "scope": "GOOGLE",
+            "types": [
+                "sublocality_level_1",
+                "sublocality",
+                "political"
+            ],
+            "vicinity": "New Janta Nagar"
+        }
+    ],
+    "status": "OK"
+}

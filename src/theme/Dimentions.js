@@ -1,0 +1,4 @@
+const APP_SIDE_DISTANCE = 20
+export{
+    APP_SIDE_DISTANCE
+}

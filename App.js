@@ -15,6 +15,8 @@ import Single from "./src/screens/Single";
 import Icon from "react-native-vector-icons/dist/Entypo";
 import { TAB_ICON_ACTIVE, TAB_ICON_INACTIVE } from "./src/theme/colors";
 import { M_Regular } from "./src/theme/fonts";
+import GooglePlaceSingle from "./src/components/googleData/Single"
+
 const HomeStack = createStackNavigator({
   Home: Home,
   ListByCity: ListByCity,
@@ -37,7 +39,8 @@ const SearchStack = createStackNavigator({
 });
 const PlacesStack = createStackNavigator({
   Places: Places,
-  Single: Single
+  Single: Single,
+  GooglePlaceSingle:GooglePlaceSingle
 });
 
 const TabNavigator = createBottomTabNavigator(

@@ -24,13 +24,13 @@ import Map from "../components/Map";
 import { getPostByID, getPlaceDetails, getListPlaceImage } from "../Utils/Api";
 import Spinner from "react-native-spinkit";
 var dayNameArr = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thrusday",
-  "Friday",
-  "Saturday"
+  "sunday",
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thrusday",
+  "friday",
+  "saturday"
 ];
 
 const Single = props => {
@@ -92,7 +92,8 @@ const Single = props => {
     let g_data = {};
     g_data.acf = {};
     g_data.title = {};
-    g_data.map = {};
+    g_data.acf.map = {};
+    g_data.content = '';
     // g_data.acf.images = false;
     g_data.id = data.place_id;
     g_data.link = `http://www.siridigitalmarketing.com/cityapp/`;
@@ -100,14 +101,14 @@ const Single = props => {
     g_data.acf.contact_no = data.formatted_phone_number;
     g_data.title.rendered = data.name;
     g_data.acf.dvc_name = data.name;
-    g_data.map.address = data.formatted_address;
-    g_data.map.lat = data.geometry ? data.geometry.location.lat : null;
-    g_data.map.lng = data.geometry ? data.geometry.location.lng : null;
+    g_data.acf.map.address = data.name;
+    g_data.acf.map.lat = data.geometry ? data.geometry.location.lat : null;
+    g_data.acf.map.lng = data.geometry ? data.geometry.location.lng : null;
     if (data.opening_hours && data.opening_hours.periods) {
       data.opening_hours.periods.map(period => {
         if (period.close) {
-          let openTime = moment(period.open.time, "hhmm").format("hh:mm:ss");
-          let closeTime = moment(period.close.time, "hhmm").format("hh:mm:ss");
+          let openTime = moment(period.open.time, "HHmm ").format("HH:mm:ss");
+          let closeTime = moment(period.close.time, "HHmm").format("HH:mm:ss");
           let day = dayNameArr[period.close.day];
           g_data.acf[day] = {};
           g_data.acf[day].closes_at = closeTime;
@@ -143,6 +144,7 @@ const Single = props => {
   };
 
   const setPostData = postData => {
+    console.log(postData)
     setpost(postData);
     postData.acf && postData.acf.images && getImgUrls(postData.acf.images);
     postData.acf &&
@@ -328,7 +330,7 @@ const Single = props => {
         </View>
 
         <View style={styles.content}>
-          {post.content && (
+          {post.content !='' && (
             <View style={styles.detailBox}>
               <View style={styles.flex}>
                 <Icon
@@ -357,7 +359,7 @@ const Single = props => {
                 <Map
                   lat={post.acf.map.lat}
                   lng={post.acf.map.lng}
-                  address={post.acf.address}
+                  address={post.acf.map.address}
                 />
               </View>
             </View>

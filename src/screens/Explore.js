@@ -86,7 +86,7 @@ const Explore = props => {
                   key={`post-${item.id}`}
 
                 >
-                  {renderTags(item.title.rendered)}
+                  {item.id!=891&& renderTags(item.title.rendered)}
                 </TouchableOpacity>
               ))}
             </View>

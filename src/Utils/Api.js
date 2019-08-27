@@ -172,9 +172,9 @@ export function getPostByID(id) {
  * get list place image
  */
 
-export function getListPlaceImage(photoReference = "") {
+export function getListPlaceImage(photoReference = "",width=100) {
   if (!photoReference) return null;
-  let url = `${GOOGLE_MAP_API}/place/photo?photoreference=${photoReference}&key=AIzaSyCa4gODgo6AsfiXx0HzeUI2C01kqla9Kyc&maxwidth=100`;
+  let url = `${GOOGLE_MAP_API}/place/photo?photoreference=${photoReference}&key=AIzaSyCa4gODgo6AsfiXx0HzeUI2C01kqla9Kyc&maxwidth=${width}`;
   // console.log(url);
   return fetch(url)
     .then(data => data.url)
@@ -190,6 +190,21 @@ export function getListPlaceImage(photoReference = "") {
 export function getPlaceDetails(placeid = "") {
   if (!placeid) return null;
   let url = `${GOOGLE_MAP_API}/place/details/json?placeid=${placeid}&key=AIzaSyCa4gODgo6AsfiXx0HzeUI2C01kqla9Kyc`;
+  console.log(url);
+  return fetch(url)
+    .then(response => response.json())
+    .catch(error => {
+      throw error;
+    });
+}
+
+/**
+ * get place nearby
+ */
+
+export function getNearbyPlaces(latlng = "") {
+  if (!latlng) return null;
+  let url = `${GOOGLE_MAP_API}/place/nearbysearch/json?location=${latlng}&radius=500&key=AIzaSyCa4gODgo6AsfiXx0HzeUI2C01kqla9Kyc`;
   console.log(url);
   return fetch(url)
     .then(response => response.json())

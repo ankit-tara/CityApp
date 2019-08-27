@@ -8,11 +8,17 @@ import {
   ActivityIndicator,
   StyleSheet,
   Animated,
-  Image
+  Image,
+  PermissionsAndroid
 } from "react-native";
 import Header from "../components/Header";
 import { useSelector } from "react-redux";
-import { getPostByCategoryName, searchPost } from "../Utils/Api";
+import {
+  getPostByCategoryName,
+  searchPost,
+  getLocationData,
+  getNearbyPlaces
+} from "../Utils/Api";
 import Icon from "react-native-vector-icons/dist/Entypo";
 import {
   text_truncate,
@@ -24,9 +30,13 @@ import Spinner from "react-native-spinkit";
 import { APP_ORANGE } from "../theme/colors";
 import { M_Light, M_BOLD, M_Regular } from "../theme/fonts";
 import SearchBar from "../components/SearchBar";
-import sampleJson from  "../assets/sample-places.json"
+import sampleJson from "../assets/sample-places.json";
 const scrollY = new Animated.Value(0);
-import GoogleList from "../components/googleData/List"
+import Geolocation from "react-native-geolocation-service";
+
+import LocationServicesDialogBox from "react-native-android-location-services-dialog-box";
+
+import GoogleList from "../components/googleData/List";
 const Places = props => {
   const per_page = 10;
 
@@ -40,20 +50,97 @@ const Places = props => {
   const [postEnd, setpostEnd] = useState(false);
   const locationLoading = useSelector(state => state.locationLoading);
   const authLocation = useSelector(state => state.authLocation);
+  const [googleData, setgoogleData] = useState(false);
 
   useEffect(() => {
     console.log("nearby");
     console.log(authLocation);
     console.log(sampleJson);
     let city = authLocation.city;
-    if (!city) return
+    if (!city) return;
     getPostByCategoryName(city)
       .then(data => {
-        setdata(data);
-        setloading(false);
+        if (data.length) {
+          setdata(data);
+          setloading(false);
+        } else {
+          checkLocationAcess();
+          // getLocationData(city)
+          //   .then(data => {
+          //     setgoogleData(true);
+          //     setdata(data);
+          //     setloading(false);
+          //   })
+          //   .catch(e => console.log(e));
+        }
       })
       .catch(e => console.log(e));
   }, [authLocation]);
+  checkLocationAcess = () => {
+    LocationServicesDialogBox.checkLocationServicesIsEnabled({
+      message:
+        "<h2 style='color: #0af13e'>Use Location ?</h2>This app wants to change your device settings:<br/><br/>Use GPS, Wi-Fi, and cell network for location<br/><br/><a href='#'>Learn more</a>",
+      ok: "YES",
+      cancel: "NO",
+      enableHighAccuracy: true, // true => GPS AND NETWORK PROVIDER, false => GPS OR NETWORK PROVIDER
+      showDialog: true, // false => Opens the Location access page directly
+      openLocationServices: true, // false => Directly catch method is called if location services are turned off
+      preventOutSideTouch: false, // true => To prevent the location services window from closing when it is clicked outside
+      preventBackClick: false, // true => To prevent the location services popup from closing when it is clicked back button
+      providerListener: false // true ==> Trigger locationProviderStatusChange listener when the location state changes
+    })
+      .then(function(success) {
+        checkGranted();
+      })
+      .catch(error => {
+        setloading(false);
+      });
+  };
+
+  const checkGranted = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        Geolocation.getCurrentPosition(
+          position => {
+            let value = `${position.coords.latitude},${position.coords.longitude}`;
+            console.log(value);
+            getNearbyPlaces(value).then(data => {
+              if (data.status == "OK") {
+                console.log(data.results);
+                setdata(data.results);
+
+                setgoogleData(true);
+              setloading(false);
+
+              }else{
+              setloading(false);
+
+              }
+
+            }).cat;
+          },
+          error => {
+            setloading(false);
+
+            console.log(error);
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 20000,
+            maximumAge: 1000
+          }
+        );
+      } else {
+        setloading(false);
+      }
+    } catch (err) {
+      console.warn(err);
+      setloading(false);
+    }
+  };
 
   loadMoreData = () => {
     let city = authLocation.city;
@@ -118,13 +205,15 @@ const Places = props => {
       </View>
     );
   };
-return (<GoogleList data={sampleJson} />)
   if (loading) {
     return (
       <View style={{ justifyContent: "center", alignItems: "center", flex: 1 }}>
         <Spinner type="Pulse" color={APP_ORANGE} size={80} />
       </View>
     );
+  }
+  if (!loading && googleData && data) {
+    return <GoogleList data={data} />;
   }
 
   if (!data.length && !loading) {
@@ -246,7 +335,7 @@ return (<GoogleList data={sampleJson} />)
     );
   }
 
-  return null
+  return null;
 };
 
 Places.navigationOptions = {

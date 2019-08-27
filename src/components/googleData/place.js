@@ -22,21 +22,14 @@ const Place = ({ place, handleClick }) => {
       place.photos.length > 0 &&
       place.photos[0].photo_reference != ""
     ) {
-        // getRedirect(place.photos[0].photo_reference).then((uri)=>{
-        //     setimage(uri)
-        // }).catch((error)=>console.log(error))
+       
       getListPlaceImage(place.photos[0].photo_reference)
         .then(data => setimage(data))
         .catch(error => console.log(error));
     }
   }, [place]);
 
-  const getRedirect = async photoReference => {
-    let uri = `${GOOGLE_MAP_API}/place/photo?photoreference=${photoReference}&key=AIzaSyCa4gODgo6AsfiXx0HzeUI2C01kqla9Kyc&maxwidth=100 `;
-    const response = await fetch(uri);
-    const data = await response;
-    return data.status === 200 ? data.url : "";
-  };
+
 
   if (!place) return null;
   return (

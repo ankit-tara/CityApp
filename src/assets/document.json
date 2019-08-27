@@ -51,22 +51,22 @@
                 ]
             }
         ],
-        "adr_address": "<span class=\"extended-address\">New Janta Nagar<\/span>, <span class=\"locality\">Ludhiana<\/span>, <span class=\"region\">Punjab<\/span> <span class=\"postal-code\">141003<\/span>, <span class=\"country-name\">India<\/span>",
+        "adr_address": "<span class=\"extended-address\">New Janta Nagar</span>, <span class=\"locality\">Ludhiana</span>, <span class=\"region\">Punjab</span> <span class=\"postal-code\">141003</span>, <span class=\"country-name\">India</span>",
         "formatted_address": "New Janta Nagar, Ludhiana, Punjab 141003, India",
         "formatted_phone_number": "098886 94438",
         "geometry": {
             "location": {
-                "lat": 30.872452,
-                "lng": 75.873405
+                "lat": 30.8724515,
+                "lng": 75.8734064
             },
             "viewport": {
                 "northeast": {
-                    "lat": 30.873783,
-                    "lng": 75.874756
+                    "lat": 30.8737823802915,
+                    "lng": 75.8747547802915
                 },
                 "southwest": {
-                    "lat": 30.871084,
-                    "lng": 75.872055
+                    "lat": 30.8710844197085,
+                    "lng": 75.87205681970848
                 }
             }
         },
@@ -152,7 +152,7 @@
             {
                 "height": 1536,
                 "html_attributions": [
-                    "<a href=\"https://maps.google.com/maps/contrib/108520651706296325104/photos\">Sokhi Brothers India<\/a>"
+                    "<a href=\"https://maps.google.com/maps/contrib/108520651706296325104/photos\">Sokhi Brothers India</a>"
                 ],
                 "photo_reference": "CmRaAAAACUIYJIrRSPmYnGtvPZOHIRAhXFEQdrpFEHdJidt_PVg-UGhdeVhYh9wCFUK0d2NGA0GRI3jq2es6O_JDowawWNL5Rn0eUGrX11SmCjfpaHiZ5IborNa_uJe2-lCzA22GEhDpRLbyi1XAz5zJ3KWYIF_yGhSYm-pVtLdlBBGEM1XNfLw0ws2HAw",
                 "width": 2048
@@ -160,7 +160,7 @@
             {
                 "height": 1536,
                 "html_attributions": [
-                    "<a href=\"https://maps.google.com/maps/contrib/108520651706296325104/photos\">Sokhi Brothers India<\/a>"
+                    "<a href=\"https://maps.google.com/maps/contrib/108520651706296325104/photos\">Sokhi Brothers India</a>"
                 ],
                 "photo_reference": "CmRaAAAAxEVt7SwDRxzajiVrIy_pHxqdRUv6khxgYDasdawtSXcWHGSEptLDOyfBeXcd_RR9-hEVwrvuSFOplYhAjKJenHJKeYaCa3J0emCkL3GY_rJruzpqnTOk5x4RKaRXsRN8EhBmcYXauJJ-mnmHif15GM5HGhSt80FUgdKJEopLHtZO5PtUl6FBcg",
                 "width": 2048
@@ -168,7 +168,7 @@
             {
                 "height": 409,
                 "html_attributions": [
-                    "<a href=\"https://maps.google.com/maps/contrib/108520651706296325104/photos\">Sokhi Brothers India<\/a>"
+                    "<a href=\"https://maps.google.com/maps/contrib/108520651706296325104/photos\">Sokhi Brothers India</a>"
                 ],
                 "photo_reference": "CmRaAAAAlLBxXbMdwA8YxYlAj-hYNwGR_GRW5eIfLS1cDRbc0ktV3FVvzBOJhgCA-RAvdhb4aLjN0zqwGne-cFfMqFAT_HNLxknhURjZioFI2CdvPJw1LvBr8X4i2upxCPw5NIsPEhCIm75Hn4Mbq7D5bEgj8m8pGhRPO4moiTBSyH10dZ_pbhqg3CWG_w",
                 "width": 512
@@ -176,7 +176,7 @@
             {
                 "height": 581,
                 "html_attributions": [
-                    "<a href=\"https://maps.google.com/maps/contrib/106696825125262604912/photos\">Malkit singh<\/a>"
+                    "<a href=\"https://maps.google.com/maps/contrib/106696825125262604912/photos\">Malkit singh</a>"
                 ],
                 "photo_reference": "CmRZAAAATQgu4fo6jVgLoNuQ2457_VcbXVS5otvvE5-KgCdsGlr5tVXAcYNPpgItOZfFrSQzdFI5rwuhPItzrHCu8slUgMIe6FxMxt8FVn13Lb8fjGozdhFCkMHTwSK6I8trSAxDEhBRgSMJ-wbJynjlYnYCWPp6GhSf7aL759uZj02BOojWTF8Qw7NYDQ",
                 "width": 1032
@@ -184,7 +184,7 @@
             {
                 "height": 520,
                 "html_attributions": [
-                    "<a href=\"https://maps.google.com/maps/contrib/106696825125262604912/photos\">Malkit singh<\/a>"
+                    "<a href=\"https://maps.google.com/maps/contrib/106696825125262604912/photos\">Malkit singh</a>"
                 ],
                 "photo_reference": "CmRZAAAAkzucFJAA_EuC_X3JQnHnPCWZaqgGF5VyYe95D2dGKmLI-Gd8JN83bnYR2-u6tgwtmjPATCoSdcEt8d7ga-ToH5EJkHxEfQQTe8PwJAFgSbeQeozNCmoJkLQrkxcmCLnmEhCzypHhjC2_O50pkvCPTH6HGhQGKaVX2zhIYCIkG5-PCb1VBjV-6g",
                 "width": 750
@@ -192,7 +192,7 @@
             {
                 "height": 3264,
                 "html_attributions": [
-                    "<a href=\"https://maps.google.com/maps/contrib/106696825125262604912/photos\">Malkit singh<\/a>"
+                    "<a href=\"https://maps.google.com/maps/contrib/106696825125262604912/photos\">Malkit singh</a>"
                 ],
                 "photo_reference": "CmRZAAAAGpC4gEK28XwQtuMj-yqmLoxayV070whvhWdzuWAn7WltktWe9dD9BEXqBR2oZStPFToCEAESiY0J3EIAQPYikIGqhHTon2TllIiZE1R9kNraSczgvPTYB-zNgB4BfIugEhCLA_m_8Ky8cAzJjpjZg2qfGhTrU5T5PuE9T25nTWKppv0iUqivRw",
                 "width": 2448
@@ -200,7 +200,7 @@
             {
                 "height": 1276,
                 "html_attributions": [
-                    "<a href=\"https://maps.google.com/maps/contrib/108520651706296325104/photos\">Sokhi Brothers India<\/a>"
+                    "<a href=\"https://maps.google.com/maps/contrib/108520651706296325104/photos\">Sokhi Brothers India</a>"
                 ],
                 "photo_reference": "CmRaAAAAsVpQlQi2xb1rHWa23iugmlHAmSq93UZPYlOCtYNJaP-pF9FsBHyT5_EdmuroYVylgL3_wlVEItIvVip_M7_QqYBnyhTW_QHR8W3iy-6hPFpar5eE6ixNstNU-96gWrIwEhDpXlLnp_NWRx2iIMdZyk-VGhRO1D-Q6m4oMYqavTNzfG30LrhYkQ",
                 "width": 1651

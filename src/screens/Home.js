@@ -212,7 +212,6 @@ const Home = props => {
     acf.main_slider_images && setBannerData(acf.main_slider_images);
     data.ads_data && setAdData(data.ads_data);
     data.categories_data && setCatData(data.categories_data);
-    console.log(data);
   };
 
   ShowAllTags = () => {

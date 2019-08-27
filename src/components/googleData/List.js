@@ -11,15 +11,14 @@ const GoogleList = props => {
   const [loading, setloading] = useState(true);
 
   useEffect(() => {
-    if (props.data && props.data.status == "OK" ) {
+    // if (props.data && props.data.status == "OK" ) {
       let data = props.data;
-      setplaces(data.results);
+      setplaces(data);
       setloading(false);
-      console.log("data");
-      console.log(data.results);
-    } else {
-      setloading(false);
-    }
+     
+    // } else {
+    //   setloading(false);
+    // }
   }, []);
 
   if (loading) {

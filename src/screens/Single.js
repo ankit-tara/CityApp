@@ -10,8 +10,6 @@ import {
   TouchableNativeFeedback,
   Linking,
   Share,
-  Alert,
-  Modal
 } from "react-native";
 import Icon from "react-native-vector-icons/dist/MaterialCommunityIcons";
 import Collapsible from "react-native-collapsible";
@@ -23,11 +21,17 @@ import ImageModal from "../components/ImageModal";
 import MultipleNumber from "../components/MultipleNumber";
 import moment from "moment";
 import Map from "../components/Map";
-import { getPostByID, getPlaceDetails } from "../Utils/Api";
+import { getPostByID, getPlaceDetails, getListPlaceImage } from "../Utils/Api";
 import Spinner from "react-native-spinkit";
-import samplePlace from "../assets/sample-place.json";
-var dayNameArr = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thrusday", "Friday", "Saturday"];
-
+var dayNameArr = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thrusday",
+  "Friday",
+  "Saturday"
+];
 
 const Single = props => {
   const [loading, setloading] = useState(true);
@@ -43,7 +47,6 @@ const Single = props => {
 
   useEffect(() => {
     let params = props.navigation.state.params;
-
     if (params && params.googlePlaceId && params.googlePlaceId != post.id) {
       let googlePlaceId = params.googlePlaceId;
       isFromGoogle(googlePlaceId);
@@ -54,7 +57,13 @@ const Single = props => {
       setPostData(post);
       return;
     }
-    if (params && !params.post && params.postId && params.postId != post.id) {
+    if (
+      params &&
+      !params.post &&
+      !params.googlePlaceId &&
+      params.postId &&
+      params.postId != post.id
+    ) {
       if (params.postId.toString().match(/[a-z]/i) != null) {
         isFromGoogle(params.postId);
         return;
@@ -70,10 +79,13 @@ const Single = props => {
   }, [props]);
 
   const isFromGoogle = googlePlaceId => {
-    // getPlaceDetails(googlePlaceId)
-    //   .then(data => console.log(data))
-    //   .catch(error => console.log(error));
-    setGooglePostData(samplePlace.result);
+    getPlaceDetails(googlePlaceId)
+      .then(data => {
+        if ((data.status = "OK")) {
+          setGooglePostData(data.result);
+        }
+      })
+      .catch(error => console.log(error));
   };
 
   const setGooglePostData = data => {
@@ -81,6 +93,7 @@ const Single = props => {
     g_data.acf = {};
     g_data.title = {};
     g_data.map = {};
+    // g_data.acf.images = false;
     g_data.id = data.place_id;
     g_data.link = `http://www.siridigitalmarketing.com/cityapp/`;
     g_data.acf.address = data.formatted_address;
@@ -90,44 +103,63 @@ const Single = props => {
     g_data.map.address = data.formatted_address;
     g_data.map.lat = data.geometry ? data.geometry.location.lat : null;
     g_data.map.lng = data.geometry ? data.geometry.location.lng : null;
-    // console.log(data)
-
-    // if (data.opening_hours && data.opening_hours.weekday_text) {
-    //   data.opening_hours.weekday_text.map(weekday => {
-    //     let weekday_data = weekday.split(": ");
-    //     g_data.acf[weekday_data[0]] = "";
-    //     let time_data = weekday_data[1].split('–')
-    //     console.log(time_data)
-    //     console.log(weekday_data[1]);
-    //   });
-    // }
     if (data.opening_hours && data.opening_hours.periods) {
-       data.opening_hours.periods.map(period => {
-        if(period.close){
-          let openTime = moment(period.open.time, "hhmm").format("hh:mm:ss")
-          let closeTime =moment(period.close.time, "hhmm").format("hh:mm:ss")
-          let day = dayNameArr[period.close.day]
-          g_data.acf[day]={}
-          g_data.acf[day].closes_at=closeTime
-          g_data.acf[day].opens_at=openTime
-          g_data.acf[day].open_24_hrs=closeTime == openTime ? true:false
-          return g_data
+      data.opening_hours.periods.map(period => {
+        if (period.close) {
+          let openTime = moment(period.open.time, "hhmm").format("hh:mm:ss");
+          let closeTime = moment(period.close.time, "hhmm").format("hh:mm:ss");
+          let day = dayNameArr[period.close.day];
+          g_data.acf[day] = {};
+          g_data.acf[day].closes_at = closeTime;
+          g_data.acf[day].opens_at = openTime;
+          g_data.acf[day].open_24_hrs = closeTime == openTime ? true : false;
+          return g_data;
         }
       });
     }
-    console.log(g_data)
+    if (data.photos && data.photos.length > 0) {
+      setGooglePhotos(data.photos);
+    }
+
     setPostData(g_data);
   };
 
-  const setPostData = post => {
-    console.log(post)
-    setpost(post);
-    post.acf && post.acf.images && getImgUrls(post.acf.images);
-    post.acf && post.acf.contact_no && getIContactNo(post.acf.contact_no);
-    post.fimg_url && getMainImgUrl(post.fimg_url);
+  const getPhtoUrl = async photo => {
+    return getListPlaceImage(photo.photo_reference, 300)
+      .then(url => {
+        if (url) {
+          let obj = { url: url };
+          return obj;
+        }
+      })
+      .catch(error => console.log(error));
+  };
+  const setGooglePhotos = async photos => {
+    let arr = await Promise.all(photos.map(item => getPhtoUrl(item)));
+    if (arr.length > 0) {
+      getMainImgUrl(arr[0].url);
+      setimages(arr);
+    }
+  };
+
+  const setPostData = postData => {
+    setpost(postData);
+    postData.acf && postData.acf.images && getImgUrls(postData.acf.images);
+    postData.acf &&
+      postData.acf.contact_no &&
+      getIContactNo(postData.acf.contact_no);
+    postData.fimg_url && getMainImgUrl(postData.fimg_url);
     setloading(false);
   };
 
+  const selecTfirstImage = image => {
+    console.log("main", image);
+    let arr = [];
+    if (image) {
+      arr.push({ url: image.image });
+    }
+    setmainImg(arr);
+  };
   const getIContactNo = contact_no => {
     let numbers = contact_no.split(",");
     setcontactNo(numbers);
@@ -246,10 +278,16 @@ const Single = props => {
         <ImageBackground
           style={styles.featured}
           source={{
-            uri: post.fimg_url
+            uri:mainImg.length>0? mainImg[0].url:''
           }}
         >
-          <TouchableNativeFeedback onPress={() => setshowMainImage(true)}>
+          <TouchableNativeFeedback
+            onPress={() => {
+              if (mainImg) {
+                setshowMainImage(true);
+              }
+            }}
+          >
             <View style={styles.overlay}>
               <Text style={styles.title}>
                 {decode_html(post.title.rendered)}
@@ -407,7 +445,7 @@ const Single = props => {
               <Text style={styles.iconText}>Images</Text>
             </View>
             <View style={styles.gallery}>
-              {post.acf.images && (
+              {images.length > 0 && (
                 <TouchableNativeFeedback
                   onPress={() => {
                     setshowImages(true);
@@ -419,12 +457,12 @@ const Single = props => {
                     activeDot={<View style={[styles.dot, styles.activeDot]} />}
                     loop
                   >
-                    {post.acf.images.map(img => (
-                      <View style={{ flex: 1 }} key={`img-${img.image.ID}`}>
+                    {images.map((img, index) => (
+                      <View style={{ flex: 1 }} key={`img-${index}`}>
                         <Image
                           resizeMode="cover"
                           style={styles.image}
-                          source={{ uri: img.image }}
+                          source={{ uri: img.url }}
                         />
                       </View>
                     ))}

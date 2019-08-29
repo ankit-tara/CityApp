@@ -19,7 +19,8 @@ import {
   decode_html
 } from "../Utils/Helpers.js";
 import { M_BOLD, M_Light, M_Regular } from "../theme/fonts.js";
-import { APP_ORANGE } from "../theme/colors.js";
+import { APP_ORANGE, GOLD_MEMBER, SILVER_MEMBER } from "../theme/colors.js";
+import IconMat from "react-native-vector-icons/dist/MaterialCommunityIcons";
 
 const ListByCity = props => {
   const per_page = 10;
@@ -162,9 +163,28 @@ const ListByCity = props => {
                               )}
                             </Text>
                           )}
-                          {timeInfo && (
-                            <Text style={styles.timeInfo}>{timeInfo}</Text>
-                          )}
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              justifyContent: "space-between",
+                              alignItems: "center"
+                            }}
+                          >
+                            {timeInfo && (
+                              <Text style={styles.timeInfo}>{timeInfo}</Text>
+                            )}
+                           {post.item.acf.member_status && post.item.acf.member_status != "normal" &&<IconMat
+                              name="crown"
+                              size={25}
+                              color={
+                                post.item.acf.member_status == "gold"
+                                  ? GOLD_MEMBER
+                                  : SILVER_MEMBER
+                              }
+                              style={[styles.Icon, { margin: 4 }]}
+                            />
+                            }
+                          </View>
                         </View>
                       </View>
                     </TouchableOpacity>

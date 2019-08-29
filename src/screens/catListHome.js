@@ -56,13 +56,11 @@ const CatListHome = (props) => {
         Geolocation.getCurrentPosition(
           position => {
             let value = `${position.coords.latitude},${position.coords.longitude}`;
-            console.log(value);
             if (!props.data || !props.data.tag.name) return;
             getNearbyPlaces(value, props.data.tag.name).then(response => {
               if (response.status == "OK") {
                   let data = props.data
                 data.posts = response.results;
-                console.log(data);
                 setgoogleData(true);
                 setcat(data);
               } else {
@@ -72,7 +70,6 @@ const CatListHome = (props) => {
           error => {
             setloading(false);
 
-            console.log(error);
           },
           {
             enableHighAccuracy: true,

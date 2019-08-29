@@ -23,6 +23,8 @@ import moment from "moment";
 import Map from "../components/Map";
 import { getPostByID, getPlaceDetails, getListPlaceImage } from "../Utils/Api";
 import Spinner from "react-native-spinkit";
+const sampleHeroImage =
+  "https://images.unsplash.com/photo-1468784355877-3fa4f90b555b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80";
 var dayNameArr = [
   "sunday",
   "monday",
@@ -144,7 +146,6 @@ const Single = props => {
   };
 
   const setPostData = postData => {
-    console.log(postData)
     setpost(postData);
     postData.acf && postData.acf.images && getImgUrls(postData.acf.images);
     postData.acf &&
@@ -155,7 +156,6 @@ const Single = props => {
   };
 
   const selecTfirstImage = image => {
-    console.log("main", image);
     let arr = [];
     if (image) {
       arr.push({ url: image.image });
@@ -280,12 +280,12 @@ const Single = props => {
         <ImageBackground
           style={styles.featured}
           source={{
-            uri:mainImg.length>0? mainImg[0].url:''
+            uri:mainImg.length>0? mainImg[0].url:sampleHeroImage
           }}
         >
           <TouchableNativeFeedback
             onPress={() => {
-              if (mainImg) {
+              if (mainImg.length > 0) {
                 setshowMainImage(true);
               }
             }}

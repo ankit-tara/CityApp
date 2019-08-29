@@ -27,12 +27,13 @@ import {
   decode_html
 } from "../Utils/Helpers";
 import Spinner from "react-native-spinkit";
-import { APP_ORANGE } from "../theme/colors";
+import { APP_ORANGE, GOLD_MEMBER, SILVER_MEMBER } from "../theme/colors";
 import { M_Light, M_BOLD, M_Regular } from "../theme/fonts";
 import SearchBar from "../components/SearchBar";
 import sampleJson from "../assets/sample-places.json";
 const scrollY = new Animated.Value(0);
 import Geolocation from "react-native-geolocation-service";
+import IconMat from "react-native-vector-icons/dist/MaterialCommunityIcons";
 
 import LocationServicesDialogBox from "react-native-android-location-services-dialog-box";
 
@@ -96,10 +97,8 @@ const Places = props => {
         Geolocation.getCurrentPosition(
           position => {
             let value = `${position.coords.latitude},${position.coords.longitude}`;
-            console.log(value);
             getNearbyPlaces(value).then(data => {
               if (data.status == "OK") {
-                console.log(data.results);
                 setdata(data.results);
 
                 setgoogleData(true);
@@ -310,9 +309,30 @@ const Places = props => {
                         )}
                       </Text>
                     )}
-                    {timeInfo && (
-                      <Text style={styles.timeInfo}>{timeInfo}</Text>
-                    )}
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center"
+                      }}
+                    >
+                      {timeInfo && (
+                        <Text style={styles.timeInfo}>{timeInfo}</Text>
+                      )}
+                      {post.item.acf.member_status &&
+                        post.item.acf.member_status != "normal" && (
+                          <IconMat
+                            name="crown"
+                            size={25}
+                            color={
+                              post.item.acf.member_status == "gold"
+                                ? GOLD_MEMBER
+                                : SILVER_MEMBER
+                            }
+                            style={[styles.Icon, { margin: 4 }]}
+                          />
+                        )}
+                    </View>
                   </View>
                 </View>
               </TouchableOpacity>

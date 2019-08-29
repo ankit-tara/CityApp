@@ -118,7 +118,6 @@ const Home = props => {
       preventBackClick: false, // true => To prevent the location services popup from closing when it is clicked back button
       providerListener: false // true ==> Trigger locationProviderStatusChange listener when the location state changes
   }).then(function(success) {
-    console.log(success)
    checkGranted()
   }).catch((error) => {
     console.log(error)
@@ -133,7 +132,6 @@ const Home = props => {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
       );
-      console.log(granted)
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         Geolocation.getCurrentPosition(
           position => {
@@ -141,7 +139,6 @@ const Home = props => {
             let value = `${position.coords.latitude},${
               position.coords.longitude
             }`;
-            console.log(value)
             getLocationData(value)
               .then(handleLocationData)
               .catch(e => getGlobalData());

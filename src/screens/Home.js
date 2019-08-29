@@ -28,7 +28,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import moment from "moment"
 var PushNotification = require("react-native-push-notification");
 import LocationServicesDialogBox from "react-native-android-location-services-dialog-box";
-
+import CatListHome from "./catListHome"
 const Home = props => {
   const [loader, setloader] = useState(true);
   const [loadingMsg, setloadingMsg] = useState(null);
@@ -250,38 +250,43 @@ const Home = props => {
         {catData.length > 0 &&
           catData.map(cat => {
             cat.tag.id = cat.tag.term_id;
-            if (cat.posts.length <= 0) return;
             return (
               <View key={cat.tag.term_id}>
-                <BlockHeader
-                  heading={cat.tag.name}
-                  onLinkPress={() => {
-                    props.navigation.navigate("ListByTag", {
-                      item: cat.tag,
-                      type: "tag"
-                    });
-                  }}
-                />
-                <View style={[{ paddingHorizontal: 10 }, styles.boxes]}>
-                  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                    {cat.posts.length > 0 &&
-                      cat.posts.map(post => (
-                        <TouchableOpacity
-                          key={`post-${post.id}`}
-                          onPress={() =>
-                            props.navigation.navigate("Single", { post: post })
-                          }
-                        >
-                          <SingleCard
-                            image={post.fimg_url}
-                            title={post.title.rendered}
-                          />
-                        </TouchableOpacity>
-                      ))}
-                  </ScrollView>
-                </View>
+                <CatListHome data={cat} />
               </View>
             );
+            // if (cat.posts.length <= 0) return;
+            // return (
+            //   <View key={cat.tag.term_id}>
+            //     <BlockHeader
+            //       heading={cat.tag.name}
+            //       onLinkPress={() => {
+            //         props.navigation.navigate("ListByTag", {
+            //           item: cat.tag,
+            //           type: "tag"
+            //         });
+            //       }}
+            //     />
+            //     <View style={[{ paddingHorizontal: 10 }, styles.boxes]}>
+            //       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            //         {cat.posts.length > 0 &&
+            //           cat.posts.map(post => (
+            //             <TouchableOpacity
+            //               key={`post-${post.id}`}
+            //               onPress={() =>
+            //                 props.navigation.navigate("Single", { post: post })
+            //               }
+            //             >
+            //               <SingleCard
+            //                 image={post.fimg_url}
+            //                 title={post.title.rendered}
+            //               />
+            //             </TouchableOpacity>
+            //           ))}
+            //       </ScrollView>
+            //     </View>
+            //   </View>
+            // );
           })}
       </ScrollView>
     </View>

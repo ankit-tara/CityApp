@@ -53,9 +53,6 @@ const Places = props => {
   const [googleData, setgoogleData] = useState(false);
 
   useEffect(() => {
-    console.log("nearby");
-    console.log(authLocation);
-    console.log(sampleJson);
     let city = authLocation.city;
     if (!city) return;
     getPostByCategoryName(city)
@@ -65,13 +62,6 @@ const Places = props => {
           setloading(false);
         } else {
           checkLocationAcess();
-          // getLocationData(city)
-          //   .then(data => {
-          //     setgoogleData(true);
-          //     setdata(data);
-          //     setloading(false);
-          //   })
-          //   .catch(e => console.log(e));
         }
       })
       .catch(e => console.log(e));

@@ -9,9 +9,11 @@ const BlockHeader = ({ heading, onLinkPress }) => {
   return (
     <View style={[styles.row, styles.block]}>
       <Text style={styles.heading}>{heading}</Text>
-      <TouchableOpacity onPress={()=>handleClick()}>
+      {onLinkPress && 
+      <TouchableOpacity onPress={() => handleClick()}>
         <Text style={styles.link}>View All</Text>
       </TouchableOpacity>
+      }
     </View>
   );
 };

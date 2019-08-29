@@ -202,9 +202,9 @@ export function getPlaceDetails(placeid = "") {
  * get place nearby
  */
 
-export function getNearbyPlaces(latlng = "") {
+export function getNearbyPlaces(latlng = "",type='') {
   if (!latlng) return null;
-  let url = `${GOOGLE_MAP_API}/place/nearbysearch/json?location=${latlng}&radius=500&key=AIzaSyCa4gODgo6AsfiXx0HzeUI2C01kqla9Kyc`;
+  let url = `${GOOGLE_MAP_API}/place/nearbysearch/json?type=${type}&location=${latlng}&radius=500&key=AIzaSyCa4gODgo6AsfiXx0HzeUI2C01kqla9Kyc`;
   console.log(url);
   return fetch(url)
     .then(response => response.json())

@@ -3,7 +3,7 @@ import { Text, View, Image, ImageBackground } from "react-native";
 import styles from "../assets/style.js";
 import { text_truncate, decode_html } from "../Utils/Helpers.js";
 
-const SingleCard = ({ image, title, showText = true }) => {
+const SingleCard = ({ image='', title, showText = true }) => {
   const bgImage =
     "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?w=200";
   const noImageView = () => {

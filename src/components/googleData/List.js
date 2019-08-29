@@ -34,7 +34,7 @@ const GoogleList = props => {
   return (
     <View style={styles.container}>
       <FlatList
-        keyExtractor={(place,index) => `place-${index}`}
+        keyExtractor={(place, index) => `place-${index}`}
         data={places}
         style={styles.list}
         renderItem={(place, index) => (

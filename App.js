@@ -16,7 +16,7 @@ import Icon from "react-native-vector-icons/dist/Entypo";
 import { TAB_ICON_ACTIVE, TAB_ICON_INACTIVE } from "./src/theme/colors";
 import { M_Regular, M_SemiBold } from "./src/theme/fonts";
 import GooglePlaceSingle from "./src/components/googleData/Single";
-import Buy from "./src/screens/Buy";
+import Shop from "./src/screens/Shop";
 import { View,Text } from "react-native";
 const HomeStack = createStackNavigator({
   Home: Home,
@@ -43,12 +43,15 @@ const PlacesStack = createStackNavigator({
   Single: Single,
   GooglePlaceSingle: GooglePlaceSingle
 });
+const ShopStack = createStackNavigator({
+  Shop: Shop,
+});
 
 const TabNavigator = createBottomTabNavigator(
   {
     Home: HomeStack,
     Search: SearchStack,
-    Shop: Buy,
+    // Shop: ShopStack,
     Nearby: PlacesStack,
     Cities: CitiesStack
   },
@@ -118,8 +121,8 @@ const TabNavigator = createBottomTabNavigator(
               fontSize: 10,
               fontFamily: M_SemiBold,
               textTransform: "uppercase",
-              textAlign:'center',
-              color:color
+              textAlign: "center",
+              color: color
             }}
           >
             {routeName}
@@ -127,7 +130,6 @@ const TabNavigator = createBottomTabNavigator(
         );
         // console.log(navigation)
         //         return
-        
       }
     }),
     resetOnBlur: true,

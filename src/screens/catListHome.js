@@ -18,11 +18,17 @@ import { getNearbyPlaces, getListPlaceImage } from "../Utils/Api.js";
 const CatListHome = (props) => {
   const [cat, setcat] = useState();
   const [googleData, setgoogleData] = useState(false);
+  const [latlng, setlatlng] = useState();
   useEffect(() => {
+    let latlng = props.latlng
+    if(props.data &&cat && cat.data&& props.data.tag.name == cat.tag.name) return
+    if (props.latlng) {
+      setlatlng(latlng);
+    } 
     if (props.data.posts.length > 0) {
       setcat(props.data);
     } else {
-      checkLocationAcess();
+      setCatValue(latlng)
     }
   }, []);
 
@@ -43,7 +49,6 @@ const CatListHome = (props) => {
         checkGranted();
       })
       .catch(error => {
-        setloading(false);
       });
   };
 
@@ -56,19 +61,9 @@ const CatListHome = (props) => {
         Geolocation.getCurrentPosition(
           position => {
             let value = `${position.coords.latitude},${position.coords.longitude}`;
-            if (!props.data || !props.data.tag.name) return;
-            getNearbyPlaces(value, props.data.tag.name).then(response => {
-              if (response.status == "OK") {
-                  let data = props.data
-                data.posts = response.results;
-                setgoogleData(true);
-                setcat(data);
-              } else {
-              }
-            }).cat;
+           setCatValue(value)
           },
           error => {
-            setloading(false);
 
           },
           {
@@ -78,14 +73,25 @@ const CatListHome = (props) => {
           }
         );
       } else {
-        setloading(false);
       }
     } catch (err) {
       console.warn(err);
-      setloading(false);
     }
   };
 
+  setCatValue=(value='')=>{
+    console.log(value)
+    console.log(props.data)
+     if (!props.data || !props.data.tag.name) return;
+     getNearbyPlaces(value, props.data.tag.name).then(response => {
+       if (response.status == "OK") {
+         let data = props.data;
+         data.posts = response.results;
+         setgoogleData(true);
+         setcat(data);
+       } 
+     });
+  }
   //   const getImageUrl=(place)=>{
   //       return getListPlaceImage(place.photos[0].photo_reference)
   //          .then(data => data )

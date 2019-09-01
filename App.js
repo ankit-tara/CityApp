@@ -14,9 +14,10 @@ import ShowAllTags from "./src/screens/ShowAllTags";
 import Single from "./src/screens/Single";
 import Icon from "react-native-vector-icons/dist/Entypo";
 import { TAB_ICON_ACTIVE, TAB_ICON_INACTIVE } from "./src/theme/colors";
-import { M_Regular } from "./src/theme/fonts";
-import GooglePlaceSingle from "./src/components/googleData/Single"
-
+import { M_Regular, M_SemiBold } from "./src/theme/fonts";
+import GooglePlaceSingle from "./src/components/googleData/Single";
+import Shop from "./src/screens/Shop";
+import { View,Text } from "react-native";
 const HomeStack = createStackNavigator({
   Home: Home,
   ListByCity: ListByCity,
@@ -40,13 +41,17 @@ const SearchStack = createStackNavigator({
 const PlacesStack = createStackNavigator({
   Places: Places,
   Single: Single,
-  GooglePlaceSingle:GooglePlaceSingle
+  GooglePlaceSingle: GooglePlaceSingle
+});
+const ShopStack = createStackNavigator({
+  Shop: Shop,
 });
 
 const TabNavigator = createBottomTabNavigator(
   {
     Home: HomeStack,
     Search: SearchStack,
+    // Shop: ShopStack,
     Nearby: PlacesStack,
     Cities: CitiesStack
   },
@@ -54,6 +59,8 @@ const TabNavigator = createBottomTabNavigator(
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         let color = focused ? TAB_ICON_ACTIVE : TAB_ICON_INACTIVE;
+        let shopIconColor = focused ? "#fff" : TAB_ICON_INACTIVE;
+        let shopIconbgColor = focused ? "#000" : "#fff";
         const { routeName } = navigation.state;
 
         if (routeName === "Home") {
@@ -68,6 +75,61 @@ const TabNavigator = createBottomTabNavigator(
         if (routeName === "Cities") {
           return <Icon name="list" size={27} color={color} />;
         }
+        if (routeName === "Shop") {
+          return (
+            <View
+              style={{
+                borderWidth: 1,
+                borderColor: "#ccc",
+                position: "absolute",
+                padding: 13,
+                backgroundColor: shopIconbgColor,
+                shadowOffset: {
+                  width: 0,
+                  height: 6
+                }
+              }}
+              elevation={5}
+            >
+              <Icon name="shop" size={30} color={shopIconColor} />
+            </View>
+          );
+        }
+      },
+      tabBarLabel: ({ focused, horizontal, tintColor }) => {
+        let color = focused ? TAB_ICON_ACTIVE : TAB_ICON_INACTIVE;
+        let shopIconColor = focused ? "#fff" : TAB_ICON_INACTIVE;
+        const { routeName } = navigation.state;
+        if (routeName === "Shop") {
+          return (
+            <Text
+              style={{
+                fontSize: 10,
+                fontFamily: M_SemiBold,
+                textTransform: "uppercase",
+                textAlign: "center",
+                color: shopIconColor
+              }}
+            >
+              {routeName}
+            </Text>
+          );
+        }
+        return (
+          <Text
+            style={{
+              fontSize: 10,
+              fontFamily: M_SemiBold,
+              textTransform: "uppercase",
+              textAlign: "center",
+              color: color
+            }}
+          >
+            {routeName}
+          </Text>
+        );
+        // console.log(navigation)
+        //         return
       }
     }),
     resetOnBlur: true,
@@ -76,7 +138,7 @@ const TabNavigator = createBottomTabNavigator(
       inactiveTintColor: TAB_ICON_INACTIVE,
       labelStyle: {
         fontSize: 10,
-        fontFamily: M_Regular,
+        fontFamily: M_SemiBold,
         textTransform: "uppercase"
       }
     }
@@ -85,10 +147,10 @@ const TabNavigator = createBottomTabNavigator(
 
 const SinglePostStack = createStackNavigator({
   SinglePost: {
-    screen: Single,
+    screen: Single
     // path:'singlepost:postId'
-  },
-})
+  }
+});
 
 const StackNavigator = createStackNavigator(
   {
@@ -97,7 +159,7 @@ const StackNavigator = createStackNavigator(
     },
     SinglePostStack: {
       screen: SinglePostStack,
-      path:'citypost:postId'
+      path: "citypost:postId"
     }
   },
   {

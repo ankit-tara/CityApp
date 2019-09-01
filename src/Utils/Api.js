@@ -1,11 +1,11 @@
-import { API_INITIAL, GOOGLE_MAP_API } from "./constants";
+import { API_HOST, GOOGLE_MAP_API, GOOGLE_MAP_API_KEY } from "./constants";
 const HOMEPAGE_ID = 340;
 
 /**
  * get location data
  */
 export function getLocationData(value) {
-  let url = `${GOOGLE_MAP_API}/geocode/json?latlng=${value}&key=AIzaSyCa4gODgo6AsfiXx0HzeUI2C01kqla9Kyc`;
+  let url = `${GOOGLE_MAP_API}/geocode/json?latlng=${value}&key=${GOOGLE_MAP_API_KEY}`;
   console.log(url);
   return fetch(url)
     .then(response => response.json())
@@ -18,7 +18,7 @@ export function getLocationData(value) {
  * get homepage and its acf field data
  */
 export function getHomePageData(city = "") {
-  let url = `${API_INITIAL}/pages/${HOMEPAGE_ID}?city=${city}`;
+  let url = `${API_HOST}/pages/${HOMEPAGE_ID}?city=${city}`;
   console.log(url);
   return fetch(url)
     .then(response => response.json())
@@ -31,7 +31,7 @@ export function getHomePageData(city = "") {
  * get categories List
  */
 export function getCategories(perpage = 10, currentpage = 1) {
-  let url = `${API_INITIAL}/categories?per_page=${perpage}&page=${currentpage}`;
+  let url = `${API_HOST}/categories?per_page=${perpage}&page=${currentpage}`;
   console.log(url);
   return fetch(url)
     .then(response => response.json())
@@ -44,7 +44,7 @@ export function getCategories(perpage = 10, currentpage = 1) {
  * get categories List
  */
 export function searchCategories(searchText, perpage = 10, currentpage = 1) {
-  let url = `${API_INITIAL}/categories?search=${searchText}&per_page=${perpage}&page=${currentpage}`;
+  let url = `${API_HOST}/categories?search=${searchText}&per_page=${perpage}&page=${currentpage}`;
   console.log(url);
   return fetch(url)
     .then(response => response.json())
@@ -61,7 +61,7 @@ export function searchPost(
   perpage = 10,
   currentpage = 1
 ) {
-  let url = `${API_INITIAL}/posts?search=${searchText}&per_page=${perpage}&page=${currentpage}&filter[category_name]=${city}`;
+  let url = `${API_HOST}/posts?search=${searchText}&per_page=${perpage}&page=${currentpage}&filter[category_name]=${city}`;
   console.log(url);
   return fetch(url)
     .then(response => response.json())
@@ -74,7 +74,7 @@ export function searchPost(
  * get post by category
  */
 export function getPostByCategory(category, currentpage = 1, perpage = 10) {
-  let url = `${API_INITIAL}/posts?categories=${category}&per_page=${perpage}&page=${currentpage}`;
+  let url = `${API_HOST}/posts?categories=${category}&per_page=${perpage}&page=${currentpage}`;
   console.log(url);
   return fetch(url)
     .then(response => response.json())
@@ -86,8 +86,8 @@ export function getPostByCategory(category, currentpage = 1, perpage = 10) {
  * get post by tag
  */
 export function getPostBytag(tag, city = "", currentpage = 1, perpage = 10) {
-  let url = `${API_INITIAL}/posts?post_tag=${tag}&per_page=${perpage}&page=${currentpage}&filter[category_name]=${city}`;
-  // let url = `${API_INITIAL}/posts?tags=${tag}&per_page=${perpage}&page=${currentpage}`
+  let url = `${API_HOST}/posts?post_tag=${tag}&per_page=${perpage}&page=${currentpage}&filter[category_name]=${city}`;
+  // let url = `${API_HOST}/posts?tags=${tag}&per_page=${perpage}&page=${currentpage}`
   console.log(url);
   return fetch(url)
     .then(response => response.json())
@@ -100,8 +100,8 @@ export function getPostBytag(tag, city = "", currentpage = 1, perpage = 10) {
  * get Tags List
  */
 export function getTags(perpage = 10, currentpage = 1) {
-  let url = `${API_INITIAL}/post_tag?per_page=${perpage}&page=${currentpage}`;
-  // let url = `${API_INITIAL}/tags?per_page=${perpage}&page=${currentpage}`
+  let url = `${API_HOST}/post_tag?per_page=${perpage}&page=${currentpage}`;
+  // let url = `${API_HOST}/tags?per_page=${perpage}&page=${currentpage}`
   console.log(url);
   return fetch(url)
     .then(response => response.json())
@@ -114,8 +114,8 @@ export function getTags(perpage = 10, currentpage = 1) {
  * get Tags List
  */
 export function searchTags(searchText, perpage = 10, currentpage = 1) {
-  let url = `${API_INITIAL}/post_tag?search=${searchText}&per_page=${perpage}&page=${currentpage}`;
-  // let url = `${API_INITIAL}/tags?search=${searchText}&per_page=${perpage}&page=${currentpage}`
+  let url = `${API_HOST}/post_tag?search=${searchText}&per_page=${perpage}&page=${currentpage}`;
+  // let url = `${API_HOST}/tags?search=${searchText}&per_page=${perpage}&page=${currentpage}`
   console.log(url);
   return fetch(url)
     .then(response => response.json())
@@ -133,7 +133,7 @@ export function searchGlobal(
   perpage = 10,
   currentpage = 1
 ) {
-  let url = `${API_INITIAL}/search-global?s=${searchText}&city=${city}`;
+  let url = `${API_HOST}/search-global?s=${searchText}&city=${city}`;
   console.log(url);
   return fetch(url)
     .then(response => response.json())
@@ -146,7 +146,7 @@ export function searchGlobal(
  * get post by category
  */
 export function getPostByCategoryName(name, currentpage = 1, perpage = 10) {
-  let url = `${API_INITIAL}/posts?filter[category_name]=${name}&per_page=${perpage}&page=${currentpage}`;
+  let url = `${API_HOST}/posts?filter[category_name]=${name}&per_page=${perpage}&page=${currentpage}`;
   console.log(url);
   return fetch(url)
     .then(response => response.json())
@@ -159,7 +159,7 @@ export function getPostByCategoryName(name, currentpage = 1, perpage = 10) {
  * get post by id
  */
 export function getPostByID(id) {
-  let url = `${API_INITIAL}/posts/${id}`;
+  let url = `${API_HOST}/posts/${id}`;
   console.log(url);
   return fetch(url)
     .then(response => response.json())
@@ -174,7 +174,7 @@ export function getPostByID(id) {
 
 export function getListPlaceImage(photoReference = "",width=100) {
   if (!photoReference) return null;
-  let url = `${GOOGLE_MAP_API}/place/photo?photoreference=${photoReference}&key=AIzaSyCa4gODgo6AsfiXx0HzeUI2C01kqla9Kyc&maxwidth=${width}`;
+  let url = `${GOOGLE_MAP_API}/place/photo?photoreference=${photoReference}&key=${GOOGLE_MAP_API_KEY}&maxwidth=${width}`;
   // console.log(url);
   return fetch(url)
     .then(data => data.url)
@@ -189,7 +189,7 @@ export function getListPlaceImage(photoReference = "",width=100) {
 
 export function getPlaceDetails(placeid = "") {
   if (!placeid) return null;
-  let url = `${GOOGLE_MAP_API}/place/details/json?placeid=${placeid}&key=AIzaSyCa4gODgo6AsfiXx0HzeUI2C01kqla9Kyc`;
+  let url = `${GOOGLE_MAP_API}/place/details/json?placeid=${placeid}&key=${GOOGLE_MAP_API_KEY}`;
   console.log(url);
   return fetch(url)
     .then(response => response.json())
@@ -204,7 +204,7 @@ export function getPlaceDetails(placeid = "") {
 
 export function getNearbyPlaces(latlng = "",type='') {
   if (!latlng) return null;
-  let url = `${GOOGLE_MAP_API}/place/nearbysearch/json?type=${type}&location=${latlng}&radius=500&key=AIzaSyCa4gODgo6AsfiXx0HzeUI2C01kqla9Kyc`;
+  let url = `${GOOGLE_MAP_API}/place/nearbysearch/json?type=${type}&location=${latlng}&radius=500&key=${GOOGLE_MAP_API_KEY}`;
   console.log(url);
   return fetch(url)
     .then(response => response.json())

@@ -23,18 +23,20 @@ import Geolocation from "react-native-geolocation-service";
 import Spinner from "react-native-spinkit";
 import { APP_ORANGE } from "../theme/colors";
 import { connect, useSelector } from "react-redux";
-import { LOCATION_DATA } from "../Utils/constants";
+import { LOCATION_DATA, LAT_LNG } from "../Utils/constants";
 import AsyncStorage from "@react-native-community/async-storage";
-import moment from "moment"
+import moment from "moment";
 var PushNotification = require("react-native-push-notification");
 import LocationServicesDialogBox from "react-native-android-location-services-dialog-box";
-import CatListHome from "./catListHome"
+import CatListHome from "./catListHome";
+
 const Home = props => {
   const [loader, setloader] = useState(true);
   const [loadingMsg, setloadingMsg] = useState(null);
   const [bannerData, setBannerData] = useState([]);
   const [adData, setAdData] = useState([]);
   const [catData, setCatData] = useState([]);
+  const [latlng, setlatlng] = useState();
   const [status, setstatus] = useState("");
   const locationLoading = useSelector(state => state.locationLoading);
   const authLocation = useSelector(state => state.authLocation);
@@ -46,37 +48,37 @@ const Home = props => {
     loadPageData();
   }, [false]);
 
-  configurePushNotification=()=>{
+  configurePushNotification = () => {
     PushNotification.configure({
       // (optional) Called when Token is generated (iOS and Android)
       onRegister: function(token) {
         console.log("TOKEN:", token);
       },
-    
+
       // (required) Called when a remote or local notification is opened or received
       onNotification: function(notification) {
         console.log("NOTIFICATION:", notification);
-    
+
         // process the notification
-    
+
         // required on iOS only (see fetchCompletionHandler docs: https://github.com/react-native-community/react-native-push-notification-ios)
         notification.finish(PushNotificationIOS.FetchResult.NoData);
       },
-    
+
       // ANDROID ONLY: GCM or FCM Sender ID (product_number) (optional - not required for local notifications, but is need to receive remote push notifications)
       senderID: "942434448921",
-    
+
       // IOS ONLY (optional): default: all - Permissions to register.
       permissions: {
         alert: true,
         badge: true,
         sound: true
       },
-    
+
       // Should the initial notification be popped automatically
       // default: true
       popInitialNotification: true,
-    
+
       /**
        * (optional) default: true
        * - Specified if permissions (ios) and token (android and ios) will requested or not,
@@ -84,18 +86,20 @@ const Home = props => {
        */
       requestPermissions: true
     });
-  }
+  };
 
   const loadPageData = async () => {
-    props.unselectLocation()
+    props.unselectLocation();
     const value = await AsyncStorage.getItem(LOCATION_DATA);
-    if (value) {
+    const lat_lng = await AsyncStorage.getItem(LAT_LNG);
+    if (value && lat_lng) {
       let currentTime = new moment();
       let data = JSON.parse(value);
       let dataStoredTime = new moment(data.time);
       let timeDiff = currentTime.diff(dataStoredTime, "minutes");
       if (timeDiff < 5) {
-        setstatus('from storage')
+        setlatlng(lat_lng)
+        setstatus("from storage");
         setloadingMsg(`Getting location data of ${data.data.city}`);
         console.log("get data from stiorage");
         getCityData(data.data);
@@ -103,12 +107,13 @@ const Home = props => {
       }
     }
     console.log("get data from api");
-    checkLocationAcess()
+    checkLocationAcess();
     // checkGranted();
   };
-  checkLocationAcess=()=>{
+  checkLocationAcess = () => {
     LocationServicesDialogBox.checkLocationServicesIsEnabled({
-      message: "<h2 style='color: #0af13e'>Use Location ?</h2>This app wants to change your device settings:<br/><br/>Use GPS, Wi-Fi, and cell network for location<br/><br/><a href='#'>Learn more</a>",
+      message:
+        "<h2 style='color: #0af13e'>Use Location ?</h2>This app wants to change your device settings:<br/><br/>Use GPS, Wi-Fi, and cell network for location<br/><br/><a href='#'>Learn more</a>",
       ok: "YES",
       cancel: "NO",
       enableHighAccuracy: true, // true => GPS AND NETWORK PROVIDER, false => GPS OR NETWORK PROVIDER
@@ -117,35 +122,37 @@ const Home = props => {
       preventOutSideTouch: false, // true => To prevent the location services window from closing when it is clicked outside
       preventBackClick: false, // true => To prevent the location services popup from closing when it is clicked back button
       providerListener: false // true ==> Trigger locationProviderStatusChange listener when the location state changes
-  }).then(function(success) {
-   checkGranted()
-  }).catch((error) => {
-    console.log(error)
+    })
+      .then(function(success) {
+        console.log(success);
+        checkGranted();
+      })
+      .catch(error => {
+        console.log(error);
 
-    checkGranted()
-    // error.message => "disabled"
-  });
-  }
+        checkGranted();
+        // error.message => "disabled"
+      });
+  };
   const checkGranted = async () => {
     try {
       setloadingMsg("Checking your location");
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
       );
+      console.log(granted);
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         Geolocation.getCurrentPosition(
           position => {
-            
-            let value = `${position.coords.latitude},${
-              position.coords.longitude
-            }`;
+            let value = `${position.coords.latitude},${position.coords.longitude}`;
+            setlatlngValue(value);
+            // await AsyncStorage.setItem(LAT_LNG, value);
+            // setlatlng(value);
             getLocationData(value)
               .then(handleLocationData)
               .catch(e => getGlobalData());
-          
           },
           error => {
-            console.log(error)
             getGlobalData();
           },
           {
@@ -158,13 +165,15 @@ const Home = props => {
         getGlobalData();
       }
     } catch (err) {
-      console.warn(err);
       getGlobalData();
     }
   };
-
+  const setlatlngValue = async value => {
+    await AsyncStorage.setItem(LAT_LNG, value);
+    setlatlng(value);
+  };
   const getGlobalData = () => {
-    props.unselectLocation()
+    props.unselectLocation();
     getHomePageData()
       .then(setHomePageData)
       .catch(e => console.log(e));
@@ -183,8 +192,7 @@ const Home = props => {
     props.locationLoadingStop();
   };
 
-  const handleLocationData = async (locationData) => {
-   
+  const handleLocationData = async locationData => {
     if (locationData.status == "OK") {
       let data = new Location(locationData);
       setloadingMsg(`Getting location data of ${data.city}`);
@@ -239,17 +247,17 @@ const Home = props => {
     <View style={styles.flex}>
       <ScrollView>
         <Banner data={bannerData} />
-        {/* <Text>{status}</Text> */}
 
         <BlockHeader heading="Categories" onLinkPress={ShowAllTags} />
         <Tags {...props} />
-        {adData && <Ads images={adData}  />}
+        {adData && <Ads images={adData} />}
         {catData.length > 0 &&
+          latlng &&
           catData.map(cat => {
             cat.tag.id = cat.tag.term_id;
             return (
-              <View key={cat.tag.term_id}>
-                <CatListHome data={cat} />
+              <View key={cat.tag.term_id} style={{ flex: 1 }}>
+                <CatListHome data={cat} latlng={latlng} />
               </View>
             );
             // if (cat.posts.length <= 0) return;

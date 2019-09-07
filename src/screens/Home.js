@@ -244,7 +244,7 @@ const Home = props => {
     );
 
   return (
-    <View style={styles.flex}>
+    <View >
       <ScrollView>
         <Banner data={bannerData} />
 

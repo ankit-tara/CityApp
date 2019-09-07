@@ -1,5 +1,6 @@
 import { API_HOST, GOOGLE_MAP_API, GOOGLE_MAP_API_KEY } from "./constants";
 const HOMEPAGE_ID = 340;
+const SHOPPING_PAGE_ID = 1107;
 
 /**
  * get location data
@@ -19,6 +20,18 @@ export function getLocationData(value) {
  */
 export function getHomePageData(city = "") {
   let url = `${API_HOST}/pages/${HOMEPAGE_ID}?city=${city}`;
+  console.log(url);
+  return fetch(url)
+    .then(response => response.json())
+    .catch(error => {
+      throw error;
+    });
+}
+/**
+ * get shopping main page and its acf field data
+ */
+export function GetShoppingPageData() {
+  let url = `${API_HOST}/pages/${SHOPPING_PAGE_ID}`;
   console.log(url);
   return fetch(url)
     .then(response => response.json())

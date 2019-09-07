@@ -17,6 +17,7 @@ import { TAB_ICON_ACTIVE, TAB_ICON_INACTIVE } from "./src/theme/colors";
 import { M_Regular, M_SemiBold } from "./src/theme/fonts";
 import GooglePlaceSingle from "./src/components/googleData/Single";
 import Shop from "./src/screens/Shop";
+import ProductList from "./src/screens/Shop/Product/ProductList";
 import { View,Text } from "react-native";
 const HomeStack = createStackNavigator({
   Home: Home,
@@ -45,13 +46,14 @@ const PlacesStack = createStackNavigator({
 });
 const ShopStack = createStackNavigator({
   Shop: Shop,
+  ProductList: ProductList
 });
 
 const TabNavigator = createBottomTabNavigator(
   {
     Home: HomeStack,
     Search: SearchStack,
-    // Shop: ShopStack,
+    Shop: ShopStack,
     Nearby: PlacesStack,
     Cities: CitiesStack
   },

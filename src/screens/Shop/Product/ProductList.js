@@ -5,6 +5,7 @@ import { text_truncate } from "../../../Utils/Helpers";
 import { getWcConfig } from "../../../Utils/WcApi";
 import WooCommerceAPI from "react-native-woocommerce-api";
 import Product from "./Product";
+import CartIcon from "../CartIcon"
 import { APP_SIDE_DISTANCE } from "../../../theme/Dimentions";
 const { width } = Dimensions.get("window");
 let boxCount = 2;
@@ -16,13 +17,11 @@ const ProductList = props => {
   useEffect(() => {
     let params = props.navigation.state.params;
     if (params && params.category && params.category.id) {
-      console.log(params.category);
       let wcConfig = getWcConfig();
       let wcApi = new WooCommerceAPI(wcConfig);
       wcApi
         .get("products", {})
         .then(data => {
-          console.log(data);
           if (data && Array.isArray(data)) {
             setproducts(data);
           }
@@ -35,7 +34,7 @@ const ProductList = props => {
   return (
     <View style={styles.container}>
       <View>
-        <Text>Filter Category</Text>
+        {/* <Text>Filter Category</Text> */}
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.productsList}>
@@ -45,55 +44,13 @@ const ProductList = props => {
                 <Product item={product} />
               </View>
             ))}
-          {products.length > 0 &&
-            products.map(product => (
-              <View style={styles.product} key={`product-${product.id}`}>
-                <Product item={product} />
-              </View>
-            ))}
-          {products.length > 0 &&
-            products.map(product => (
-              <View style={styles.product} key={`product-${product.id}`}>
-                <Product item={product} />
-              </View>
-            ))}
-          {products.length > 0 &&
-            products.map(product => (
-              <View style={styles.product} key={`product-${product.id}`}>
-                <Product item={product} />
-              </View>
-            ))}
-          {products.length > 0 &&
-            products.map(product => (
-              <View style={styles.product} key={`product-${product.id}`}>
-                <Product item={product} />
-              </View>
-            ))}
-          {products.length > 0 &&
-            products.map(product => (
-              <View style={styles.product} key={`product-${product.id}`}>
-                <Product item={product} />
-              </View>
-            ))}
-          {products.length > 0 &&
-            products.map(product => (
-              <View style={styles.product} key={`product-${product.id}`}>
-                <Product item={product} />
-              </View>
-            ))}
-          {products.length > 0 &&
-            products.map(product => (
-              <View style={styles.product} key={`product-${product.id}`}>
-                <Product item={product} />
-              </View>
-            ))}
+          
         </View>
       </ScrollView>
     </View>
   );
 };
 ProductList.navigationOptions = ({ navigation }) => {
-  console.log(navigation);
   let name = "Shop";
   let params = navigation.state.params;
   if (params && params.category && params.category.name) {
@@ -108,7 +65,11 @@ ProductList.navigationOptions = ({ navigation }) => {
       fontFamily: M_BOLD,
       textTransform: "capitalize"
     },
-    headerRight: <View />
+    headerRight: (
+      <View style={{paddingRight:20 }}>
+        <CartIcon />
+      </View>
+    )
   };
 };
 export default ProductList;

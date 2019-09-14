@@ -26,6 +26,7 @@
     "react-native-linear-gradient": "^2.5.6",
     "react-native-maps": "^0.25.0",
     "react-native-material-menu": "^0.6.6",
+    "react-native-numeric-input": "^1.8.3",
     "react-native-popup-menu": "^0.15.6",
     "react-native-push-notification": "^3.1.9",
     "react-native-ratings": "^6.4.0",

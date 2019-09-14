@@ -27,7 +27,7 @@ const Shop = props => {
 };
 
 Shop.navigationOptions = {
-  header: <Header />
+  header: <Header showCart={true} />
 };
 
 export default Shop;

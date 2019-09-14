@@ -18,6 +18,9 @@ import { M_Regular, M_SemiBold } from "./src/theme/fonts";
 import GooglePlaceSingle from "./src/components/googleData/Single";
 import Shop from "./src/screens/Shop";
 import ProductList from "./src/screens/Shop/Product/ProductList";
+import ProductSingal from "./src/screens/Shop/Product/Single";
+import CartPage from "./src/screens/Shop/Cart/index";
+import Checkout from "./src/screens/Shop/Cart/Checkout";
 import { View,Text } from "react-native";
 const HomeStack = createStackNavigator({
   Home: Home,
@@ -46,7 +49,10 @@ const PlacesStack = createStackNavigator({
 });
 const ShopStack = createStackNavigator({
   Shop: Shop,
-  ProductList: ProductList
+  ProductList: ProductList,
+  ProductSingal: ProductSingal,
+  CartPage: CartPage,
+  Checkout:Checkout
 });
 
 const TabNavigator = createBottomTabNavigator(

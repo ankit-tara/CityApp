@@ -25,6 +25,9 @@ const SearchBar = ({ onChangeText, placeholder }) => {
         onChangeText={handleChange}
         style={styles.input}
         value={text}
+        multiline={true}
+        numberOfLines={4}
+        blurOnSubmit={false}
         // onEndEditing={handleChange}
       />
       <Icon name="magnifying-glass" size={25} />

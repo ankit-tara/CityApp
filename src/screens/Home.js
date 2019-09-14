@@ -44,8 +44,8 @@ const Home = props => {
   useEffect(() => {
     SplashScreen.hide();
     // configurePushNotification()
-    props.locationLoadingStart();
-    loadPageData();
+    // props.locationLoadingStart();
+    // loadPageData();
   }, [false]);
 
   configurePushNotification = () => {

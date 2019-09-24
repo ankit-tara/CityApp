@@ -16,7 +16,9 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-
++   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />                                               
++   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />                                              
++   <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
        
     <application
       android:name=".MainApplication"
@@ -91,6 +93,8 @@
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
+            <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>                          
+
         </intent-filter>
         <intent-filter>
             <action android:name="android.intent.action.VIEW" />

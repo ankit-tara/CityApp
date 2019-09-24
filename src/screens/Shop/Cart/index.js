@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
 } from "react-native";
 import { M_BOLD } from "../../../theme/fonts";
 import { fetchItems } from "../../../redux/actions/cartItems";
@@ -15,6 +15,7 @@ import NumericInput from "react-native-numeric-input";
 import { strip_html_tags } from "../../../Utils/Helpers";
 import { APP_ORANGE } from "../../../theme/colors";
 import { APP_SIDE_DISTANCE } from "../../../theme/Dimentions";
+import CartItem from "./CartItem";
 
 const CartPage = props => {
   const cartItems = useSelector(state => state.cartItems);
@@ -42,35 +43,7 @@ const CartPage = props => {
               key={`cart-item${item.item.id}`}
               style={styles.cartItemContainer}
             >
-              <View style={styles.cartItem}>
-                {item.item.images.length > 0 && (
-                  <Image
-                    source={{ uri: item.item.images[0].src }}
-                    style={{ height: 100, width: 100 }}
-                  />
-                )}
-                <View style={styles.cartMeta}>
-                  <Text style={styles.name}>{item.item.name}</Text>
-                  {/* <Text style={styles.descrip}>
-                  {strip_html_tags(item.item.short_description)}
-                </Text> */}
-                  <Text style={styles.price}>
-                    {"\u20B9"}
-                    {item.item.price}
-                  </Text>
-                  <NumericInput
-                    value={item.quantity}
-                    // iconSize={10}
-                    totalWidth={150}
-                    totalHeight={20}
-                    rightButtonBackgroundColor={APP_ORANGE}
-                    leftButtonBackgroundColor={APP_ORANGE}
-                    // onChange={value => this.setState({ value })}
-                  />
-
-                  <Text style={styles.quantity}>{item.quantity}</Text>
-                </View>
-              </View>
+              <CartItem item={item} quantity={item.quantity}/>
             </View>
           ))}
       </ScrollView>
@@ -137,8 +110,9 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   cartItemContainer: {
-    padding: 5,
-    margin: 10,
+    // padding: 5,
+    marginHorizontal: 15,
+    marginVertical: 10,
     // borderWidth: 1,
     // borderColor: "gray"
   },
@@ -147,6 +121,7 @@ const styles = StyleSheet.create({
   },
   cartItem: {
     flexDirection: "row",
+    justifyContent:'space-between',
     alignItems: "center"
   },
   name: {
@@ -157,6 +132,7 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   checkoutBtn: {
+    marginBottom:20,
     marginHorizontal: APP_SIDE_DISTANCE,
     backgroundColor: APP_ORANGE,
     paddingVertical: 10,

@@ -1,20 +1,23 @@
-import React from "react";
+import React ,{useEffect}from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/dist/Entypo";
 import { withNavigation } from "react-navigation";
 import { APP_ORANGE } from "../../theme/colors";
+import { addItems,fetchItems } from "../../redux/actions/cartItems";
 import { useSelector, connect } from "react-redux";
 
 const CartIcon = props => {
   const cartItems = useSelector(state => state.cartItems);
-
+  useEffect(() => {
+    
+  }, [props])
   return (
     <TouchableOpacity onPress={() => props.navigation.navigate("CartPage")}>
       <View style={styles.wrapper}>
         <Icon name="shopping-cart" size={22} />
-        {cartItems.length > 0 && (
+        {props.cartItems && props.cartItems.length > 0 && (
           <View style={styles.badge}>
-            <Text style={styles.counter}>{cartItems.length}</Text>
+            <Text style={styles.counter}>{props.cartItems.length}</Text>
           </View>
         )}
       </View>
@@ -25,13 +28,13 @@ const mapStateToProps = state => ({
   cartItems: state.cartItems
 });
 
-// const mapDispatchToProps = dispatch => ({
-//   addItems: (item, quantity) => dispatch(addItems(item, quantity))
-// });
+const mapDispatchToProps = dispatch => ({
+  addItems: (item, quantity) => dispatch(addItems(item, quantity))
+});
 export default withNavigation(
   connect(
     mapStateToProps,
-    ""
+    mapDispatchToProps
   )(CartIcon)
 );
 // export default withNavigation(CartIcon);

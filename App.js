@@ -61,14 +61,16 @@ const TabNavigator = createBottomTabNavigator(
     Search: SearchStack,
     Shop: ShopStack,
     Nearby: PlacesStack,
-    Cities: CitiesStack
+    Cities: CitiesStack,
+    Checkout:Checkout
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, horizontal, tintColor }) => {
         let color = focused ? TAB_ICON_ACTIVE : TAB_ICON_INACTIVE;
         let shopIconColor = focused ? "#fff" : TAB_ICON_INACTIVE;
-        let shopIconbgColor = focused ? "#000" : "#fff";
+        // let shopIconbgColor = focused ? "#000" : "#fff";
+        let shopIconbgColor = "#000";
         const { routeName } = navigation.state;
 
         if (routeName === "Home") {
@@ -106,7 +108,8 @@ const TabNavigator = createBottomTabNavigator(
       },
       tabBarLabel: ({ focused, horizontal, tintColor }) => {
         let color = focused ? TAB_ICON_ACTIVE : TAB_ICON_INACTIVE;
-        let shopIconColor = focused ? "#fff" : TAB_ICON_INACTIVE;
+        let shopIconColor = "#fff";
+        // let shopIconColor = focused ? "#fff" : TAB_ICON_INACTIVE;
         const { routeName } = navigation.state;
         if (routeName === "Shop") {
           return (
@@ -159,6 +162,12 @@ const SinglePostStack = createStackNavigator({
     // path:'singlepost:postId'
   }
 });
+const SingleProductStack = createStackNavigator({
+  SinglePost: {
+    screen: ProductSingal
+    // path:'singlepost:postId'
+  }
+});
 
 const StackNavigator = createStackNavigator(
   {
@@ -168,6 +177,10 @@ const StackNavigator = createStackNavigator(
     SinglePostStack: {
       screen: SinglePostStack,
       path: "citypost:postId"
+    },
+    SingleProductStack: {
+      screen: SingleProductStack,
+      path: "cityproduct:productId"
     }
   },
   {

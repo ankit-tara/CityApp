@@ -88,3 +88,23 @@ export function getTimeInfo(data) {
     return ` Will open at ${moment(opens_at, "hh:mm A").format("hh:mm A")}`;
   }
 }
+// function validateEmail(email) {
+//   var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+//   return re.test(email);
+// }
+
+export function validateEmail(email) {
+  var re = /\S+@\S+\.\S+/;
+  return re.test(email);
+}
+
+export function validatePhone(phone) {
+  var re = /^\d{10}$/;
+  return re.test(phone);
+}
+
+export function validateZip(phone) {
+  // var re = /^(\d{5})?$/;
+  var re = /^[1-9]{1}[0-9]{2}\s{0,1}[0-9]{3}$/;
+  return re.test(phone);
+}

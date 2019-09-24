@@ -8,7 +8,8 @@ import {
 } from "react-native";
 import { APP_SIDE_DISTANCE } from "../../../theme/Dimentions";
 import { M_BOLD, M_Regular } from "../../../theme/fonts";
-import WooCommerceAPI from "react-native-woocommerce-api";
+import WooCommerceAPI from "../WoocommerceApi";
+// import WooCommerceAPI from "react-native-woocommerce-api";
 import { getWcConfig } from "../../../Utils/WcApi";
 import { APP_ORANGE } from "../../../theme/colors";
 import Icon from "react-native-vector-icons/dist/Entypo";
@@ -17,12 +18,11 @@ import Icon from "react-native-vector-icons/dist/Entypo";
 const CatList = props => {
   const [categories, setcategories] = useState([]);
   useEffect(() => {
-    let wcConfig = getWcConfig({ orderby: 'id' });
+    let wcConfig = getWcConfig();
     let wcApi = new WooCommerceAPI(wcConfig);
     wcApi
-      .get("products/categories", {})
+      .get("products/categories?parent=0")
       .then(data => {
-        console.log(data);
         if (data && Array.isArray(data)) {
           setcategories(data);
         }
@@ -58,7 +58,10 @@ const CatList = props => {
           data={categories}
           renderItem={pcat => {
             if (pcat.item.name == "Uncategorized" || pcat.item.parent != 0)
+            {
               return false;
+
+            }
             return (
               <View key={`pcat-${pcat.item.id}`}>
                 {renderProductCat(pcat.item)}

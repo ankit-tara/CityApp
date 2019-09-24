@@ -1,6 +1,6 @@
 import {
   ADD_ITEMS,
-  REMOVE_ITEM,
+  REMOVE_ITEMS,
   FETCH_ITEMS,
   CLEAR_ITEMS
 } from "../actions/cartItems";
@@ -23,14 +23,16 @@ export default (state = intial_state, action) => {
       }
       return state;
 
-    case REMOVE_ITEM:
-      return state;
-
+    case REMOVE_ITEMS:
+      console.log(action);
+      return state.filter(item => item.item.id != action.item.id);
+     
     case FETCH_ITEMS:
       return state;
 
     case CLEAR_ITEMS:
-      return intial_state;
+      console.log(action)
+      return [];
 
     default:
       return state;

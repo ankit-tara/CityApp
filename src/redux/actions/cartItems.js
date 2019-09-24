@@ -1,5 +1,5 @@
 export const ADD_ITEMS = "ADD_ITEMS";
-export const REMOVE_ITEM = "REMOVE_ITEMS";
+export const REMOVE_ITEMS = "REMOVE_ITEMS";
 export const FETCH_ITEMS = "FETCH_ITEMS";
 export const CLEAR_ITEMS = "CLEAR_ITEMS";
 

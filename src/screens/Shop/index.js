@@ -2,26 +2,12 @@ import React, { useState, useEffect } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import Header from "../../components/Header";
 import Banner from "./banner";
-import { woocommerce_config } from "../../Utils/config";
-import WooCommerceAPI from "react-native-woocommerce-api";
 import CatList from "./Product/CatList";
-var wcApi = new WooCommerceAPI(woocommerce_config);
 const Shop = props => {
-  useEffect(() => {
-    // wcApi
-    //   .get("products/categories", {})
-    //   .then(data => {
-    //     console.log(data);
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
-  }, []);
-
   return (
     <ScrollView style={styles.container}>
       <Banner />
-      <CatList {...props}/>
+      <CatList {...props} />
     </ScrollView>
   );
 };

@@ -38,6 +38,8 @@ target 'CityApp' do
 
   pod 'react-native-config', :path => '../node_modules/react-native-config'
 
+  pod 'RNShare', :path => '../node_modules/react-native-share'
+
   target 'CityAppTests' do
     inherit! :search_paths
     # Pods for testing

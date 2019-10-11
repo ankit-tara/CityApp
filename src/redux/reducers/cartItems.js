@@ -24,14 +24,12 @@ export default (state = intial_state, action) => {
       return state;
 
     case REMOVE_ITEMS:
-      console.log(action);
       return state.filter(item => item.item.id != action.item.id);
      
     case FETCH_ITEMS:
       return state;
 
     case CLEAR_ITEMS:
-      console.log(action)
       return [];
 
     default:

@@ -18,11 +18,16 @@ import {
 } from "react-native";
 import { withNavigation } from "react-navigation";
 import { M_BOLD, M_Regular, M_SemiBold } from "../../../theme/fonts";
-import { text_truncate, strip_html_tags, decode_html } from "../../../Utils/Helpers";
+import {
+  text_truncate,
+  strip_html_tags,
+  decode_html
+} from "../../../Utils/Helpers";
 import Swiper from "react-native-swiper";
 import ImageModal from "../../../components/ImageModal";
 import { APP_SIDE_DISTANCE } from "../../../theme/Dimentions";
 import Icon from "react-native-vector-icons/dist/Entypo";
+import Iconfont from "react-native-vector-icons/dist/FontAwesome";
 import { APP_ORANGE } from "../../../theme/colors";
 
 import { addItems } from "../../../redux/actions/cartItems";
@@ -60,9 +65,9 @@ const Single = props => {
 
   onShare = async () => {
     getShareImages();
-    return false
-    console.log(item)
-    let post = item
+    return false;
+    console.log(item);
+    let post = item;
     try {
       let url = post.permalink + "?visitlink=cityapp://cityproduct:" + post.id;
       let title = decode_html(post.name);
@@ -86,51 +91,51 @@ const Single = props => {
       alert(error.message);
     }
   };
-getShareImages = async () => {
-  // let item = props.item;
-  if (item.images && item.images.length > 0) {
-    try {
-      ToastAndroid.show("Progress will start soon", ToastAndroid.SHORT);
-      const checkVersion = Platform.Version > 22;
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-        {
-          title: "Access Require",
-          message: "Press Allow Permission to start progress"
-        }
-      );
+  getShareImages = async () => {
+    // let item = props.item;
+    if (item.images && item.images.length > 0) {
+      try {
+        ToastAndroid.show("Progress will start soon", ToastAndroid.SHORT);
+        const checkVersion = Platform.Version > 22;
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          {
+            title: "Access Require",
+            message: "Press Allow Permission to start progress"
+          }
+        );
 
-      //cannot progress without permission || sdk < 23 bypass
-      if (granted !== PermissionsAndroid.RESULTS.GRANTED && checkVersion) {
-        Alert.alert("Cancel, permission denied");
-        return;
-      }
-      let Pictures = item.images.map(item =>
-        RNFetchBlob.config({
-          fileCache: true
-        })
-          .fetch("GET", item.src)
-          .then(resp => {
-            let base64s = RNFetchBlob.fs
-              .readFile(resp.data, "base64")
-              .then(data => "data:image/jpeg;base64," + data);
-            return base64s;
+        //cannot progress without permission || sdk < 23 bypass
+        if (granted !== PermissionsAndroid.RESULTS.GRANTED && checkVersion) {
+          Alert.alert("Cancel, permission denied");
+          return;
+        }
+        let Pictures = item.images.map(item =>
+          RNFetchBlob.config({
+            fileCache: true
           })
-      );
-      Promise.all(Pictures).then(completed => {
-        console.log(completed);
-        const options = {
-          title: "Share via",
-          urls: completed
-        };
-        console.log(options);
-        Share.open(options);
-      });
-    } catch (err) {
-      Alert.alert("Error, Permission denied", err);
+            .fetch("GET", item.src)
+            .then(resp => {
+              let base64s = RNFetchBlob.fs
+                .readFile(resp.data, "base64")
+                .then(data => "data:image/jpeg;base64," + data);
+              return base64s;
+            })
+        );
+        Promise.all(Pictures).then(completed => {
+          console.log(completed);
+          const options = {
+            title: "Share via",
+            urls: completed
+          };
+          console.log(options);
+          Share.open(options);
+        });
+      } catch (err) {
+        Alert.alert("Error, Permission denied", err);
+      }
     }
-  }
-};
+  };
   showImagesSwiper = () => {
     return (
       images.length > 0 && (
@@ -166,11 +171,9 @@ getShareImages = async () => {
     );
   };
 
-  
   addToCart = item => {
     props.addItems(item, 1);
     alert("item added");
-
   };
   if (!item) return null;
   if (item) {
@@ -292,8 +295,9 @@ getShareImages = async () => {
         <View style={styles.actionIcon}>
           <TouchableOpacity style={styles.iconContainer} onPress={onShare}>
             <Icon name="share" size={25} color="#fff" />
-
-            {/* <Text style={styles.actionText}> Share</Text> */}
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconContainer} onPress={onShare}>
+            <Iconfont name="whatsapp" size={25} color="#fff" />
           </TouchableOpacity>
         </View>
         {/* </View> */}
@@ -303,22 +307,22 @@ getShareImages = async () => {
 };
 
 // Single.navigationOptions = ({ navigation }) => {
-  // let name = "Shop";
-  // let params = navigation.state.params;
-  // if (params && params.item && params.item.name) {
-  //   name = text_truncate(params.item.name, 15);
-  // }
-  // return {
-  //   title: name,
-  //   headerTitleStyle: {
-  //     textAlign: "center",
-  //     alignSelf: "center",
-  //     flex: 1,
-  //     fontFamily: M_BOLD,
-  //     textTransform: "capitalize"
-  //   },
-  //   headerRight: <View />
-  // };
+// let name = "Shop";
+// let params = navigation.state.params;
+// if (params && params.item && params.item.name) {
+//   name = text_truncate(params.item.name, 15);
+// }
+// return {
+//   title: name,
+//   headerTitleStyle: {
+//     textAlign: "center",
+//     alignSelf: "center",
+//     flex: 1,
+//     fontFamily: M_BOLD,
+//     textTransform: "capitalize"
+//   },
+//   headerRight: <View />
+// };
 // };
 
 Single.navigationOptions = ({ navigation }) => {
@@ -358,24 +362,26 @@ Single.navigationOptions = ({ navigation }) => {
 };
 
 const mapStateToProps = state => ({
-  cartItems: state.cartItems,
+  cartItems: state.cartItems
 });
 
 const mapDispatchToProps = dispatch => ({
-  addItems: (item,quantity) => dispatch(addItems(item,quantity))
+  addItems: (item, quantity) => dispatch(addItems(item, quantity))
 });
 
-export default withNavigation(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Single));
+export default withNavigation(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Single)
+);
 
 // export default withNavigation(Single);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position:'relative'
+    position: "relative"
   },
   image: {
     width: "100%",
@@ -451,10 +457,11 @@ const styles = StyleSheet.create({
     // borderColor: "gray",
     padding: 10,
     paddingBottom: 10,
-    position:'absolute',
-    top:'50%',
-    right:0,
-    backgroundColor:APP_ORANGE
+    position: "absolute",
+    top: "50%",
+    right: 0,
+    backgroundColor: APP_ORANGE,
+   
   },
   actionText: {
     color: "#000",
@@ -464,9 +471,10 @@ const styles = StyleSheet.create({
     marginLeft: 5
   },
   iconContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center"
+    // flexDirection: "row",
+    // justifyContent: "center",
+    // alignItems: "center"
+    padding:5
   },
   checkoutBtn: {
     marginVertical: 20,

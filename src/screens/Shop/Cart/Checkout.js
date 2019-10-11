@@ -24,7 +24,12 @@ import {
   validateZip
 } from "../../../Utils/Helpers";
 import { clearItems } from "../../../redux/actions/cartItems";
-import paytm from 'react-native-paytm'
+import { setOrderId } from "../../../redux/actions/cartOrderId";
+import AsyncStorage from "@react-native-community/async-storage";
+
+import paytm from "@philly25/react-native-paytm";
+import { CART_ITEMS } from "../../../Utils/constants";
+import { getPayNowLink } from "../../../Utils/Api";
 const paytmConfig = {
   MID: "vBOlWS74518141895718",
   WEBSITE: "IAAK0i7Vu%U3Le1W",
@@ -34,74 +39,9 @@ const paytmConfig = {
 };
 const Checkout = props => {
   useEffect(() => {
-    if (Platform.OS == "ios") {
-      const { RNPayTm } = NativeModules;
-      const emitter = new NativeEventEmitter(RNPayTm);
-      emitter.addListener("PayTMResponse", onPayTmResponse);
-    } else {
-      console.log('reached')
-      DeviceEventEmitter.addListener("PayTMResponse", onPayTmResponse);
-    }
-
-//     setTimeout(() => {
-// console.log('test')      
-//     runTransaction(
-//       200,
-//       '9646489911',
-//       '122',
-//       '9914209687',
-//       "rajneet1511@gamil.com",
-//       200
-//     );
-//     }, 10000);
-
-
-    // props.clearItems();
+    getFormDetails();
   }, []);
-  onPayTmResponse = response => {
-    // Process Response
-    // response.response in case of iOS
-    // reponse in case of Android
-    console.log(response);
-  };
 
-  runTransaction=(amount, customerId, orderId, mobile, email, checkSum)=> {
-    const callbackUrl = `${paytmConfig.CALLBACK_URL}${orderId}`;
-    const details = {
-      mode: 'Staging', // 'Staging' or 'Production'
-      mid: paytmConfig.MID,
-      industryType: paytmConfig.INDUSTRY_TYPE_ID,
-      website: paytmConfig.WEBSITE,
-      channel: paytmConfig.CHANNEL_ID,
-      amount: `${amount}`, // String
-      orderId: orderId, // String
-      email: email, // String
-      phone: mobile, // String
-      custId: customerId, // String
-      checksumhash: checkSum, //From your server using PayTM Checksum Utility 
-      callback: callbackUrl
-    };
-    paytm.startPayment(details);
-}
-
-  createPayment = data => {
-    let wcConfig = getWcConfig();
-    let wcApi = new WooCommerceAPI(wcConfig);
-    wcApi
-      .post("orders", data)
-      .then(response => {
-        props.clearItems();
-        setloader(false);
-        alert("order created");
-
-        console.log(response);
-      })
-      .catch(error => {
-        setloader(false);
-
-        console.log(error.response.data);
-      });
-  };
   const [firstname, setfirstname] = useState();
   const [lastname, setlastname] = useState();
   const [companyName, setcompanyName] = useState();
@@ -125,6 +65,7 @@ const Checkout = props => {
   const [paytmNumber, setpaytmNumber] = useState();
   const [loader, setloader] = useState(false);
   const cartItems = useSelector(state => state.cartItems);
+  const cartOrderId = useSelector(state => state.cartOrderId);
   // if (!cartItems.length) {
   //   return (
   //     <View style={styles.emptyContainer}>
@@ -132,6 +73,33 @@ const Checkout = props => {
   //     </View>
   //   );
   // }
+
+  getFormDetails = async () => {
+    let data = await AsyncStorage.getItem(CART_ITEMS);
+    data = data ? JSON.parse(data) : "";
+    if (data && data.billing) {
+      let billing = data.billing;
+      // address_1: "Hxhx";
+      // address_2: "";
+      // city: "Jchc";
+      // country: "INDIA";
+      // email: "Hdhd@hdid.com";
+      // first_name: "Fdhdh";
+      // last_name: "Hxhxh";
+      // phone: "1234567890";
+      // postcode: "656598";
+      // state: "Ucjch";
+      setaddress(billing.address_1);
+      setcity(billing.city);
+      setemail(billing.email);
+      setfirstname(billing.first_name);
+      setlastname(billing.last_name);
+      setphone(billing.phone);
+      setzip(billing.postcode);
+      setstate(billing.state);
+    }
+  };
+
   getTotal = () => {
     let amount = 0;
     cartItems.map(item => {
@@ -140,7 +108,40 @@ const Checkout = props => {
     return amount;
   };
 
-  submitForm = () => {
+  createPayment = data => {
+    let wcConfig = getWcConfig();
+    let wcApi = new WooCommerceAPI(wcConfig);
+    wcApi
+      .post("orders", data)
+      .then(response => {
+        // props.clearItems();
+        setloader(false);
+        console.log(response)
+        if (response.id) {
+          props.setOrderId(response.id);
+        }
+        // if (paymentOption == "cod") {
+        //   alert("order created");
+        // } else {
+        // }
+      })
+      .catch(error => {
+        setloader(false);
+
+        console.log(error.response.data);
+      });
+  };
+
+  gotoPaymentPage = orderId => {
+    getPayNowLink(orderId)
+      .then(response => {
+        console.log(response.url);
+        props.navigation.navigate("PaymentGateway",{url:response});
+      })
+      .catch(error => console.log(error));
+  };
+
+  submitForm = async () => {
     setloader(true);
     seterror([]);
     setisInvalid([]);
@@ -174,10 +175,11 @@ const Checkout = props => {
     const productData = cartItems.map(item =>
       pro_array.push({ product_id: item.item.id, quantity: item.quantity })
     );
-    console.log(pro_array);
+    let payment_method_title =
+      paymentOption == "cod" ? "Cash on delivery" : "PayTm";
     const data = {
-      payment_method: "cod",
-      payment_method_title: "Cash on delivery",
+      payment_method: paymentOption,
+      payment_method_title: payment_method_title,
       set_paid: false,
       billing: {
         first_name: firstname,
@@ -203,11 +205,14 @@ const Checkout = props => {
       },
       line_items: pro_array
     };
+    await AsyncStorage.setItem(CART_ITEMS, JSON.stringify(data));
     createPayment(data);
   };
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View>
+        {console.log("cartorderid", cartOrderId)}
+        {/* <Text>{cartOrderId}</Text> */}
         <View style={styles.form}>
           <Text style={styles.heading}>Billing Address</Text>
           <View style={styles.inputHalf}>
@@ -454,13 +459,12 @@ const Checkout = props => {
                   </TouchableOpacity>
                 </View>
               </View>
-              {paymentOption === "paytm" && (
+              {/* {paymentOption === "paytm" && (
                 <View style={[styles.sapartor]}>
                   <Text style={{ fontFamily: M_BOLD, marginVertical: 5 }}>
                     Enter Registered Paytm Number
                   </Text>
                   <View style={styles.inputFull}>
-                    {/* <Text style={styles.info}>(*)</Text> */}
 
                     <TextInput
                       placeholder="Paytm Number"
@@ -471,16 +475,26 @@ const Checkout = props => {
                     />
                   </View>
                 </View>
-              )}
+              )} */}
             </View>
           </View>
         </View>
-        {paymentOption === "cod" && (
+
+        {(cartOrderId == "not_set" || cartOrderId == "changed") && (
           <TouchableOpacity onPress={() => submitForm()}>
             <View style={styles.checkoutBtn}>
-              <Text style={styles.checkoutBtntext}>Place Order</Text>
+              <Text style={styles.checkoutBtntext}>Next</Text>
             </View>
           </TouchableOpacity>
+        )}
+        {cartOrderId != "" &&
+          cartOrderId != "not_set" &&
+          cartOrderId != "changed" && (
+        <TouchableOpacity onPress={() => gotoPaymentPage(cartOrderId)}>
+          <View style={styles.checkoutBtn}>
+            <Text style={styles.checkoutBtntext}>Pay Now</Text>
+          </View>
+        </TouchableOpacity>
         )}
       </View>
       {loader && (
@@ -512,10 +526,12 @@ Checkout.navigationOptions = {
   headerRight: <View />
 };
 const mapStateToProps = state => ({
-  cartItems: state.cartItems
+  cartItems: state.cartItems,
+  cartOrderId: state.cartOrderId
 });
 const mapDispatchToProps = dispatch => ({
-  clearItems: () => dispatch(clearItems())
+  clearItems: () => dispatch(clearItems()),
+  setOrderId: orderId => dispatch(setOrderId(orderId))
 });
 export default connect(
   mapStateToProps,

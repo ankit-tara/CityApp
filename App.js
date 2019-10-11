@@ -21,7 +21,11 @@ import ProductList from "./src/screens/Shop/Product/ProductList";
 import ProductSingal from "./src/screens/Shop/Product/Single";
 import CartPage from "./src/screens/Shop/Cart/index";
 import Checkout from "./src/screens/Shop/Cart/Checkout";
+import PaymentGateway from "./src/screens/Shop/Payment/paymentGateway"
+import Account from "./src/screens/Account"
+
 import { View,Text } from "react-native";
+import Test from "./src/test";
 const HomeStack = createStackNavigator({
   Home: Home,
   ListByCity: ListByCity,
@@ -52,7 +56,8 @@ const ShopStack = createStackNavigator({
   ProductList: ProductList,
   ProductSingal: ProductSingal,
   CartPage: CartPage,
-  Checkout:Checkout
+  Checkout: Checkout,
+  PaymentGateway: PaymentGateway
 });
 
 const TabNavigator = createBottomTabNavigator(
@@ -62,7 +67,8 @@ const TabNavigator = createBottomTabNavigator(
     Shop: ShopStack,
     Nearby: PlacesStack,
     Cities: CitiesStack,
-    Checkout:Checkout
+    // Checkout: Checkout
+    Account: Account
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -147,6 +153,8 @@ const TabNavigator = createBottomTabNavigator(
     tabBarOptions: {
       activeTintColor: TAB_ICON_ACTIVE,
       inactiveTintColor: TAB_ICON_INACTIVE,
+      keyboardHidesTabBar: true,
+
       labelStyle: {
         fontSize: 10,
         fontFamily: M_SemiBold,

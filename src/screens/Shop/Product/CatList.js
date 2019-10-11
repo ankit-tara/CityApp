@@ -14,22 +14,24 @@ import { getWcConfig } from "../../../Utils/WcApi";
 import { APP_ORANGE } from "../../../theme/colors";
 import Icon from "react-native-vector-icons/dist/Entypo";
 
+import categories from "../../../assets/json/cat-list.json"
 
 const CatList = props => {
-  const [categories, setcategories] = useState([]);
+  // const [categories, setcategories] = useState([]);
   useEffect(() => {
-    let wcConfig = getWcConfig();
-    let wcApi = new WooCommerceAPI(wcConfig);
-    wcApi
-      .get("products/categories?parent=0")
-      .then(data => {
-        if (data && Array.isArray(data)) {
-          setcategories(data);
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    // let wcConfig = getWcConfig();
+    // let wcApi = new WooCommerceAPI(wcConfig);
+    // wcApi
+    //   .get("products/categories?parent=0")
+    //   .then(data => {
+    //     if (data && Array.isArray(data)) {
+    //       console.log(data)
+    //       setcategories(data);
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
   }, []);
 
   const gotoProductList = cat => {
@@ -57,11 +59,7 @@ const CatList = props => {
           keyExtractor={item => `pcat-${item.id}`}
           data={categories}
           renderItem={pcat => {
-            if (pcat.item.name == "Uncategorized" || pcat.item.parent != 0)
-            {
-              return false;
-
-            }
+           
             return (
               <View key={`pcat-${pcat.item.id}`}>
                 {renderProductCat(pcat.item)}

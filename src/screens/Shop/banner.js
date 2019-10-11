@@ -4,8 +4,7 @@ import Swiper from "react-native-swiper";
 import { M_BOLD } from "../../theme/fonts";
 import Placeholder from "../../placeholder/BannerPlaceholder";
 import { GetShoppingPageData } from "../../Utils/Api";
-const { width } = Dimensions.get("window");
-const bnnerHeight= 280
+const bnnerHeight = 280;
 
 const MainBanner = () => {
   const [images, setimages] = useState([]);
@@ -26,15 +25,11 @@ const MainBanner = () => {
     <View style={styles.container}>
       {images.length > 0 && (
         <Swiper
-        horizontal={false}
-          // style={styles.wrapper}
+          horizontal={false}
           autoplay={true}
-          autoplayTimeout={5}
+          autoplayTimeout={7}
           dot={<View style={[styles.dot, styles.dotStyle]} />}
           activeDot={<View style={[styles.dot, styles.activeDot]} />}
-          // paginationStyle={{
-          //   bottom: -7
-          // }}
           loop
         >
           {images.map((img, index) => (
@@ -45,7 +40,7 @@ const MainBanner = () => {
                 source={{ uri: img.image.sizes.medium }}
               />
               {img.image.title != "" && (
-                  <Text style={styles.bannerText}>{img.image.title}</Text>
+                <Text style={styles.bannerText}>{img.image.title}</Text>
               )}
             </View>
           ))}
@@ -69,7 +64,6 @@ const styles = StyleSheet.create({
   slide: {
     flex: 1,
     justifyContent: "center",
-    // alignItems: "center",
     backgroundColor: "transparent",
     position: "relative"
   },
@@ -79,11 +73,9 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     textTransform: "capitalize",
     position: "absolute",
-    // top: 70,
     color: "#fff",
     fontSize: 25,
     width: "60%",
-    // textAlign: "center",
     fontFamily: M_BOLD,
     paddingHorizontal: 15
   },

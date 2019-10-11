@@ -8,6 +8,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@philly25/react-native-paytm": "^1.0.11",
     "@react-native-community/async-storage": "^1.6.1",
     "@react-native-firebase/app": "^0.2.3",
     "@react-native-firebase/messaging": "^0.2.3",
@@ -29,7 +30,6 @@
     "react-native-maps": "^0.25.0",
     "react-native-material-menu": "^0.6.6",
     "react-native-numeric-input": "^1.8.3",
-    "react-native-paytm": "^1.0.4",
     "react-native-popup-menu": "^0.15.6",
     "react-native-progress": "^3.6.0",
     "react-native-push-notification": "^3.1.9",
@@ -40,6 +40,7 @@
     "react-native-splash-screen": "^3.2.0",
     "react-native-swiper": "^1.5.14",
     "react-native-vector-icons": "^6.6.0",
+    "react-native-webview": "^7.4.1",
     "react-native-woocommerce-api": "^1.0.12",
     "react-navigation": "^3.11.1",
     "react-redux": "^7.1.0",

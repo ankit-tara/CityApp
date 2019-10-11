@@ -1,4 +1,9 @@
-import { API_HOST, GOOGLE_MAP_API, GOOGLE_MAP_API_KEY } from "./constants";
+import {
+  API_HOST,
+  GOOGLE_MAP_API,
+  GOOGLE_MAP_API_KEY,
+  API_URL
+} from "./constants";
 const HOMEPAGE_ID = 340;
 const SHOPPING_PAGE_ID = 1107;
 
@@ -185,7 +190,7 @@ export function getPostByID(id) {
  * get list place image
  */
 
-export function getListPlaceImage(photoReference = "",width=100) {
+export function getListPlaceImage(photoReference = "", width = 100) {
   if (!photoReference) return null;
   let url = `${GOOGLE_MAP_API}/place/photo?photoreference=${photoReference}&key=${GOOGLE_MAP_API_KEY}&maxwidth=${width}`;
   // console.log(url);
@@ -215,9 +220,24 @@ export function getPlaceDetails(placeid = "") {
  * get place nearby
  */
 
-export function getNearbyPlaces(latlng = "",type='') {
+export function getNearbyPlaces(latlng = "", type = "") {
   if (!latlng) return null;
   let url = `${GOOGLE_MAP_API}/place/nearbysearch/json?type=${type}&location=${latlng}&radius=500&key=${GOOGLE_MAP_API_KEY}`;
+  console.log(url);
+  return fetch(url)
+    .then(response => response.json())
+    .catch(error => {
+      throw error;
+    });
+}
+
+/**
+ * get paynow link
+ */
+
+export function getPayNowLink(order_id) {
+  if (!order_id) return null;
+  let url = `${API_HOST}/get-paynow-url?order_id=${order_id}`;
   console.log(url);
   return fetch(url)
     .then(response => response.json())

@@ -4,18 +4,18 @@ import { M_BOLD } from "../../../theme/fonts";
 import { APP_SIDE_DISTANCE } from "../../../theme/Dimentions";
 import { APP_ORANGE } from "../../../theme/colors";
 import NumericInput from "react-native-numeric-input";
-import { addItems,removeItems } from "../../../redux/actions/cartItems";
+import { addItems, removeItems } from "../../../redux/actions/cartItems";
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/dist/Entypo";
 
-const CartItem = (props) => {
-  const [quantity, setquantity] = useState(1);
+const CartItem = props => {
+  const [quantity, setquantity] = useState(0);
   useEffect(() => {
     if (props.item.quantity) {
       setquantity(props.item.quantity);
     }
   }, [props]);
-  const item = props.item
+  const item = props.item;
   if (!item) return null;
   return (
     <View style={styles.cartItem}>
@@ -34,20 +34,21 @@ const CartItem = (props) => {
           {"\u20B9"}
           {item.item.price}
         </Text>
-        <NumericInput
-          value={quantity}
-          // iconSize={10}
-          totalWidth={120}
-          totalHeight={35}
-          rightButtonBackgroundColor={APP_ORANGE}
-          leftButtonBackgroundColor={APP_ORANGE}
-          onChange={value => {
-            props.addItems(item.item, value);
-            setquantity(value);
-          }}
-        />
-
-        <Text style={styles.quantity}>{item.quantity}</Text>
+        {quantity > 0 && (
+          <NumericInput
+            value={quantity}
+            // iconSize={10}
+            totalWidth={120}
+            totalHeight={35}
+            rightButtonBackgroundColor={APP_ORANGE}
+            leftButtonBackgroundColor={APP_ORANGE}
+            onChange={value => {
+              props.addItems(item.item, value);
+              setquantity(value);
+            }}
+          />
+        )}
+        {/* <Text style={styles.quantity}>{item.quantity}</Text> */}
       </View>
       <View style={styles.close}>
         <TouchableOpacity onPress={() => props.removeItems(item.item)}>
@@ -74,10 +75,10 @@ export default connect(
 // export default CartItem;
 
 const styles = StyleSheet.create({
- close:{
-   flex:1,
-   alignItems:'flex-end'
- },
+  close: {
+    flex: 1,
+    alignItems: "flex-end"
+  },
   cartMeta: {
     marginHorizontal: 10
   },
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: 16,
-    marginBottom:5
+    marginBottom: 5
   },
   checkoutBtn: {
     marginHorizontal: APP_SIDE_DISTANCE,

@@ -1,0 +1,17 @@
+[
+    {
+        "id": 389,
+        "name": "Women",
+        "color":"#FF1493"
+    },
+    {
+        "id": 388,
+        "name": "Men",
+        "color": "#0000FF"
+    },
+    {
+        "id": 391,
+        "name": "Tech Accessories",
+        "color": "#ec9902"
+    }
+]

@@ -12,7 +12,8 @@ import {
   Alert,
   PermissionsAndroid,
   Platform,
-  Clipboard
+  Clipboard,
+  Linking
 } from "react-native";
 import {
   strip_html_tags,
@@ -20,7 +21,8 @@ import {
   decode_html
 } from "../../../Utils/Helpers";
 import { M_BOLD, M_Light, M_SemiBold, M_Regular } from "../../../theme/fonts";
-import Icon, { getImageSource } from "react-native-vector-icons/dist/Entypo";
+import Icon from "react-native-vector-icons/dist/Entypo";
+import IconFont from "react-native-vector-icons/dist/FontAwesome";
 import { APP_ORANGE } from "../../../theme/colors";
 import { withNavigation } from "react-navigation";
 import { addItems } from "../../../redux/actions/cartItems";
@@ -52,7 +54,7 @@ const Product = props => {
     }
   }, []);
 
-  getShareImages = async item => {
+  getShareImages = async (item,isWhatsapp=false) => {
     let content = item.name + "/n" + strip_html_tags(item.description);
     Clipboard.setString(content);
 
@@ -91,7 +93,7 @@ const Product = props => {
             title: "Share via",
             urls: completed
           };
-          Share.open(options);
+         Share.open(options);
         });
       } catch (err) {
         Alert.alert("Error, Permission denied", err);
@@ -108,7 +110,7 @@ const Product = props => {
     props.addItems(item, 1);
     alert("item added");
   };
-  onShare = async () => {
+  onShare = async (isWhatsapp) => {
     getShareImages();
     return false;
     let post = item;
@@ -168,9 +170,18 @@ const Product = props => {
             </View>
           </TouchableOpacity>
         </View>
+        <View style={[styles.actionIcon, styles.actionIconWhatsapp]}>
+          <TouchableOpacity onPress={() => getShareImages(item,true)}>
+            <IconFont name="whatsapp" size={17} color="#fff" />
+          </TouchableOpacity>
+        </View>
         <View style={[styles.actionIcon, styles.actionIconShare]}>
           <TouchableOpacity onPress={() => getShareImages(item)}>
-            <Icon name="share" size={16} color="#fff" />
+            <Icon
+              name="share"
+              size={16}
+              color="#fff"
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -238,7 +249,9 @@ const styles = StyleSheet.create({
   actionContainer: {
     alignItems: "flex-end",
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    height:35,
+    overflow: 'hidden',
     // backgroundColor: "rgba(236, 153, 2, 0.6)",
     // backgroundColor: "black"
     // padding: 5
@@ -251,20 +264,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // borderWidth: 1,
     // borderColor: "gray",
-    paddingVertical: 6,
-    paddingHorizontal: 10
+    paddingVertical: 8,
+    paddingHorizontal: 8
   },
   actionIconCart: {
     // flex: 1,
-    width: "70%",
+    width: "60%",
     borderWidth: 1,
     borderColor: "#000",
     backgroundColor: "#000"
   },
   actionIconShare: {
-    width: "30%",
+    width: "20%",
     borderWidth: 1,
     backgroundColor: APP_ORANGE,
     borderColor: APP_ORANGE
+  },
+  actionIconWhatsapp: {
+    width: "20%",
+    borderWidth: 1,
+    backgroundColor: "#128C7E",
+    borderColor: "#128C7E"
   }
 });

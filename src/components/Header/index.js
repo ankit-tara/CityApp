@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/dist/MaterialCommunityIcons';
 import styles from '../../assets/style.js'
 import Menu, { MenuItem } from 'react-native-material-menu';
 import CartIcon from "../../screens/Shop/CartIcon";
+import AccountIcon from '../Header/AccountIcon';
 const AppHeader = (props) => {
   _menu = null;
 
@@ -32,8 +33,9 @@ const AppHeader = (props) => {
         </Menu> */}
       </View>
       <Text style={[styles.flex, styles.logo]}> CityApp </Text>
-      <View style={[styles.flex, { alignItems: "flex-end" }]}>
+      <View style={[styles.flex, styles.row, { alignItems:'center', justifyContent:  "flex-end" }]}>
         {props.showCart && <CartIcon />}
+        {props.showCart && <AccountIcon />}
       </View>
       {/* <Text style={[styles.flex]} /> */}
     </View>

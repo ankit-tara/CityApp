@@ -8,12 +8,9 @@ const AccountIcon = props => {
 //   const cartItems = useSelector(state => state.cartItems);
 //   useEffect(() => {}, [props]);
   return (
-    <TouchableOpacity onPress={() => props.navigation.navigate("CartPage")}>
+    <TouchableOpacity onPress={() => props.navigation.navigate("Account")}>
       <View style={styles.wrapper}>
-        <Icon
-          name="account-circle"
-          size={30}
-        />
+        <Icon name="account-circle" size={30} />
       </View>
     </TouchableOpacity>
   );

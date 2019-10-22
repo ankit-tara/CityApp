@@ -14,38 +14,109 @@ import { M_BOLD } from "../../theme/fonts";
 import { APP_ORANGE } from "../../theme/colors";
 import Icon from "react-native-vector-icons/dist/Entypo";
 import { getWcConfig } from "../../Utils/WcApi";
-
+import bgImage from "../../assets/img/login-bg.jpg";
+import { validateEmail, strip_html_tags } from "../../Utils/Helpers";
+import { getJwtLogin, getUserRegister } from "../../Utils/Api";
 let wcConfig = getWcConfig();
 let wcApi = new WooCommerceAPI(wcConfig);
+
+import { useSelector, useDispatch } from "react-redux";
+import { userLogin } from "../../redux/actions/authUser";
+import AsyncStorage from "@react-native-community/async-storage";
+import { AUTH_USER } from "../../Utils/constants";
 
 const index = () => {
   const [form, setform] = useState("signIn");
   const [loading, setloading] = useState(false);
-  useEffect(() => {
-    wcApi
-      .get("orders", {})
-      .then(data => {
-        console.log(data);
+  const [email, setemail] = useState("testsdsf@test.com");
+  const [password, setpassword] = useState("12345678kdjjahjdafh");
+  const [confirmPassword, setconfirmPassword] = useState("12345678kdjjahjdafh");
+  const [error, seterror] = useState([]);
+  const [formError, setformError] = useState();
+  const [username, setusername] = useState("test");
+
+  const dispatch = useDispatch();
+
+  const formSubmit = () => {
+    seterror([]);
+
+    let arr = [];
+    if (!email) arr.push("email");
+    if (!password) arr.push("password");
+    if (form == "signUp" && !confirmPassword) arr.push("cpassword");
+    if (form == "signUp" && !username) arr.push("username");
+
+    if (arr.length) {
+      seterror(arr);
+      return false;
+    }
+
+    if (!validateEmail(email)) arr.push("emailInvalid");
+    if (password.length < 6) arr.push("passwordInvalid");
+    if (form == "signUp" && password != confirmPassword) {
+      arr.push("cpasswordInvalid");
+    }
+    if (arr.length) {
+      seterror(arr);
+      return false;
+    }
+
+    setloading(true);
+    form == "signIn" ? signInUser() : signUpUser();
+  };
+  const signInUser = () => {
+    getJwtLogin(email, password)
+      .then(res => {
+        setloading(false);
+
+        if (res.data && res.data.status !== 200 && res.message) {
+          setformError(strip_html_tags(res.message));
+        }
+
+        if (res.token) {
+          setUserData(res);
+        }
       })
       .catch(error => {
+        setloading(false);
         console.log(error);
       });
-  }, []);
+  };
+
+  setUserData = async data => {
+    await AsyncStorage.setItem(AUTH_USER, JSON.stringify(data));
+    dispatch(userLogin(data));
+  };
+
+  const signUpUser = () => {
+    getUserRegister(email, password, username)
+      .then(res => {
+        setloading(false);
+        console.log(res);
+
+        if (res.data && res.data.status !== 200 && res.message) {
+          setformError(strip_html_tags(res.message));
+        }
+
+        if (res.token) {
+          dispatch(userLogin(res));
+        }
+      })
+      .catch(error => {
+        setloading(false);
+        console.log(error);
+      });
+  };
+
   return (
-    <ImageBackground
-      source={{
-        uri:
-          "https://images.unsplash.com/photo-1467226632440-65f0b4957563?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=979&q=80"
-      }}
-      style={{ width: "100%", height: "100%" }}
-    >
+    <ImageBackground source={bgImage} style={{ width: "100%", height: "100%" }}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>CityApp</Text>
         </View>
         <View style={styles.content}>
           <View style={styles.formHeader}>
-            <TouchableOpacity onPress={() =>!loading&& setform("signIn")}>
+            <TouchableOpacity onPress={() => !loading && setform("signIn")}>
               <Text
                 style={[
                   form == "signIn"
@@ -57,7 +128,7 @@ const index = () => {
                 Sign In
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() =>!loading&& setform("signUp")}>
+            <TouchableOpacity onPress={() => !loading && setform("signUp")}>
               {/* <Text style={[styles.inactiveFormText, styles.formTitle]}> */}
               <Text
                 style={[
@@ -71,31 +142,103 @@ const index = () => {
               </Text>
             </TouchableOpacity>
           </View>
-
-          <View style={styles.inputContainer}>
-            <Icon name="user" size={20} />
-            <TextInput placeholder="EMAIL" style={styles.input} />
-          </View>
-          <View style={styles.inputContainer}>
-            <Icon name="key" size={20} />
-            <TextInput
-              secureTextEntry={true}
-              placeholder="PASSWORD"
-              style={styles.input}
-            />
+          <View style={styles.formGroup}>
+            <View style={styles.inputContainer}>
+              <Icon name="user" size={20} />
+              <TextInput
+                placeholder="EMAIL"
+                style={styles.input}
+                value={email}
+                onChangeText={text => setemail(text)}
+                keyboardType="email-address"
+              />
+            </View>
+            {error.includes("email") && (
+              <Text style={styles.error}>*Required</Text>
+            )}
+            {error.includes("emailInvalid") && (
+              <Text style={styles.error}>*Invalid</Text>
+            )}
           </View>
           {form != "signIn" && (
+            <View style={styles.formGroup}>
+              <View style={styles.inputContainer}>
+                <Icon name="user" size={20} />
+                <TextInput
+                  placeholder="USERNAME"
+                  style={styles.input}
+                  value={username}
+                  onChangeText={text => setusername(text)}
+                />
+              </View>
+              {error.includes("username") && (
+                <Text style={styles.error}>*Required</Text>
+              )}
+              {error.includes("usernameInvalid") && (
+                <Text style={styles.error}>*Do not match with password</Text>
+              )}
+            </View>
+          )}
+          <View style={styles.formGroup}>
             <View style={styles.inputContainer}>
               <Icon name="key" size={20} />
               <TextInput
                 secureTextEntry={true}
-                placeholder="CONFIRM PASSWORD"
+                placeholder="PASSWORD"
                 style={styles.input}
+                value={password}
+                onChangeText={text => setpassword(text)}
               />
             </View>
-          )}
+            {error.includes("password") && (
+              <Text style={styles.error}>*Required</Text>
+            )}
+            {error.includes("passwordInvalid") && (
+              <Text style={styles.error}>*must contain 6 letters</Text>
+            )}
+          </View>
 
-          <View style={styles.button}>
+          {form != "signIn" && (
+            <>
+              {/* <View style={styles.formGroup}>
+                <View style={styles.inputContainer}>
+                  <Icon name="user" size={20} />
+                  <TextInput
+                    placeholder="USERNAME"
+                    style={styles.input}
+                    value={username}
+                    onChangeText={text => setusername(text)}
+                  />
+                </View>
+                {error.includes("username") && (
+                  <Text style={styles.error}>*Required</Text>
+                )}
+                {error.includes("usernameInvalid") && (
+                  <Text style={styles.error}>*Do not match with password</Text>
+                )}
+              </View> */}
+              <View style={styles.formGroup}>
+                <View style={styles.inputContainer}>
+                  <Icon name="key" size={20} />
+                  <TextInput
+                    secureTextEntry={true}
+                    placeholder="CONFIRM PASSWORD"
+                    style={styles.input}
+                    value={confirmPassword}
+                    onChangeText={text => setconfirmPassword(text)}
+                  />
+                </View>
+                {error.includes("cpassword") && (
+                  <Text style={styles.error}>*Required</Text>
+                )}
+                {error.includes("cpasswordInvalid") && (
+                  <Text style={styles.error}>*Do not match with password</Text>
+                )}
+              </View>
+            </>
+          )}
+          {formError && <Text style={styles.formError}>{formError}</Text>}
+          <TouchableOpacity style={styles.button} onPress={formSubmit}>
             <Text style={styles.buttonText}>
               {loading ? (
                 <Spinner
@@ -109,7 +252,9 @@ const index = () => {
                 "Sign up"
               )}
             </Text>
-          </View>
+          </TouchableOpacity>
+
+          {loading && <View style={styles.formLoading}></View>}
         </View>
       </View>
     </ImageBackground>
@@ -133,13 +278,16 @@ const styles = StyleSheet.create({
     margin: 20
   },
   content: {
-    margin: 20
+    margin: 20,
+    position: "relative"
+  },
+  formGroup: {
+    backgroundColor: "rgba(255, 255, 255, 0.7)",
+    padding: 10
   },
   inputContainer: {
     flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.7)",
-    padding: 10
+    alignItems: "center"
   },
   input: {
     width: "80%",
@@ -185,5 +333,26 @@ const styles = StyleSheet.create({
     borderRightWidth: 10,
     borderBottomWidth: 20,
     borderBottomColor: "rgba(255, 255, 255, 0.7)"
+  },
+  error: {
+    color: "red",
+    fontSize: 14,
+    marginLeft: 20
+  },
+  formLoading: {
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  formError: {
+    color: "red",
+    fontSize: 20,
+    fontWeight: "bold",
+    textTransform: "capitalize",
+    textAlign: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.7)"
   }
 });

@@ -245,3 +245,65 @@ export function getPayNowLink(order_id) {
       throw error;
     });
 }
+
+/**
+ * user login
+ */
+
+export function getJwtLogin(email, password) {
+  if (!email || !password) return null;
+  let url = `${API_URL}/wp-json/jwt-auth/v1/token`;
+
+  return fetch(url, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    mode: "cors",
+
+    method: "POST",
+    body: JSON.stringify({
+      username: email,
+      password: password
+    })
+  })
+    .then(response => response.json())
+    .catch(error => {
+      throw error;
+    });
+}
+
+/**
+ * user login
+ */
+
+export function getUserRegister(email, password, username) {
+  if (!email || !password) return null;
+  let url = `${API_HOST}/users/register`;
+  console.log(url);
+  let data = JSON.stringify({
+    username: username,
+    email: email,
+    password: password
+  });
+  console.log(data);
+  let formdata = new FormData()
+  formdata.append('email',email)
+  formdata.append("username", username);
+  formdata.append("password", password);
+  console.log(formdata)
+  return fetch(url, {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    // mode: "cors",
+
+    method: "POST",
+    body: data
+  })
+    .then(response => response.json())
+    .catch(error => {
+      throw error;
+    });
+}

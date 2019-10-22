@@ -23,6 +23,7 @@ import CartPage from "./src/screens/Shop/Cart/index";
 import Checkout from "./src/screens/Shop/Cart/Checkout";
 import PaymentGateway from "./src/screens/Shop/Payment/paymentGateway"
 import Account from "./src/screens/Account"
+import IconMat from "react-native-vector-icons/dist/MaterialIcons";
 
 import { View,Text } from "react-native";
 import Test from "./src/test";
@@ -66,7 +67,7 @@ const TabNavigator = createBottomTabNavigator(
     Search: SearchStack,
     Shop: ShopStack,
     Nearby: PlacesStack,
-    Cities: CitiesStack,
+    // Cities: CitiesStack,
     // Checkout: Checkout
     Account: Account
   },
@@ -90,6 +91,9 @@ const TabNavigator = createBottomTabNavigator(
         }
         if (routeName === "Cities") {
           return <Icon name="list" size={27} color={color} />;
+        }
+        if (routeName === "Account") {
+          return <IconMat name="account-circle" size={27} color={color} />;
         }
         if (routeName === "Shop") {
           return (

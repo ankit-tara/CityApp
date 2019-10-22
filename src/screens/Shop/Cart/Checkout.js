@@ -30,6 +30,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import paytm from "@philly25/react-native-paytm";
 import { CART_ITEMS } from "../../../Utils/constants";
 import { getPayNowLink } from "../../../Utils/Api";
+import AccountIcon from "../../../components/Header/AccountIcon";
 const paytmConfig = {
   MID: "vBOlWS74518141895718",
   WEBSITE: "IAAK0i7Vu%U3Le1W",
@@ -66,13 +67,19 @@ const Checkout = props => {
   const [loader, setloader] = useState(false);
   const cartItems = useSelector(state => state.cartItems);
   const cartOrderId = useSelector(state => state.cartOrderId);
-  // if (!cartItems.length) {
-  //   return (
-  //     <View style={styles.emptyContainer}>
-  //       <Text style={styles.emptyText}>Oops!! your cart is empty</Text>
-  //     </View>
-  //   );
-  // }
+  const authUser = useSelector(state => state.authUser);
+  if (!cartItems.length) {
+    return (
+      <View style={styles.emptyContainer}>
+        <Text style={styles.emptyText}>
+          You can view your orders in your profile.
+        </Text>
+        <TouchableOpacity onPress={() => props.navigation.navigate("Account")}>
+          <Text style={styles.link}>Click here</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   getFormDetails = async () => {
     let data = await AsyncStorage.getItem(CART_ITEMS);
@@ -109,36 +116,51 @@ const Checkout = props => {
   };
 
   createPayment = data => {
-    let wcConfig = getWcConfig();
-    let wcApi = new WooCommerceAPI(wcConfig);
-    wcApi
-      .post("orders", data)
-      .then(response => {
-        // props.clearItems();
-        setloader(false);
-        console.log(response)
-        if (response.id) {
-          props.setOrderId(response.id);
-        }
-        // if (paymentOption == "cod") {
-        //   alert("order created");
-        // } else {
-        // }
-      })
-      .catch(error => {
-        setloader(false);
+    if (authUser.token && authUser.user_id) {
+      data.customer_id = authUser.user_id;
+      console.log(data);
+      let wcConfig = getWcConfig();
+      let wcApi = new WooCommerceAPI(wcConfig);
+      wcApi
+        .post("orders", data)
+        .then(response => {
+          // props.clearItems();
+          setloader(false);
+          console.log(response);
+          if (response.id) {
+            props.setOrderId(response.id);
+            // props.clearItems();
+          }
+          // if (paymentOption == "cod") {
+          //   alert("order created");
+          // } else {
+          // }
+        })
+        .catch(error => {
+          setloader(false);
 
-        console.log(error.response.data);
-      });
+          console.log(error.response.data);
+        });
+    } else {
+      alert("Please login first!");
+    }
   };
 
   gotoPaymentPage = orderId => {
+    // if (authUser.token && authUser.user_id) {
     getPayNowLink(orderId)
       .then(response => {
         console.log(response.url);
-        props.navigation.navigate("PaymentGateway",{url:response});
+        // props.clearItems();
+        props.navigation.navigate("PaymentGateway", {
+          url: response
+        });
+        props.clearItems();
       })
       .catch(error => console.log(error));
+    // } else {
+    //   alert("Please login first!");
+    // }
   };
 
   submitForm = async () => {
@@ -490,12 +512,12 @@ const Checkout = props => {
         {cartOrderId != "" &&
           cartOrderId != "not_set" &&
           cartOrderId != "changed" && (
-        <TouchableOpacity onPress={() => gotoPaymentPage(cartOrderId)}>
-          <View style={styles.checkoutBtn}>
-            <Text style={styles.checkoutBtntext}>Pay Now</Text>
-          </View>
-        </TouchableOpacity>
-        )}
+            <TouchableOpacity onPress={() => gotoPaymentPage(cartOrderId)}>
+              <View style={[styles.checkoutBtn, styles.payNow]}>
+                <Text style={styles.checkoutBtntext}>Pay Now</Text>
+              </View>
+            </TouchableOpacity>
+          )}
       </View>
       {loader && (
         <View
@@ -523,7 +545,18 @@ Checkout.navigationOptions = {
     fontFamily: M_BOLD,
     textTransform: "capitalize"
   },
-  headerRight: <View />
+  headerRight: (
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-end",
+        marginRight: 10
+      }}
+    >
+      <AccountIcon />
+    </View>
+  )
 };
 const mapStateToProps = state => ({
   cartItems: state.cartItems,
@@ -546,7 +579,8 @@ const styles = StyleSheet.create({
   emptyText: {
     fontFamily: M_BOLD,
     color: "gray",
-    fontSize: 20
+    fontSize: 20,
+    textAlign:'center'
   },
   container: {
     margin: APP_SIDE_DISTANCE
@@ -662,5 +696,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "gray",
     alignSelf: "flex-end"
+  },
+  payNow: {
+    backgroundColor: "#002E6E"
+  },
+  link: {
+    fontSize: 16,
+    textDecorationLine: "underline",
+    color: "#002E6E"
   }
 });

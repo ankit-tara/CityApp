@@ -23,13 +23,14 @@ import Geolocation from "react-native-geolocation-service";
 import Spinner from "react-native-spinkit";
 import { APP_ORANGE } from "../theme/colors";
 import { connect, useSelector } from "react-redux";
-import { LOCATION_DATA, LAT_LNG } from "../Utils/constants";
+import { LOCATION_DATA, LAT_LNG, AUTH_USER } from "../Utils/constants";
 import AsyncStorage from "@react-native-community/async-storage";
 import moment from "moment";
 var PushNotification = require("react-native-push-notification");
 import LocationServicesDialogBox from "react-native-android-location-services-dialog-box";
 import CatListHome from "./catListHome";
-
+import { useDispatch } from "react-redux";
+import { userLogin } from "../redux/actions/authUser";
 const Home = props => {
   const [loader, setloader] = useState(true);
   const [loadingMsg, setloadingMsg] = useState(null);
@@ -40,13 +41,24 @@ const Home = props => {
   const [status, setstatus] = useState("");
   const locationLoading = useSelector(state => state.locationLoading);
   const authLocation = useSelector(state => state.authLocation);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     SplashScreen.hide();
     // configurePushNotification()
     props.locationLoadingStart();
     loadPageData();
+    setUser();
   }, [false]);
+
+  setUser = async () => {
+    let value = await AsyncStorage.getItem(AUTH_USER);
+    console.log(value)
+    if(!value) return
+    value = JSON.parse(value)
+    value && value.token && dispatch(userLogin(value));
+
+    console.log(value)
+  };
 
   configurePushNotification = () => {
     PushNotification.configure({
@@ -98,7 +110,7 @@ const Home = props => {
       let dataStoredTime = new moment(data.time);
       let timeDiff = currentTime.diff(dataStoredTime, "minutes");
       if (timeDiff < 5) {
-        setlatlng(lat_lng)
+        setlatlng(lat_lng);
         setstatus("from storage");
         setloadingMsg(`Getting location data of ${data.data.city}`);
         console.log("get data from stiorage");
@@ -244,7 +256,7 @@ const Home = props => {
     );
 
   return (
-    <View >
+    <View>
       <ScrollView>
         <Banner data={bannerData} />
 

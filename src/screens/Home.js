@@ -48,16 +48,17 @@ const Home = props => {
     props.locationLoadingStart();
     loadPageData();
     setUser();
+    getHomePageData()
+      .then(data => setHomePageData(data,false))
+      .catch(e => console.log(e));
   }, [false]);
 
   setUser = async () => {
     let value = await AsyncStorage.getItem(AUTH_USER);
-    console.log(value)
-    if(!value) return
-    value = JSON.parse(value)
+    if (!value) return;
+    value = JSON.parse(value);
     value && value.token && dispatch(userLogin(value));
 
-    console.log(value)
   };
 
   configurePushNotification = () => {
@@ -113,12 +114,10 @@ const Home = props => {
         setlatlng(lat_lng);
         setstatus("from storage");
         setloadingMsg(`Getting location data of ${data.data.city}`);
-        console.log("get data from stiorage");
         getCityData(data.data);
         return;
       }
     }
-    console.log("get data from api");
     checkLocationAcess();
     // checkGranted();
   };
@@ -136,11 +135,9 @@ const Home = props => {
       providerListener: false // true ==> Trigger locationProviderStatusChange listener when the location state changes
     })
       .then(function(success) {
-        console.log(success);
         checkGranted();
       })
       .catch(error => {
-        console.log(error);
 
         checkGranted();
         // error.message => "disabled"
@@ -152,7 +149,6 @@ const Home = props => {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
       );
-      console.log(granted);
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         Geolocation.getCurrentPosition(
           position => {
@@ -223,12 +219,12 @@ const Home = props => {
     }
   };
 
-  const setHomePageData = data => {
+  const setHomePageData = (data, show = true) => {
     if (!data || !data.acf) return;
     let acf = data.acf;
     acf.main_slider_images && setBannerData(acf.main_slider_images);
-    data.ads_data && setAdData(data.ads_data);
-    data.categories_data && setCatData(data.categories_data);
+    show && data.ads_data && setAdData(data.ads_data);
+    show && data.categories_data && setCatData(data.categories_data);
   };
 
   ShowAllTags = () => {
@@ -272,38 +268,6 @@ const Home = props => {
                 <CatListHome data={cat} latlng={latlng} />
               </View>
             );
-            // if (cat.posts.length <= 0) return;
-            // return (
-            //   <View key={cat.tag.term_id}>
-            //     <BlockHeader
-            //       heading={cat.tag.name}
-            //       onLinkPress={() => {
-            //         props.navigation.navigate("ListByTag", {
-            //           item: cat.tag,
-            //           type: "tag"
-            //         });
-            //       }}
-            //     />
-            //     <View style={[{ paddingHorizontal: 10 }, styles.boxes]}>
-            //       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            //         {cat.posts.length > 0 &&
-            //           cat.posts.map(post => (
-            //             <TouchableOpacity
-            //               key={`post-${post.id}`}
-            //               onPress={() =>
-            //                 props.navigation.navigate("Single", { post: post })
-            //               }
-            //             >
-            //               <SingleCard
-            //                 image={post.fimg_url}
-            //                 title={post.title.rendered}
-            //               />
-            //             </TouchableOpacity>
-            //           ))}
-            //       </ScrollView>
-            //     </View>
-            //   </View>
-            // );
           })}
       </ScrollView>
     </View>

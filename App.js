@@ -24,7 +24,7 @@ import Checkout from "./src/screens/Shop/Cart/Checkout";
 import PaymentGateway from "./src/screens/Shop/Payment/paymentGateway"
 import Account from "./src/screens/Account"
 import IconMat from "react-native-vector-icons/dist/MaterialIcons";
-
+import SellerProducts from "./src/screens/Shop/Product/SellerProducts"
 import { View,Text } from "react-native";
 import Test from "./src/test";
 const HomeStack = createStackNavigator({
@@ -68,8 +68,8 @@ const TabNavigator = createBottomTabNavigator(
     Shop: ShopStack,
     Nearby: PlacesStack,
     // Cities: CitiesStack,
-    // Checkout: Checkout
-    Account: Account
+    Account: Account,
+    // SellerProducts: SellerProducts
   },
   {
     defaultNavigationOptions: ({ navigation }) => ({
@@ -153,7 +153,7 @@ const TabNavigator = createBottomTabNavigator(
         //         return
       }
     }),
-    resetOnBlur: true,
+    // resetOnBlur: true,
     tabBarOptions: {
       activeTintColor: TAB_ICON_ACTIVE,
       inactiveTintColor: TAB_ICON_INACTIVE,

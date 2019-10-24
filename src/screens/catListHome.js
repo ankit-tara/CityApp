@@ -80,8 +80,6 @@ const CatListHome = (props) => {
   };
 
   setCatValue=(value='')=>{
-    console.log(value)
-    console.log(props.data)
      if (!props.data || !props.data.tag.name) return;
      getNearbyPlaces(value, props.data.tag.name).then(response => {
        if (response.status == "OK") {

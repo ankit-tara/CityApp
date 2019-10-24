@@ -287,11 +287,11 @@ export function getUserRegister(email, password, username) {
     password: password
   });
   console.log(data);
-  let formdata = new FormData()
-  formdata.append('email',email)
+  let formdata = new FormData();
+  formdata.append("email", email);
   formdata.append("username", username);
   formdata.append("password", password);
-  console.log(formdata)
+  console.log(formdata);
   return fetch(url, {
     headers: {
       Accept: "application/json",
@@ -307,3 +307,35 @@ export function getUserRegister(email, password, username) {
       throw error;
     });
 }
+/**
+ * products of seller
+ */
+
+export function getProductsBySeller(seller_id) {
+  if (!seller_id ) return null;
+  let url = `${API_HOST}/get-seller-products?seller_id=${seller_id}`;
+  console.log(url);
+
+  return fetch(url)
+    .then(response => response.json())
+    .catch(error => {
+      throw error;
+    });
+}
+
+/**
+ * search query
+ */
+
+
+ export function searchQuery(query){
+    if (!query) return null;
+    let url = `${API_HOST}/${query}`;
+    console.log(url);
+
+    return fetch(url)
+      .then(response => response.json())
+      .catch(error => {
+        throw error;
+      });
+ }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View } from "react-native";
+import { Text, View, ScrollView } from "react-native";
 import Login from "./login";
 import Account from "./account";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,10 +15,12 @@ const Index = () => {
   }, []);
 
   setUser = data => {};
+  const style={flex:1}
   return (
-    <View>
-      {authUser.token != "" ? <Account /> : <Login setUser={setUser} />}
-    </View>
+    <ScrollView style={{ flex: 1}}>
+        {authUser.token != "" ? <Account /> : <Login setUser={setUser} />}
+      {/* </View> */}
+    </ScrollView>
   );
 };
 

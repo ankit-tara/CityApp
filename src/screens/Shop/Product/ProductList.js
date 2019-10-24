@@ -6,7 +6,9 @@ import {
   ScrollView,
   Dimensions,
   TouchableOpacity,
-  Picker
+  Picker,
+  ActivityIndicator,
+  Animated
 } from "react-native";
 import { M_BOLD } from "../../../theme/fonts";
 import { text_truncate } from "../../../Utils/Helpers";
@@ -38,6 +40,10 @@ const ProductList = props => {
   const [subcategory, setsubcategory] = useState(-1);
   const [selectedSubcat, setselectedSubcat] = useState(-1);
   const [showloader, setshowloader] = useState(true);
+  const [loadMore, setloadMore] = useState(false);
+  const scrollY = new Animated.Value(0);
+  const [page, setpage] = useState(1);
+
   useEffect(() => {
     let params = props.navigation.state.params;
     if (params && params.category && params.category.id) {
@@ -45,7 +51,6 @@ const ProductList = props => {
         .get("products?category=" + params.category.id, {})
         .then(data => {
           setshowloader(false);
-          console.log(data);
           if (data && Array.isArray(data)) {
             setproducts(data);
             setparentProducts(data);
@@ -60,7 +65,6 @@ const ProductList = props => {
       wcApi
         .get("products/categories?parent=" + params.category.id, {})
         .then(data => {
-          console.log(data);
           if (data && Array.isArray(data)) {
             setsubcategory(data);
           }
@@ -70,6 +74,46 @@ const ProductList = props => {
         });
     }
   }, []);
+
+  loadMoreData = () => {
+    let params = props.navigation.state.params;
+
+    setloadMore(true);
+    let pageNo = page + 1;
+    setpage(pageNo);
+    wcApi
+      .get("products?category=" + params.category.id + "&page=" + pageNo, {})
+      .then(data => {
+        setloadMore(false);
+        if (data && Array.isArray(data)) {
+          setproducts(products.concat(data));
+          // setparentProducts(data);
+        }
+      })
+      .catch(error => {
+        setloadMore(false);
+
+        console.log(error);
+      });
+  };
+
+  isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+    const paddingToBottom = 20;
+    return (
+      layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom
+    );
+  };
+
+  renderFooter = () => {
+    return (
+      <View style={[styles.row, styles.footer]}>
+        {loadMore && (
+          <ActivityIndicator style={{ marginLeft: 8 }} color={APP_ORANGE} />
+        )}
+      </View>
+    );
+  };
 
   getSubCatProduct = id => {
     setselectedSubcat(id);
@@ -85,7 +129,6 @@ const ProductList = props => {
       .then(data => {
         setshowloader(false);
 
-        console.log(data);
         if (data && Array.isArray(data)) {
           setproducts(data);
         }
@@ -178,7 +221,24 @@ const ProductList = props => {
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        scrollEventThrottle={16}
+        onMomentumScrollEnd={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          {
+            listener: event => {
+              if (
+                isCloseToBottom(event.nativeEvent) &&
+                // !postEnd &&
+                !loadMore
+              ) {
+                loadMoreData();
+              }
+            }
+          }
+        )}
+      >
         <View style={styles.productsList}>
           {products.length > 0 &&
             products.map(product => {
@@ -216,6 +276,8 @@ const ProductList = props => {
             </View>
           )}
         </View>
+        {renderFooter()}
+        <Text>fkjhdfkjg</Text>
       </ScrollView>
     </View>
   );
@@ -256,12 +318,12 @@ const styles = StyleSheet.create({
   container: {
     // marginHorizontal: APP_SIDE_DISTANCE,
     // marginTop:20
+    marginBottom: 40
   },
   productsList: {
     flexDirection: "row",
     justifyContent: "space-between",
-    flexWrap: "wrap",
-    marginBottom: 40
+    flexWrap: "wrap"
   },
   product: {
     // width: boxWidth,
@@ -275,5 +337,13 @@ const styles = StyleSheet.create({
   },
   flex: {
     flex: 1
+  },
+  footer: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 50
+  },
+  row: {
+    flexDirection: "row"
   }
 });

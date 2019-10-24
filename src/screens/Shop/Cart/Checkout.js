@@ -118,7 +118,6 @@ const Checkout = props => {
   createPayment = data => {
     if (authUser.token && authUser.user_id) {
       data.customer_id = authUser.user_id;
-      console.log(data);
       let wcConfig = getWcConfig();
       let wcApi = new WooCommerceAPI(wcConfig);
       wcApi
@@ -126,7 +125,6 @@ const Checkout = props => {
         .then(response => {
           // props.clearItems();
           setloader(false);
-          console.log(response);
           if (response.id) {
             props.setOrderId(response.id);
             // props.clearItems();
@@ -150,7 +148,6 @@ const Checkout = props => {
     // if (authUser.token && authUser.user_id) {
     getPayNowLink(orderId)
       .then(response => {
-        console.log(response.url);
         // props.clearItems();
         props.navigation.navigate("PaymentGateway", {
           url: response
@@ -188,7 +185,6 @@ const Checkout = props => {
     if (!validatePhone(phone)) cisInvalid.push("phone");
     if (!validateZip(zip)) cisInvalid.push("zip");
     setisInvalid(cisInvalid);
-    console.log(cisInvalid);
     if (cisInvalid.length > 0) {
       setloader(false);
       return false;
@@ -233,7 +229,6 @@ const Checkout = props => {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <View>
-        {console.log("cartorderid", cartOrderId)}
         {/* <Text>{cartOrderId}</Text> */}
         <View style={styles.form}>
           <Text style={styles.heading}>Billing Address</Text>

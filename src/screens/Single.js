@@ -34,7 +34,7 @@ var dayNameArr = [
   "friday",
   "saturday"
 ];
-
+import Products from "./Shop/Product/SellerProducts"
 const Single = props => {
   const [loading, setloading] = useState(true);
   const [isCollapsed, setisCollapsed] = useState(true);
@@ -280,7 +280,7 @@ const Single = props => {
         <ImageBackground
           style={styles.featured}
           source={{
-            uri:mainImg.length>0? mainImg[0].url:sampleHeroImage
+            uri: mainImg.length > 0 ? mainImg[0].url : sampleHeroImage
           }}
         >
           <TouchableNativeFeedback
@@ -330,7 +330,7 @@ const Single = props => {
         </View>
 
         <View style={styles.content}>
-          {post.content !='' && (
+          {post.content != "" && (
             <View style={styles.detailBox}>
               <View style={styles.flex}>
                 <Icon
@@ -474,7 +474,12 @@ const Single = props => {
             </View>
           </View>
         </View>
+        <View style={styles.detailBox}>
+          <Text style={styles.iconText}>Products By Seller</Text>
+          <Products sellerid={post.id} />
+        </View>
       </ScrollView>
+
       <ImageModal urls={images} isOpen={showImages} closeModal={hideImages} />
       <ImageModal
         urls={mainImg}

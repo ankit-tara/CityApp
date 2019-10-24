@@ -5,17 +5,17 @@ import Icon from "react-native-vector-icons/dist/Entypo";
 const SearchBar = ({ onChangeText, placeholder }) => {
   const [text, settext] = useState("");
   const [typing, settyping] = useState(false);
-  const [typingTimeout, settypingTimeout] = useState(0);
+  const [typingTimeout, settypingTimeout] = useState();
   handleChange = text => {
     settext(text);
     if (typingTimeout) {
-      clearTimeout(typingTimeout);
+      clearInterval(typingTimeout);
     }
-    settypingTimeout(
-      setTimeout(function() {
-        onChangeText && onChangeText(text);
-      }, 2000)
-    );
+    let timeout = setInterval(function() {
+      onChangeText && onChangeText(text);
+    }, 2000);
+
+    settypingTimeout(timeout);
   };
 
   return (
@@ -27,7 +27,7 @@ const SearchBar = ({ onChangeText, placeholder }) => {
         value={text}
         multiline={true}
         numberOfLines={4}
-        blurOnSubmit={false}
+        // blurOnSubmit={false}
         // onEndEditing={handleChange}
       />
       <Icon name="magnifying-glass" size={25} />
@@ -41,11 +41,13 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
     marginHorizontal: 20
   },
   input: {
-    flex: 1,
-    fontSize: 25,
+    // flex: 1,
+    fontSize: 16,
+    padding: 0,
+    margin: 0
   }
 });

@@ -12,8 +12,7 @@ export default (state = intial_state, action) => {
       let itemExist = state.some(item => item.item.id == action.item.id);
       if (itemExist) {
         state.map(item => {
-          console.log(item.item);
-          console.log(action.item);
+      
           if (item.item.id == action.item.id) {
             item.quantity++;
           }

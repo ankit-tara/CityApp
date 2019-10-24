@@ -5,7 +5,8 @@ import {
   ImageBackground,
   TextInput,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions
 } from "react-native";
 import WooCommerceAPI from "../Shop/WoocommerceApi";
 import Spinner from "react-native-spinkit";
@@ -24,7 +25,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { userLogin } from "../../redux/actions/authUser";
 import AsyncStorage from "@react-native-community/async-storage";
 import { AUTH_USER } from "../../Utils/constants";
-
+const { height } = Dimensions.get("window");
 const index = () => {
   const [form, setform] = useState("signIn");
   const [loading, setloading] = useState(false);
@@ -62,9 +63,9 @@ const index = () => {
     }
 
     setloading(true);
-    form == "signIn" ? signInUser() : signUpUser();
+    form == "signIn" ? signInUser(email, password) : signUpUser();
   };
-  const signInUser = () => {
+  const signInUser = (email, password) => {
     getJwtLogin(email, password)
       .then(res => {
         setloading(false);
@@ -89,13 +90,17 @@ const index = () => {
   };
 
   const signUpUser = () => {
+    setformError([])
     getUserRegister(email, password, username)
       .then(res => {
         setloading(false);
-        console.log(res);
 
         if (res.data && res.data.status !== 200 && res.message) {
           setformError(strip_html_tags(res.message));
+        }
+        if (res.code && res.code == 200) {
+          setloading(true);
+          signInUser(email, password);
         }
 
         if (res.token) {
@@ -109,98 +114,102 @@ const index = () => {
   };
 
   return (
-    <ImageBackground source={bgImage} style={{ width: "100%", height: "100%" }}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>CityApp</Text>
-        </View>
-        <View style={styles.content}>
-          <View style={styles.formHeader}>
-            <TouchableOpacity onPress={() => !loading && setform("signIn")}>
-              <Text
-                style={[
-                  form == "signIn"
-                    ? styles.activeFormText
-                    : styles.inactiveFormText,
-                  styles.formTitle
-                ]}
-              >
-                Sign In
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => !loading && setform("signUp")}>
-              {/* <Text style={[styles.inactiveFormText, styles.formTitle]}> */}
-              <Text
-                style={[
-                  form != "signIn"
-                    ? styles.activeFormText
-                    : styles.inactiveFormText,
-                  styles.formTitle
-                ]}
-              >
-                Sign Up
-              </Text>
-            </TouchableOpacity>
+    <View style={{ flex: 1, backgroundColor: "red", height: height - 50 }}>
+      <ImageBackground
+        source={bgImage}
+        style={{ width: "100%", height: "100%" }}
+      >
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <Text style={styles.headerText}>CityApp</Text>
           </View>
-          <View style={styles.formGroup}>
-            <View style={styles.inputContainer}>
-              <Icon name="user" size={20} />
-              <TextInput
-                placeholder="EMAIL"
-                style={styles.input}
-                value={email}
-                onChangeText={text => setemail(text)}
-                keyboardType="email-address"
-              />
+          <View style={styles.content}>
+            <View style={styles.formHeader}>
+              <TouchableOpacity onPress={() => !loading && setform("signIn")}>
+                <Text
+                  style={[
+                    form == "signIn"
+                      ? styles.activeFormText
+                      : styles.inactiveFormText,
+                    styles.formTitle
+                  ]}
+                >
+                  Sign In
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => !loading && setform("signUp")}>
+                {/* <Text style={[styles.inactiveFormText, styles.formTitle]}> */}
+                <Text
+                  style={[
+                    form != "signIn"
+                      ? styles.activeFormText
+                      : styles.inactiveFormText,
+                    styles.formTitle
+                  ]}
+                >
+                  Sign Up
+                </Text>
+              </TouchableOpacity>
             </View>
-            {error.includes("email") && (
-              <Text style={styles.error}>*Required</Text>
-            )}
-            {error.includes("emailInvalid") && (
-              <Text style={styles.error}>*Invalid</Text>
-            )}
-          </View>
-          {form != "signIn" && (
             <View style={styles.formGroup}>
               <View style={styles.inputContainer}>
                 <Icon name="user" size={20} />
                 <TextInput
-                  placeholder="USERNAME"
+                  placeholder="EMAIL"
                   style={styles.input}
-                  value={username}
-                  onChangeText={text => setusername(text)}
+                  value={email}
+                  onChangeText={text => setemail(text)}
+                  keyboardType="email-address"
                 />
               </View>
-              {error.includes("username") && (
+              {error.includes("email") && (
                 <Text style={styles.error}>*Required</Text>
               )}
-              {error.includes("usernameInvalid") && (
-                <Text style={styles.error}>*Do not match with password</Text>
+              {error.includes("emailInvalid") && (
+                <Text style={styles.error}>*Invalid</Text>
               )}
             </View>
-          )}
-          <View style={styles.formGroup}>
-            <View style={styles.inputContainer}>
-              <Icon name="key" size={20} />
-              <TextInput
-                secureTextEntry={true}
-                placeholder="PASSWORD"
-                style={styles.input}
-                value={password}
-                onChangeText={text => setpassword(text)}
-              />
+            {form != "signIn" && (
+              <View style={styles.formGroup}>
+                <View style={styles.inputContainer}>
+                  <Icon name="user" size={20} />
+                  <TextInput
+                    placeholder="USERNAME"
+                    style={styles.input}
+                    value={username}
+                    onChangeText={text => setusername(text)}
+                  />
+                </View>
+                {error.includes("username") && (
+                  <Text style={styles.error}>*Required</Text>
+                )}
+                {error.includes("usernameInvalid") && (
+                  <Text style={styles.error}>*Do not match with password</Text>
+                )}
+              </View>
+            )}
+            <View style={styles.formGroup}>
+              <View style={styles.inputContainer}>
+                <Icon name="key" size={20} />
+                <TextInput
+                  secureTextEntry={true}
+                  placeholder="PASSWORD"
+                  style={styles.input}
+                  value={password}
+                  onChangeText={text => setpassword(text)}
+                />
+              </View>
+              {error.includes("password") && (
+                <Text style={styles.error}>*Required</Text>
+              )}
+              {error.includes("passwordInvalid") && (
+                <Text style={styles.error}>*must contain 6 letters</Text>
+              )}
             </View>
-            {error.includes("password") && (
-              <Text style={styles.error}>*Required</Text>
-            )}
-            {error.includes("passwordInvalid") && (
-              <Text style={styles.error}>*must contain 6 letters</Text>
-            )}
-          </View>
 
-          {form != "signIn" && (
-            <>
-              {/* <View style={styles.formGroup}>
+            {form != "signIn" && (
+              <>
+                {/* <View style={styles.formGroup}>
                 <View style={styles.inputContainer}>
                   <Icon name="user" size={20} />
                   <TextInput
@@ -217,47 +226,50 @@ const index = () => {
                   <Text style={styles.error}>*Do not match with password</Text>
                 )}
               </View> */}
-              <View style={styles.formGroup}>
-                <View style={styles.inputContainer}>
-                  <Icon name="key" size={20} />
-                  <TextInput
-                    secureTextEntry={true}
-                    placeholder="CONFIRM PASSWORD"
-                    style={styles.input}
-                    value={confirmPassword}
-                    onChangeText={text => setconfirmPassword(text)}
-                  />
+                <View style={styles.formGroup}>
+                  <View style={styles.inputContainer}>
+                    <Icon name="key" size={20} />
+                    <TextInput
+                      secureTextEntry={true}
+                      placeholder="CONFIRM PASSWORD"
+                      style={styles.input}
+                      value={confirmPassword}
+                      onChangeText={text => setconfirmPassword(text)}
+                    />
+                  </View>
+                  {error.includes("cpassword") && (
+                    <Text style={styles.error}>*Required</Text>
+                  )}
+                  {error.includes("cpasswordInvalid") && (
+                    <Text style={styles.error}>
+                      *Do not match with password
+                    </Text>
+                  )}
                 </View>
-                {error.includes("cpassword") && (
-                  <Text style={styles.error}>*Required</Text>
+              </>
+            )}
+            {formError && <Text style={styles.formError}>{formError}</Text>}
+            <TouchableOpacity style={styles.button} onPress={formSubmit}>
+              <Text style={styles.buttonText}>
+                {loading ? (
+                  <Spinner
+                    style={styles.spinner}
+                    type="ThreeBounce"
+                    color="#999"
+                  />
+                ) : form == "signIn" ? (
+                  "Sign in"
+                ) : (
+                  "Sign up"
                 )}
-                {error.includes("cpasswordInvalid") && (
-                  <Text style={styles.error}>*Do not match with password</Text>
-                )}
-              </View>
-            </>
-          )}
-          {formError && <Text style={styles.formError}>{formError}</Text>}
-          <TouchableOpacity style={styles.button} onPress={formSubmit}>
-            <Text style={styles.buttonText}>
-              {loading ? (
-                <Spinner
-                  style={styles.spinner}
-                  type="ThreeBounce"
-                  color="#999"
-                />
-              ) : form == "signIn" ? (
-                "Sign in"
-              ) : (
-                "Sign up"
-              )}
-            </Text>
-          </TouchableOpacity>
+              </Text>
+            </TouchableOpacity>
 
-          {loading && <View style={styles.formLoading}></View>}
+            {loading && <View style={styles.formLoading}></View>}
+          </View>
         </View>
-      </View>
-    </ImageBackground>
+      </ImageBackground>
+    </View>
   );
 };
 

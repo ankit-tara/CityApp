@@ -28,7 +28,7 @@ import ImageModal from "../../../components/ImageModal";
 import { APP_SIDE_DISTANCE } from "../../../theme/Dimentions";
 import Icon from "react-native-vector-icons/dist/Entypo";
 import Iconfont from "react-native-vector-icons/dist/FontAwesome";
-import { APP_ORANGE } from "../../../theme/colors";
+import { APP_ORANGE, LINK } from "../../../theme/colors";
 
 import { addItems } from "../../../redux/actions/cartItems";
 import { connect, useSelector } from "react-redux";
@@ -43,13 +43,14 @@ const Single = props => {
   const [Size, setsize] = useState(0);
   const [Color, setColor] = useState(0);
   const [quantity, setquantity] = useState(1);
+  const [productOf, setproductOf] = useState({});
 
   useEffect(() => {
     let item = props.navigation.state.params.item;
-    console.log(item);
     if (item) {
       getImgUrls(item.images);
       setitem(item);
+      item.acf && item.acf.product_of && setproductOf(item.acf.product_of);
     }
   }, []);
 
@@ -66,7 +67,6 @@ const Single = props => {
   onShare = async () => {
     getShareImages();
     return false;
-    console.log(item);
     let post = item;
     try {
       let url = post.permalink + "?visitlink=cityapp://cityproduct:" + post.id;
@@ -123,12 +123,10 @@ const Single = props => {
             })
         );
         Promise.all(Pictures).then(completed => {
-          console.log(completed);
           const options = {
             title: "Share via",
             urls: completed
           };
-          console.log(options);
           Share.open(options);
         });
       } catch (err) {
@@ -225,7 +223,6 @@ const Single = props => {
                             setsize(itemIndex)
                           }
                         >
-                          {console.log(attribute)}
                           {attribute.options.map((option, index) => (
                             <Picker.Item
                               label={option}
@@ -251,7 +248,6 @@ const Single = props => {
                             setColor(itemIndex)
                           }
                         >
-                          {console.log(attribute)}
                           {attribute.options.map((option, index) => (
                             <Picker.Item
                               label={option}
@@ -277,6 +273,21 @@ const Single = props => {
                 onChange={(value)=>setquantity(value)}
               />
             </View> */}
+            {productOf.ID != "" && (
+              <View style={styles.addInfo}>
+                <Text style={styles.addInfoText}>Seller</Text>
+                <Text style={styles.description}>{productOf.post_title}</Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    props.navigation.navigate("Single", {
+                      postId: productOf.ID
+                    })
+                  }
+                >
+                  <Text style={styles.sellerLink}>View seller information</Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
           <TouchableOpacity onPress={() => addToCart(item)}>
             <View style={styles.checkoutBtn}>
@@ -460,8 +471,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "50%",
     right: 0,
-    backgroundColor: APP_ORANGE,
-   
+    backgroundColor: APP_ORANGE
   },
   actionText: {
     color: "#000",
@@ -474,7 +484,7 @@ const styles = StyleSheet.create({
     // flexDirection: "row",
     // justifyContent: "center",
     // alignItems: "center"
-    padding:5
+    padding: 5
   },
   checkoutBtn: {
     marginVertical: 20,
@@ -490,5 +500,11 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     fontSize: 18,
     color: "#fff"
+  },
+  sellerLink: {
+    // fontSize:12,
+    marginTop: 5,
+    textDecorationLine: "underline",
+    color: LINK
   }
 });

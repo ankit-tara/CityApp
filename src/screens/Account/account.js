@@ -20,6 +20,9 @@ let wcConfig = getWcConfig();
 let wcApi = new WooCommerceAPI(wcConfig);
 import { useSelector, useDispatch } from "react-redux";
 import { userLogout } from "../../redux/actions/authUser";
+import AsyncStorage from "@react-native-community/async-storage";
+import { AUTH_USER } from "../../Utils/constants";
+
 const Account = () => {
   const Img = BoyImg;
 
@@ -29,9 +32,8 @@ const Account = () => {
   const authUser = useSelector(state => state.authUser);
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(authUser);
     if (!authUser.token || !authUser.user_id) {
-      dispatch(userLogout());
+     removeUser()
       return;
     }
     wcApi
@@ -46,19 +48,20 @@ const Account = () => {
       .get("orders?customer=" + authUser.user_id, {})
       .then(data => {
         setorders(data);
-        console.log(data);
       })
       .catch(error => {
         console.log(error);
       });
   }, []);
-
+ removeUser=async()=>{
+    dispatch(userLogout());
+      await AsyncStorage.setItem(AUTH_USER, '');
+ }
   refreshOrders = () => {
     wcApi
       .get("orders?customer=" + authUser.user_id, {})
       .then(data => {
         setorders(data);
-        console.log(data);
       })
       .catch(error => {
         console.log(error);
@@ -113,10 +116,7 @@ const Account = () => {
             {tab != "profile" && <View style={styles.line}></View>}
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={[styles.logout]}
-          onPress={() => dispatch(userLogout())}
-        >
+        <TouchableOpacity style={[styles.logout]} onPress={() => removeUser()}>
           <Text style={[styles.logoutText]}>Logout</Text>
         </TouchableOpacity>
       </View>
@@ -134,7 +134,7 @@ const Account = () => {
           <Text style={styles.trTitle}>Email: </Text>
           <Text style={styles.trValue}>{user.email}</Text>
         </View>
-        <View style={styles.tr}>
+        {/* <View style={styles.tr}>
           <Text style={styles.trTitle}>Address: </Text>
           <Text style={styles.trValue}>
             {user.billing ? user.billing.address_1 : ""}
@@ -163,7 +163,7 @@ const Account = () => {
           <Text style={styles.trValue}>
             {user.billing ? user.billing.postcode : ""}
           </Text>
-        </View>
+        </View> */}
       </View>
     );
   };
@@ -206,10 +206,12 @@ const Account = () => {
 
   return (
     <ScrollView>
-      {avatar()}
-      {tabs()}
-      {tab == "profile" && renderUserInfo()}
-      {tab != "profile" && renderOrdersInfo()}
+      <View style={{ flex:1 }}>
+        {avatar()}
+        {tabs()}
+        {tab == "profile" && renderUserInfo()}
+        {tab != "profile" && renderOrdersInfo()}
+      </View>
     </ScrollView>
   );
 };
@@ -319,7 +321,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
-    padding: 20
+    padding: 20,
   },
   logoutText: {
     fontSize: 20,

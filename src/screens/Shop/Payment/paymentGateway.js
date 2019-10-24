@@ -7,7 +7,6 @@ const paymentGateway = props => {
   const [url, seturl] = useState();
   useEffect(() => {
       let url = props.navigation.state.params.url
-      console.log(url)
       if(url) seturl(url.url)
   }, []);
 

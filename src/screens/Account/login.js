@@ -29,12 +29,12 @@ const { height } = Dimensions.get("window");
 const index = () => {
   const [form, setform] = useState("signIn");
   const [loading, setloading] = useState(false);
-  const [email, setemail] = useState("testsdsf@test.com");
-  const [password, setpassword] = useState("12345678kdjjahjdafh");
-  const [confirmPassword, setconfirmPassword] = useState("12345678kdjjahjdafh");
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  const [confirmPassword, setconfirmPassword] = useState("");
   const [error, seterror] = useState([]);
   const [formError, setformError] = useState();
-  const [username, setusername] = useState("test");
+  const [username, setusername] = useState("");
 
   const dispatch = useDispatch();
 
